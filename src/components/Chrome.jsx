@@ -51,6 +51,26 @@ function useChromeState() {
   return state
 }
 
+/** true saat pengguna sedang menggulir ke bawah; kembali false setelah berhenti sebentar atau menggulir ke atas. */
+function useScrollingDown(idle = 900) {
+  const [down, setDown] = useState(false)
+  useEffect(() => {
+    let lastY = window.scrollY
+    let timer = 0
+    const on = () => {
+      const y = window.scrollY
+      if (y > lastY + 2) setDown(true)
+      else if (y < lastY - 2) setDown(false)
+      lastY = y
+      clearTimeout(timer)
+      timer = setTimeout(() => setDown(false), idle)
+    }
+    window.addEventListener('scroll', on, { passive: true })
+    return () => { window.removeEventListener('scroll', on); clearTimeout(timer) }
+  }, [idle])
+  return down
+}
+
 function useClock(timezone) {
   const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: timezone }).format(new Date()).replace('.', ':')
   const [time, setTime] = useState(fmt)
@@ -86,6 +106,9 @@ export function Avatar({ size = 30 }) {
 export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
   const lenis = useLenis()
   const s = useChromeState()
+  const scrollingDown = useScrollingDown()
+  const ctaVisible = s.pastHero && !s.nearEnd && !menuOpen && !scrollingDown
+  const hideTop = scrollingDown && s.pastHero && !menuOpen
   const time = useClock(settings.timezone)
   const flyout = useRef(null)
   const toggle = useRef(null)
@@ -109,11 +132,11 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
     <>
       <a className="skip" href="#work" onClick={go('work')}>{ui.skip}</a>
 
-      <a href="#top" className={`brand chrome-${s.top}`} aria-label={settings.name} onClick={(e) => { e.preventDefault(); scrollToTarget(lenis, '#top') }}>
+      <a href="#top" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={settings.name} onClick={(e) => { e.preventDefault(); scrollToTarget(lenis, '#top') }}>
         <span>Farrel</span><span>Zaki</span>
       </a>
 
-      <a href="#contact" className={`top-cta chrome-${s.top}`} onClick={go('contact')}>
+      <a href="#contact" className={`top-cta chrome-${s.top} ${hideTop ? 'hide' : ''}`} onClick={go('contact')}>
         <span>{ui.contactCta}</span>
       </a>
 
@@ -146,9 +169,9 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
         {settings.location} <strong>{time}</strong>
       </p>
 
-      <div className={`float-cta ${s.pastHero && !s.nearEnd && !menuOpen ? 'show' : ''}`} aria-hidden={!s.pastHero || s.nearEnd}>
+      <div className={`float-cta ${ctaVisible ? 'show' : ''}`} aria-hidden={!ctaVisible}>
         <span className="float-cta-text">{t(lang, settings.floatingCta)}</span>
-        <a href="#contact" onClick={go('contact')} tabIndex={s.pastHero && !s.nearEnd ? 0 : -1}>
+        <a href="#contact" onClick={go('contact')} tabIndex={ctaVisible ? 0 : -1}>
           {ui.contactCta} <Avatar size={26} />
         </a>
       </div>

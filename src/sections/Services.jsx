@@ -22,21 +22,30 @@ export default function Services({ lang, ui, onOpen }) {
     if (!wide || prefersReduced()) return
     const ctx = gsap.context(() => {
       const tiles = gsap.utils.toArray('.tile')
+      const shades = gsap.utils.toArray('.tile-shade')
       const n = tiles.length
       tiles.forEach((tile, i) => {
-        gsap.set(tile, { zIndex: n - i, transformPerspective: 1400, transformOrigin: '50% 100%' })
-        if (i > 0) gsap.set(tile, { yPercent: 6 * i, z: -40 * i, rotateX: 2 * i, scale: 1 - 0.035 * i })
+        gsap.set(tile, { zIndex: i + 1, transformPerspective: 1600, transformOrigin: '50% 0%' })
       })
+      // Saat di-pin, tepi atas stage = tepi atas layar; kartu baru mulai tepat di bawah layar.
+      const below = () => window.innerHeight - tiles[0].parentElement.offsetTop + 24
+      gsap.set(shades, { opacity: 0 })
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: stage.current, start: 'top top', end: () => `+=${window.innerHeight * (n - 1) * 0.9}`, scrub: 0.6, pin: true, anticipatePin: 1 },
+        scrollTrigger: { trigger: stage.current, start: 'top top', end: () => `+=${window.innerHeight * (n - 1)}`, scrub: 0.7, pin: true, anticipatePin: 1, invalidateOnRefresh: true },
       })
-      tiles.forEach((tile, i) => {
-        if (i === n - 1) return
-        tl.to(tile, { yPercent: -125, rotateX: 18, ease: 'power2.in', duration: 1 }, i)
-        tiles.slice(i + 1).forEach((next, k) => {
-          tl.to(next, { yPercent: 6 * k, z: -40 * k, rotateX: 2 * k, scale: 1 - 0.035 * k, ease: 'power2.out', duration: 1 }, i)
-        })
-      })
+      for (let i = 1; i < n; i++) {
+        const at = i - 1
+        // Kartu baru naik dari bawah dan menutup kartu sebelumnya.
+        tl.fromTo(tiles[i],
+          { y: below, rotateX: -10 },
+          { y: 0, rotateX: 0, ease: 'power3.out', duration: 1, immediateRender: true }, at)
+        // Semua kartu di bawahnya mundur sedikit, mengecil, dan meredup.
+        for (let k = 0; k < i; k++) {
+          const depth = i - k
+          tl.to(tiles[k], { yPercent: -3.2 * depth, scale: 1 - 0.05 * depth, ease: 'power3.out', duration: 1 }, at)
+          tl.to(shades[k], { opacity: Math.min(0.28 * depth, 0.6), ease: 'none', duration: 1 }, at)
+        }
+      }
     }, root)
     return () => ctx.revert()
   }, [wide, lang])
@@ -50,6 +59,7 @@ export default function Services({ lang, ui, onOpen }) {
         <div className="tiles">
           {services.map((s, i) => (
             <article key={s.id} className={`tile tone-${TONES[i % TONES.length]}`}>
+              <span className="tile-shade" aria-hidden="true" />
               <div className="tile-top">
                 <h3>{t(lang, s.title)}</h3>
                 <span className="tile-no mono">({String(i + 1).padStart(2, '0')})</span>

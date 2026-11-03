@@ -11,42 +11,63 @@ const TRAIL = [
   ...achievements.map((a) => a.image),
 ].filter(Boolean)
 
-/** Jejak gambar mengikuti kursor: muncul berputar acak, lalu mengecil dan memudar. */
+/**
+ * Jejak gambar mengikuti kursor (meniru brandappart.com): gambar muncul hanya setelah kursor
+ * bergerak cukup jauh DAN cukup lama sejak gambar terakhir, dengan ukuran, sudut, dan posisi
+ * acak. Gambar "pop" masuk, diam sebentar, lalu jatuh sedikit sambil mengecil dan memudar.
+ */
+const MIN_DIST = 170 // px antar kemunculan
+const MIN_GAP = 160 // ms antar kemunculan
+
 function useImageTrail(ref) {
   useEffect(() => {
     const root = ref.current
     if (!root || !finePointer() || prefersReduced() || TRAIL.length === 0) return
-    const pool = TRAIL.map((src) => {
+    const order = gsap.utils.shuffle([...TRAIL])
+    const pool = order.map((src) => {
       const img = document.createElement('img')
       img.src = src
       img.alt = ''
       img.decoding = 'async'
       root.appendChild(img)
-      gsap.set(img, { xPercent: -50, yPercent: -50, opacity: 0, scale: 0 })
+      gsap.set(img, { xPercent: -50, yPercent: -50, autoAlpha: 0 })
       return img
     })
     let i = 0
-    let last = { x: 0, y: 0 }
     let z = 1
-    const box = () => root.getBoundingClientRect()
+    let last = null
+    let lastTime = 0
+    const rnd = gsap.utils.random
 
     const onMove = (e) => {
-      const b = box()
+      const b = root.getBoundingClientRect()
       const x = e.clientX - b.left
       const y = e.clientY - b.top
-      if (Math.hypot(x - last.x, y - last.y) < 90) return
+      if (!last) { last = { x, y }; return }
+      const now = performance.now()
+      if (Math.hypot(x - last.x, y - last.y) < MIN_DIST || now - lastTime < MIN_GAP) return
+      const dx = x - last.x
+      const dy = y - last.y
       last = { x, y }
-      const img = pool[i % pool.length]
-      i++
+      lastTime = now
+
+      const img = pool[i++ % pool.length]
+      const rot = rnd(-38, 38)
+      const size = rnd(0.82, 1.18)
       gsap.killTweensOf(img)
-      gsap.set(img, { x, y, zIndex: z++, rotate: gsap.utils.random(-28, 28), opacity: 1, scale: 1 })
-      gsap.to(img, { scale: 0, opacity: 0, rotate: '+=' + gsap.utils.random(-12, 12), duration: 1.1, delay: 0.35, ease: 'power3.in' })
+      gsap.set(img, {
+        x: x + rnd(-40, 40), y: y + rnd(-40, 40), zIndex: z++,
+        rotate: rot - Math.sign(dx || 1) * 14, scale: 0.35 * size, autoAlpha: 1,
+      })
+      gsap.timeline()
+        .to(img, { scale: size, rotate: rot, x: `+=${dx * 0.25}`, y: `+=${dy * 0.25}`, duration: 0.55, ease: 'back.out(1.6)' })
+        .to(img, { scale: 0, autoAlpha: 0, y: '+=70', rotate: rot + rnd(-25, 25), duration: 0.75, ease: 'power3.in' }, '+=0.55')
     }
     const section = root.closest('section')
     section.addEventListener('pointermove', onMove)
     return () => {
       section.removeEventListener('pointermove', onMove)
-      pool.forEach((img) => img.remove())
+      pool.forEach((img) => { gsap.killTweensOf(img); img.remove() })
     }
   }, [ref])
 }

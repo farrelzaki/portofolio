@@ -123,5 +123,31 @@
   "floatingCta": {
     "id": "Ada projek atau lowongan?",
     "en": "Have a project or an opening?"
-  }
+  },
+  "showreel": [
+    {
+      "image": "/media/projects/lensajentik.jpg",
+      "project": "lensajentik"
+    },
+    {
+      "image": "/media/projects/sudepi.jpg",
+      "project": "sudepi"
+    },
+    {
+      "image": "/media/projects/cocokin.jpg",
+      "project": "cocokin"
+    },
+    {
+      "image": "/media/projects/reservaseat.jpg",
+      "project": "reservaseat"
+    },
+    {
+      "image": "/media/projects/sudepi-2.jpg",
+      "project": "sudepi"
+    },
+    {
+      "image": "/media/projects/cocokin-2.jpg",
+      "project": "cocokin"
+    }
+  ]
 }

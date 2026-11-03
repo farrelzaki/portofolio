@@ -32,6 +32,7 @@ export const settingsSchema = z.object({
     contact: pair.extend({ intro: textRequired }),
   }),
   floatingCta: textRequired,
+  showreel: z.array(z.object({ image: media, project: slug })).min(1),
 })
 
 export const projectSchema = z.object({

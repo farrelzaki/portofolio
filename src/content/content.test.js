@@ -33,6 +33,11 @@ describe('file konten valid terhadap skema', () => {
     }
   })
 
+  it('slide showreel merujuk projek yang ada', () => {
+    const ids = new Set(read('projects.json').map((p) => p.id))
+    for (const r of read('settings.json').showreel) expect(ids.has(r.project), r.project).toBe(true)
+  })
+
   it('projek yang dirujuk kartu keahlian memang ada', () => {
     const ids = new Set(read('projects.json').map((p) => p.id))
     for (const s of read('services.json')) for (const p of s.projects) expect(ids.has(p), `${s.id} → ${p}`).toBe(true)

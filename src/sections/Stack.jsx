@@ -4,7 +4,7 @@ import { gsap, prefersReduced, ScrollTrigger } from '../lib/motion.js'
 
 const { settings, stack, projects } = content
 const TONES = ['blue', 'ink', 'sky', 'paper']
-const CARDS = stack.slice(0, 12).map((name, i) => ({
+const CARDS = stack.slice(0, 10).map((name, i) => ({
   name,
   tone: TONES[i % TONES.length],
   img: i % 3 === 1 ? projects[(i / 3 | 0) % projects.length]?.cover : '',
@@ -34,7 +34,7 @@ export default function Stack({ lang }) {
       if (!visible) return
       state.boost *= 0.94
       state.rot += (0.012 + state.boost * 0.02) * dt
-      ring.current.style.transform = `rotateX(-8deg) rotateY(${state.rot}deg)`
+      ring.current.style.transform = `rotateX(-6deg) rotateY(${state.rot}deg)`
     }
     gsap.ticker.add(tick)
     return () => { gsap.ticker.remove(tick); st.kill(); io.disconnect() }
@@ -44,7 +44,9 @@ export default function Stack({ lang }) {
     <section ref={root} className="stack" data-theme="light" aria-label={`${t(lang, sec.lead)} ${t(lang, sec.tail)}`}>
       <p className="stack-lead">{t(lang, sec.lead)}</p>
       <div className="stack-scene">
-        <p className="stack-big" aria-hidden="true">{t(lang, sec.tail)}</p>
+        <p className="stack-big" aria-hidden="true">
+          <span>{t(lang, sec.tail).split(/\s+/).map((w, i) => <span key={i} className="stack-word">{w}</span>)}</span>
+        </p>
         <div ref={ring} className="stack-ring">
           {CARDS.map((c, i) => (
             <div key={c.name} className={`stack-card tone-${c.tone}`} style={{ '--a': `${(360 / CARDS.length) * i}deg` }}>

@@ -38,8 +38,12 @@ export default function Contact({ lang, ui, setLang }) {
   return (
     <footer ref={root} className="contact" id="contact" data-theme="dark">
       <div className="stickers" aria-hidden="true">
-        {stack.slice(0, 9).map((s, i) => (
-          <span key={s} className={`sticker tone-${['blue', 'paper', 'sky'][i % 3]}`} style={{ '--x': `${6 + i * 10.5}%`, '--r': `${(i % 2 ? 1 : -1) * (6 + (i * 7) % 18)}deg` }}>{s}</span>
+        {stack.slice(0, 12).map((s, i) => (
+          <span
+            key={s}
+            className={`sticker tone-${['blue', 'paper', 'sky', 'ink'][i % 4]}`}
+            style={{ '--x': `${4 + i * 7.9}%`, '--y': `${[18, 58, 30, 76, 12, 50, 84, 26, 64, 10, 44, 72][i]}px`, '--r': `${(i % 2 ? 1 : -1) * (5 + (i * 11) % 22)}deg` }}
+          >{s}</span>
         ))}
       </div>
 

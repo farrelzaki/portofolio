@@ -15,15 +15,23 @@ export default function Achievements({ lang, ui }) {
   useEffect(() => {
     if (!wide || prefersReduced()) return
     const ctx = gsap.context(() => {
+      const fan = root.current.querySelector('.fan')
       const cards = gsap.utils.toArray('.acard')
       const mid = (n - 1) / 2
+      // Jarak tiap kartu ke titik tengah kipas (px), dihitung ulang saat ukuran layar berubah.
+      const toCenter = (el) => {
+        const f = fan.getBoundingClientRect()
+        const r = el.getBoundingClientRect()
+        const cur = gsap.getProperty(el, 'x')
+        return f.left + f.width / 2 - (r.left - cur + r.width / 2)
+      }
       cards.forEach((c, i) => {
         const o = i - mid
         gsap.fromTo(c,
-          { xPercent: -o * 78, rotate: o * 7, y: Math.abs(o) * 18 },
+          { x: () => toCenter(c) + o * 26, rotate: o * 6, y: Math.abs(o) * 14 },
           {
-            xPercent: 0, rotate: o * 2.5, y: Math.abs(o) * 10, ease: 'none',
-            scrollTrigger: { trigger: '.fan', start: 'top 85%', end: 'center 45%', scrub: 0.8 },
+            x: 0, rotate: o * 2.2, y: Math.abs(o) * 8, ease: 'power2.inOut', immediateRender: true,
+            scrollTrigger: { trigger: fan, start: 'top 80%', end: 'center 50%', scrub: 0.8, invalidateOnRefresh: true },
           })
       })
     }, root)
