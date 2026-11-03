@@ -60,7 +60,7 @@ projek (LensaJentik) dan 4 sertifikat. Agar hasilnya setara, dibutuhkan:
 | Aset | Untuk | Status |
 | --- | --- | --- |
 | Foto profil (latar polos) | Pill CTA, kontak, avatar | Belum ada |
-| Screenshot asli SUDEPI, ReservaSeat, Cocokin!, Trisis Gym (2–3 per projek) | Mosaik, jejak kursor, cincin | Belum ada |
+| Screenshot asli SUDEPI, ReservaSeat, Cocokin!, Trisis Gym (2–3 per projek) | Mosaik, jejak kursor, cincin | SUDEPI, Cocokin!, ReservaSeat: diambil dari repo GitHub (2026-11-03). Trisis Gym: belum ada |
 | Rekaman layar 10–20 detik (opsional) | Showreel dan pratinjau video di kartu | Belum ada |
 | Slide lain dari pitch deck LensaJentik | Tambahan gambar | Bisa diekstrak dari PDF yang ada |
 

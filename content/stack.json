@@ -1,7 +1,9 @@
 [
   "Laravel",
   "PHP",
+  "PostgreSQL",
   "MongoDB",
+  "Supabase",
   "React",
   "Next.js",
   "TypeScript",
@@ -10,6 +12,7 @@
   "Web-GIS",
   "Capacitor",
   "ONNX",
+  "Gemini",
   "PHPUnit",
   "Postman",
   "Figma"

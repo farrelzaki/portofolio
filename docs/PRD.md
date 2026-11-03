@@ -67,9 +67,9 @@ dan peran. Perekrut juga butuh satu tautan yang cepat dibaca di ponsel maupun la
 | ID | Aturan |
 | --- | --- |
 | BR-01 | Semua isi berasal dari dokumen asli Farrel. Tidak boleh mengarang testimoni, klien, angka, atau peran. |
-| BR-02 | Peran per projek hanya ditulis bila tercatat di dokumen (saat ini: SUDEPI = backend, Trisis Gym = full-stack). |
-| BR-03 | Cover yang digambar dengan kode adalah ilustrasi, bukan screenshot; diganti screenshot asli bila tersedia. |
-| BR-04 | Proposal yang belum dilombakan (Cocokin!) tidak dihitung sebagai lomba. |
+| BR-02 | Peran per projek hanya ditulis bila tercatat di dokumen atau repo (saat ini: LensaJentik = backend, repo `farrelzaki/BackendLensaJentik`; SUDEPI = backend + rancangan pipeline model; Cocokin! = Backend, Data & AI menurut `KOLABORASI.md` repo; Trisis Gym = full-stack). |
+| BR-03 | Cover diambil dari aset asli repo (screenshot aplikasi, logo, denah) dan disusun di atas latar palet; cover ilustrasi ditandai `illustration: true` dan diberi keterangan di panel detail (saat ini hanya Trisis Gym). |
+| BR-04 | Tautan demo hanya dipasang bila sudah diverifikasi bisa dibuka. |
 
 ## 7. Data
 

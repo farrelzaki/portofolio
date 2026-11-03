@@ -2,23 +2,25 @@
   {
     "id": "lensajentik",
     "name": "LensaJentik",
-    "year": "",
+    "year": "2026",
     "category": {
       "id": "Web-GIS · Kesehatan",
       "en": "Web-GIS · Health"
     },
     "description": {
-      "id": "Platform Web-GIS yang menyatukan cuaca real-time, angka bebas jentik dari kader, dan laporan warga menjadi peta risiko DBD dan Malaria per kecamatan. Ada skor risiko 0–100, prediksi 14 hari, notifikasi otomatis, dan gamifikasi untuk warga.",
-      "en": "A Web-GIS platform that merges real-time weather, larvae-free rates from health volunteers and citizen reports into a dengue and malaria risk map per district. It adds a 0–100 risk score, a 14-day forecast, automatic alerts and citizen gamification."
+      "id": "Platform Web-GIS yang menyatukan cuaca real-time, angka bebas jentik dari kader, dan laporan warga menjadi peta risiko DBD dan Malaria per kecamatan, dibuat untuk TIC 9.0 2026. Saya membangun REST API-nya di Laravel 13 + PostgreSQL: autentikasi Sanctum, skor risiko 0–100 lewat job terjadwal, gamifikasi, dan ekspor laporan.",
+      "en": "A Web-GIS platform that merges real-time weather, larvae-free rates from health volunteers and citizen reports into a dengue and malaria risk map per district, built for TIC 9.0 2026. I built its REST API in Laravel 13 + PostgreSQL: Sanctum auth, a 0–100 risk score computed by scheduled jobs, gamification and report exports."
     },
     "role": {
-      "id": "",
-      "en": ""
+      "id": "Backend",
+      "en": "Backend"
     },
     "tags": [
-      "Web-GIS",
+      "Laravel 13",
+      "PostgreSQL",
+      "Sanctum",
       "Open-Meteo",
-      "Crowdsourcing"
+      "Web-GIS"
     ],
     "cover": "/media/projects/lensajentik.jpg",
     "gallery": [
@@ -47,8 +49,8 @@
       "en": "A cash-transaction assistant for blind users. The camera reads several Rupiah notes at once, calculates change and runs 100% offline on Android. I handled the backend: converting YOLOv8-Nano to ONNX INT8 (~6 MB), the transaction state machine, change calculator, IoU filter and the local database."
     },
     "role": {
-      "id": "Backend",
-      "en": "Backend"
+      "id": "Backend · rancangan pipeline model",
+      "en": "Backend · model pipeline design"
     },
     "tags": [
       "Edge AI",
@@ -56,13 +58,15 @@
       "Capacitor",
       "Offline-first"
     ],
-    "cover": "/media/projects/sudepi-ilustrasi.jpg",
-    "gallery": [],
+    "cover": "/media/projects/sudepi.jpg",
+    "gallery": [
+      "/media/projects/sudepi-2.jpg"
+    ],
     "coverAlt": {
-      "id": "Ilustrasi deteksi uang Rupiah di SUDEPI",
-      "en": "Illustration of Rupiah detection in SUDEPI"
+      "id": "Layar aplikasi SUDEPI: scan uang, dialog transaksi, pembayaran terverifikasi",
+      "en": "SUDEPI app screens: cash scan, transaction dialog, verified payment"
     },
-    "illustration": true,
+    "illustration": false,
     "demoUrl": "",
     "repoUrl": "https://github.com/farrelzaki/SUDEPI",
     "published": true
@@ -89,15 +93,15 @@
       "Flutter",
       "PHPUnit"
     ],
-    "cover": "/media/projects/reservaseat-ilustrasi.jpg",
+    "cover": "/media/projects/reservaseat.jpg",
     "gallery": [],
     "coverAlt": {
-      "id": "Ilustrasi denah meja ReservaSeat",
-      "en": "Illustration of the ReservaSeat table map"
+      "id": "Logo dan denah restoran dari aplikasi ReservaSeat",
+      "en": "Logo and restaurant floor plan from the ReservaSeat app"
     },
-    "illustration": true,
+    "illustration": false,
     "demoUrl": "",
-    "repoUrl": "",
+    "repoUrl": "https://github.com/Mattazz44/frontendreservaseat",
     "published": true
   },
   {
@@ -109,28 +113,31 @@
       "en": "Web · Education"
     },
     "description": {
-      "id": "Platform rekomendasi jurusan dan simulasi akademik untuk siswa SMA kelas akhir. Mesin skoring deterministik (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026) dipadukan dengan Gemini 2.5 Flash. Proposal untuk Hackathon JOINTS UGM 2026.",
-      "en": "A major-recommendation and academic-simulation platform for final-year high-school students. A deterministic scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules) is combined with Gemini 2.5 Flash. Proposed for the JOINTS UGM 2026 Hackathon."
+      "id": "Platform pemilihan jurusan dan estimasi peluang masuk PTN untuk siswa kelas 12, berbasis data resmi seleksi nasional, dibuat untuk Hackathon JOINTS UGM 2026. Saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
+      "en": "A major-selection and state-university admission-chance platform for final-year students, built on official national selection data for the JOINTS UGM 2026 Hackathon. I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, Gemini integration and QA."
     },
     "role": {
-      "id": "",
-      "en": ""
+      "id": "Backend, Data & AI",
+      "en": "Backend, Data & AI"
     },
     "tags": [
       "Next.js 15",
-      "React 19",
       "TypeScript",
-      "Gemini 2.5 Flash"
+      "Supabase",
+      "Gemini",
+      "Tailwind 4"
     ],
-    "cover": "/media/projects/cocokin-ilustrasi.jpg",
-    "gallery": [],
+    "cover": "/media/projects/cocokin.jpg",
+    "gallery": [
+      "/media/projects/cocokin-2.jpg"
+    ],
     "coverAlt": {
-      "id": "Ilustrasi skor kecocokan jurusan di Cocokin!",
-      "en": "Illustration of major-match scores in Cocokin!"
+      "id": "Layar aplikasi Cocokin!: beranda, preferensi, rekomendasi jurusan",
+      "en": "Cocokin! app screens: home, preferences, major recommendations"
     },
-    "illustration": true,
+    "illustration": false,
     "demoUrl": "",
-    "repoUrl": "",
+    "repoUrl": "https://github.com/Daliondroid/FajarWasHere-Joints",
     "published": true
   },
   {
