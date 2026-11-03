@@ -29,7 +29,7 @@ function makeTile(icon, i) {
 
 /**
  * Popup ikon tools mengikuti kursor (meniru jejak gantungan kunci brandappart.com), dibuat jarang
- * dan acak: jarak & jeda minimum diacak tiap kali, ada peluang dilewati, maksimal 2 ikon sekaligus,
+ * dan acak: jarak & jeda minimum diacak tiap kali, ada peluang dilewati, maksimal 3 ikon sekaligus,
  * dan tidak pernah muncul di atas atau dekat teks hero.
  */
 function useIconTrail(ref, title, foot) {
@@ -48,8 +48,8 @@ function useIconTrail(ref, title, foot) {
     let alive = 0
     let last = null
     let lastTime = 0
-    let needDist = rnd(320, 560)
-    let needGap = rnd(700, 1400)
+    let needDist = rnd(260, 420)
+    let needGap = rnd(450, 850)
 
     // Zona larangan: kotak teks hero diperbesar setengah ukuran ikon + jarak aman.
     const textRefs = [title, foot]
@@ -57,7 +57,7 @@ function useIconTrail(ref, title, foot) {
       const els = r.current ? [r.current] : []
       return els.some((el) => {
         const b = el.getBoundingClientRect()
-        const pad = 110
+        const pad = 70
         return x > b.left - pad && x < b.right + pad && y > b.top - pad && y < b.bottom + pad
       })
     })
@@ -70,9 +70,9 @@ function useIconTrail(ref, title, foot) {
       const dy = e.clientY - last.y
       last = { x: e.clientX, y: e.clientY }
       lastTime = now
-      needDist = rnd(320, 560)
-      needGap = rnd(700, 1400)
-      if (alive >= 2 || Math.random() < 0.35 || blocked(e.clientX, e.clientY)) return
+      needDist = rnd(260, 420)
+      needGap = rnd(450, 850)
+      if (alive >= 3 || Math.random() < 0.2 || blocked(e.clientX, e.clientY)) return
 
       const b = root.getBoundingClientRect()
       // Jaga ikon tetap utuh di dalam layar (tidak terpotong tepi atau tertutup kerangka tetap).
