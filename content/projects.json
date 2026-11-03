@@ -1,0 +1,168 @@
+[
+  {
+    "id": "lensajentik",
+    "name": "LensaJentik",
+    "year": "",
+    "category": {
+      "id": "Web-GIS · Kesehatan",
+      "en": "Web-GIS · Health"
+    },
+    "description": {
+      "id": "Platform Web-GIS yang menyatukan cuaca real-time, angka bebas jentik dari kader, dan laporan warga menjadi peta risiko DBD dan Malaria per kecamatan. Ada skor risiko 0–100, prediksi 14 hari, notifikasi otomatis, dan gamifikasi untuk warga.",
+      "en": "A Web-GIS platform that merges real-time weather, larvae-free rates from health volunteers and citizen reports into a dengue and malaria risk map per district. It adds a 0–100 risk score, a 14-day forecast, automatic alerts and citizen gamification."
+    },
+    "role": {
+      "id": "",
+      "en": ""
+    },
+    "tags": [
+      "Web-GIS",
+      "Open-Meteo",
+      "Crowdsourcing"
+    ],
+    "cover": "/media/projects/lensajentik.jpg",
+    "gallery": [
+      "/media/projects/lensajentik-deck-2.jpg",
+      "/media/projects/lensajentik-deck-solusi.jpg"
+    ],
+    "coverAlt": {
+      "id": "Tampilan beranda LensaJentik",
+      "en": "LensaJentik home screen"
+    },
+    "illustration": false,
+    "demoUrl": "",
+    "repoUrl": "https://github.com/farrelzaki/BackendLensaJentik",
+    "published": true
+  },
+  {
+    "id": "sudepi",
+    "name": "SUDEPI",
+    "year": "2026",
+    "category": {
+      "id": "Aksesibilitas · Edge AI",
+      "en": "Accessibility · Edge AI"
+    },
+    "description": {
+      "id": "Asisten transaksi tunai untuk tunanetra. Kamera membaca banyak lembar Rupiah sekaligus, menghitung kembalian, dan berjalan 100% offline di Android. Saya menangani backend: konversi YOLOv8-Nano ke ONNX INT8 (±6 MB), state machine transaksi, kalkulator kembalian, filter IoU, dan basis data lokal.",
+      "en": "A cash-transaction assistant for blind users. The camera reads several Rupiah notes at once, calculates change and runs 100% offline on Android. I handled the backend: converting YOLOv8-Nano to ONNX INT8 (~6 MB), the transaction state machine, change calculator, IoU filter and the local database."
+    },
+    "role": {
+      "id": "Backend",
+      "en": "Backend"
+    },
+    "tags": [
+      "Edge AI",
+      "ONNX INT8",
+      "Capacitor",
+      "Offline-first"
+    ],
+    "cover": "/media/projects/sudepi-ilustrasi.jpg",
+    "gallery": [],
+    "coverAlt": {
+      "id": "Ilustrasi deteksi uang Rupiah di SUDEPI",
+      "en": "Illustration of Rupiah detection in SUDEPI"
+    },
+    "illustration": true,
+    "demoUrl": "",
+    "repoUrl": "https://github.com/farrelzaki/SUDEPI",
+    "published": true
+  },
+  {
+    "id": "reservaseat",
+    "name": "ReservaSeat",
+    "year": "",
+    "category": {
+      "id": "REST API · Multi-platform",
+      "en": "REST API · Multi-platform"
+    },
+    "description": {
+      "id": "Sistem reservasi meja restoran multi-cabang. Satu RESTful API Laravel + MongoDB melayani aplikasi Flutter untuk pelanggan dan dasbor Blade untuk admin. 10 endpoint diuji dengan PHPUnit dan Postman, respons rata-rata 214–589 ms, dan konflik slot waktu ditolak dengan 422.",
+      "en": "A multi-branch restaurant table reservation system. One Laravel + MongoDB RESTful API serves a Flutter app for customers and a Blade dashboard for admins. 10 endpoints tested with PHPUnit and Postman, 214–589 ms average response, and overlapping slots rejected with a 422."
+    },
+    "role": {
+      "id": "",
+      "en": ""
+    },
+    "tags": [
+      "Laravel 13",
+      "MongoDB",
+      "Flutter",
+      "PHPUnit"
+    ],
+    "cover": "/media/projects/reservaseat-ilustrasi.jpg",
+    "gallery": [],
+    "coverAlt": {
+      "id": "Ilustrasi denah meja ReservaSeat",
+      "en": "Illustration of the ReservaSeat table map"
+    },
+    "illustration": true,
+    "demoUrl": "",
+    "repoUrl": "",
+    "published": true
+  },
+  {
+    "id": "cocokin",
+    "name": "Cocokin!",
+    "year": "2026",
+    "category": {
+      "id": "Web · Pendidikan",
+      "en": "Web · Education"
+    },
+    "description": {
+      "id": "Platform rekomendasi jurusan dan simulasi akademik untuk siswa SMA kelas akhir. Mesin skoring deterministik (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026) dipadukan dengan Gemini 2.5 Flash. Proposal untuk Hackathon JOINTS UGM 2026.",
+      "en": "A major-recommendation and academic-simulation platform for final-year high-school students. A deterministic scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules) is combined with Gemini 2.5 Flash. Proposed for the JOINTS UGM 2026 Hackathon."
+    },
+    "role": {
+      "id": "",
+      "en": ""
+    },
+    "tags": [
+      "Next.js 15",
+      "React 19",
+      "TypeScript",
+      "Gemini 2.5 Flash"
+    ],
+    "cover": "/media/projects/cocokin-ilustrasi.jpg",
+    "gallery": [],
+    "coverAlt": {
+      "id": "Ilustrasi skor kecocokan jurusan di Cocokin!",
+      "en": "Illustration of major-match scores in Cocokin!"
+    },
+    "illustration": true,
+    "demoUrl": "",
+    "repoUrl": "",
+    "published": true
+  },
+  {
+    "id": "trisis",
+    "name": "Trisis Gym",
+    "year": "",
+    "category": {
+      "id": "Sistem absensi · Proyek klien",
+      "en": "Attendance system · Client project"
+    },
+    "description": {
+      "id": "Sistem scan absensi untuk gym klien, menggantikan pencatatan manual di buku yang menyulitkan pemantauan dan manajemen membership. Saya mengerjakannya sebagai full-stack developer.",
+      "en": "A scan-based attendance system for a client gym, replacing paper-book logging that made memberships hard to track and manage. I worked on it as the full-stack developer."
+    },
+    "role": {
+      "id": "Full-stack",
+      "en": "Full-stack"
+    },
+    "tags": [
+      "Full-stack",
+      "QR scanner",
+      "Membership"
+    ],
+    "cover": "/media/projects/trisis-ilustrasi.jpg",
+    "gallery": [],
+    "coverAlt": {
+      "id": "Ilustrasi scan QR absensi Trisis Gym",
+      "en": "Illustration of the Trisis Gym QR check-in"
+    },
+    "illustration": true,
+    "demoUrl": "",
+    "repoUrl": "",
+    "published": true
+  }
+]

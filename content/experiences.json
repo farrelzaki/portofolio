@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ipb",
+    "title": {
+      "id": "Software Engineering",
+      "en": "Software Engineering"
+    },
+    "organization": "IPB University, Bogor",
+    "description": {
+      "id": "Kuliah rekayasa perangkat lunak. Sebagian besar projek di portofolio ini lahir dari tugas proyek, hackathon, dan kompetisi kampus.",
+      "en": "Studying software engineering. Most projects in this portfolio came out of coursework, hackathons and campus competitions."
+    },
+    "start": "2024-08",
+    "end": "2028-07",
+    "published": true
+  },
+  {
+    "id": "himavo",
+    "title": {
+      "id": "Digital Media Staff",
+      "en": "Digital Media Staff"
+    },
+    "organization": "Himavo Micro IT Community, IPB",
+    "description": {
+      "id": "Anggota Biro Digital Media periode 2024/2025 dengan predikat Baik.",
+      "en": "Member of the Digital Media Bureau for 2024/2025, rated Good."
+    },
+    "start": "2024-10",
+    "end": "2025-11",
+    "published": true
+  }
+]

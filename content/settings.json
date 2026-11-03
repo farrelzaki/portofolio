@@ -1,0 +1,127 @@
+{
+  "name": "Farrel Muhammad Zaki",
+  "shortName": "Farrel Zaki",
+  "role": {
+    "id": "Software Engineer",
+    "en": "Software Engineer"
+  },
+  "email": "farrelmzaki77@gmail.com",
+  "whatsapp": "6289523006094",
+  "location": "Bogor, Indonesia",
+  "timezone": "Asia/Jakarta",
+  "photo": "",
+  "links": {
+    "github": "https://github.com/farrelzaki",
+    "linkedin": "",
+    "instagram": "",
+    "cv": ""
+  },
+  "meta": {
+    "description": {
+      "id": "Portofolio Farrel Muhammad Zaki, Software Engineer (backend, frontend, full-stack). Mahasiswa Software Engineering IPB University, finalis Hackathon IFEST 2026.",
+      "en": "Portfolio of Farrel Muhammad Zaki, Software Engineer (backend, frontend, full-stack). Software Engineering student at IPB University, Hackathon IFEST 2026 finalist."
+    }
+  },
+  "hero": {
+    "title": {
+      "id": "Software yang bisa diandalkan",
+      "en": "Software you can rely on"
+    },
+    "accent": {
+      "id": "diandalkan",
+      "en": "rely on"
+    },
+    "intro": {
+      "id": "Saya Farrel, mahasiswa Software Engineering IPB University. Saya membangun backend, frontend, dan full-stack, dari API reservasi sampai sistem scan absensi.",
+      "en": "I am Farrel, a Software Engineering student at IPB University. I build backend, frontend and full-stack, from reservation APIs to attendance scanners."
+    },
+    "cta": {
+      "id": "Hubungi saya",
+      "en": "Get in touch"
+    }
+  },
+  "sections": {
+    "work": {
+      "lead": {
+        "id": "Projek",
+        "en": "Selected"
+      },
+      "tail": {
+        "id": "pilihan",
+        "en": "work"
+      },
+      "intro": {
+        "id": "Masalah nyata, dikerjakan sampai jalan: kesehatan, aksesibilitas, reservasi, pendidikan, dan bisnis klien.",
+        "en": "Real problems carried through to working software: health, accessibility, reservations, education and client business."
+      }
+    },
+    "ring": {
+      "lead": {
+        "id": "Lihat semua",
+        "en": "See all"
+      },
+      "tail": {
+        "id": "kode saya",
+        "en": "my code"
+      }
+    },
+    "services": {
+      "lead": {
+        "id": "Yang saya kerjakan.",
+        "en": "What I build."
+      },
+      "tail": {
+        "id": "Dari data sampai layar",
+        "en": "From data to screen"
+      }
+    },
+    "achievements": {
+      "lead": {
+        "id": "Prestasi &",
+        "en": "Awards &"
+      },
+      "tail": {
+        "id": "sertifikat",
+        "en": "certificates"
+      }
+    },
+    "stack": {
+      "lead": {
+        "id": "Satu orang,",
+        "en": "One person,"
+      },
+      "tail": {
+        "id": "banyak stack",
+        "en": "many stacks"
+      }
+    },
+    "journey": {
+      "lead": {
+        "id": "Pendidikan &",
+        "en": "Education &"
+      },
+      "tail": {
+        "id": "pengalaman",
+        "en": "experience"
+      }
+    },
+    "contact": {
+      "lead": {
+        "id": "Ayo bikin sesuatu",
+        "en": "Let us build something"
+      },
+      "tail": {
+        "id": "yang berguna!",
+        "en": "useful!"
+      },
+      "intro": {
+        "id": "Ada projek, magang, atau kolaborasi? Kirim kabar, saya balas secepatnya.",
+        "en": "A project, an internship or a collaboration? Drop a line and I will reply soon."
+      }
+    }
+  },
+  "floatingCta": {
+    "id": "Ada projek atau lowongan?",
+    "en": "Have a project or an opening?"
+  }
+}

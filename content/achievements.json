@@ -1,0 +1,78 @@
+[
+  {
+    "id": "ifest-2026",
+    "title": {
+      "id": "Finalis Hackathon IFEST 2026",
+      "en": "Finalist, Hackathon IFEST 2026"
+    },
+    "issuer": {
+      "id": "Informatics Festival, FMIPA UNPAD",
+      "en": "Informatics Festival, FMIPA UNPAD"
+    },
+    "description": {
+      "id": "Tim PenungguTokenReset dengan SUDEPI.",
+      "en": "Team PenungguTokenReset with SUDEPI."
+    },
+    "image": "/media/achievements/ifest-2026.jpg",
+    "date": "2026",
+    "highlight": true,
+    "published": true
+  },
+  {
+    "id": "energy-week-2025",
+    "title": {
+      "id": "Semifinalis Lomba Poster Ilmiah",
+      "en": "Semifinalist, Scientific Poster Competition"
+    },
+    "issuer": {
+      "id": "Energy Week 2025, BRIN",
+      "en": "Energy Week 2025, BRIN"
+    },
+    "description": {
+      "id": "Poster tinjauan literatur ubi jalar sebagai bahan baku bioetanol.",
+      "en": "Literature-review poster on sweet potato as a bioethanol feedstock."
+    },
+    "image": "/media/achievements/energy-week-2025.jpg",
+    "date": "2025-12",
+    "highlight": false,
+    "published": true
+  },
+  {
+    "id": "tic-9",
+    "title": {
+      "id": "Peserta TIC 9.0",
+      "en": "Participant, TIC 9.0"
+    },
+    "issuer": {
+      "id": "HIMATIF Universitas Jember",
+      "en": "HIMATIF Universitas Jember"
+    },
+    "description": {
+      "id": "Technology Innovative Challenge tingkat nasional, 22 Juni – 16 Agustus 2026.",
+      "en": "National Technology Innovative Challenge, 22 June – 16 August 2026."
+    },
+    "image": "/media/achievements/tic-9.jpg",
+    "date": "2026-08",
+    "highlight": false,
+    "published": true
+  },
+  {
+    "id": "himavo",
+    "title": {
+      "id": "Anggota Himavo Micro IT",
+      "en": "Member, Himavo Micro IT"
+    },
+    "issuer": {
+      "id": "Biro Digital Media · 2024/2025",
+      "en": "Digital Media Bureau · 2024/2025"
+    },
+    "description": {
+      "id": "Sertifikat keanggotaan, predikat Baik.",
+      "en": "Membership certificate, rated Good."
+    },
+    "image": "/media/achievements/himavo.jpg",
+    "date": "2025",
+    "highlight": false,
+    "published": true
+  }
+]

@@ -1,7 +1,7 @@
 # Portofolio Farrel Muhammad Zaki
 
-Situs portofolio satu halaman. React 19 + Vite 8, tanpa backend. Palet hitam–biru–putih, section terang
-berselang-seling dengan blok gelap, dan dua bahasa (ID/EN).
+Situs portofolio satu halaman. React 19 + Vite 8 + GSAP + Lenis, tanpa backend. Gaya mengikuti
+brandappart.com dengan palet hitam–biru–putih, dua bahasa (ID/EN). Online di https://portofolio-omega-one-97.vercel.app/
 
 ## Menjalankan
 
@@ -16,11 +16,18 @@ Hasil `dist/` harus disajikan lewat server (Netlify, Vercel, GitHub Pages, dsb.)
 
 ## Mengubah isi
 
-- Teks, projek, pengalaman, prestasi: `src/data.js` (dua bahasa, ID dan EN).
-- Tautan LinkedIn / GitHub / Instagram / CV: isi `profile.links` di `src/data.js`. Kosong = tombol disembunyikan.
-- Warna: variabel di bagian atas `src/styles.css` (`--ink`, `--blue`, `--sky`, `--soft`).
-- Cover projek: `src/Covers.jsx`. LensaJentik memakai tangkapan layar asli; ganti dengan screenshot asli projek lain dengan mengubah `cover: 'image'` dan `image` di `src/data.js`.
-- Gambar sertifikat: `src/assets/`.
+Semua isi ada di folder `content/` (dua bahasa: `{ "id": "...", "en": "..." }`) dan gambar di `public/media/`.
+Setelah diubah, `npm test` memastikan isinya valid; build otomatis gagal jika ada yang rusak.
+Panel admin lokal (`npm run admin`) sedang dibangun (lihat `docs/RENCANA_ADMIN.md`).
+
+| File | Isi |
+| --- | --- |
+| `content/settings.json` | Nama, kontak, tautan sosial, foto, teks hero, judul tiap section |
+| `content/projects.json` | Projek (cover, galeri, deskripsi, peran, tag, tautan repo/demo) |
+| `content/services.json` | Kartu keahlian |
+| `content/stack.json` | Daftar teknologi |
+| `content/experiences.json` | Pendidikan dan pengalaman |
+| `content/achievements.json` | Prestasi dan sertifikat |
 
 ## Dokumentasi
 
@@ -29,3 +36,5 @@ Hasil `dist/` harus disajikan lewat server (Netlify, Vercel, GitHub Pages, dsb.)
 | `docs/PRD.md` | Tujuan, fitur, aturan konten |
 | `docs/ARSITEKTUR.md` | Stack, struktur kode, bentuk data |
 | `docs/DESIGN_SYSTEM.md` | Warna, tipografi, komponen, motion |
+| `docs/RISET_DESAIN.md` | Riset gaya brandappart.com |
+| `docs/RENCANA_ADMIN.md` | Rencana fase pengerjaan |

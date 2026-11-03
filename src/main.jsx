@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client'
+import '@fontsource-variable/archivo/wdth.css'
 import '@fontsource-variable/manrope'
-import '@fontsource/instrument-serif/400-italic.css'
+import '@fontsource/ibm-plex-mono/500.css'
+import 'lenis/dist/lenis.css'
 import './styles.css'
 import App from './App.jsx'
 

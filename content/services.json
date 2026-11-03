@@ -1,0 +1,90 @@
+[
+  {
+    "id": "backend",
+    "title": {
+      "id": "Backend yang tidak gampang rusak",
+      "en": "Backends that hold up"
+    },
+    "description": {
+      "id": "REST API, logika bisnis, dan basis data yang konsisten. Validasi konflik slot, autentikasi token, state machine, dan pengujian otomatis.",
+      "en": "REST APIs, business logic and consistent data. Slot-conflict validation, token auth, state machines and automated tests."
+    },
+    "tags": [
+      "Laravel",
+      "PHP",
+      "MongoDB",
+      "PHPUnit",
+      "Postman"
+    ],
+    "projects": [
+      "reservaseat",
+      "sudepi"
+    ],
+    "published": true
+  },
+  {
+    "id": "frontend",
+    "title": {
+      "id": "Antarmuka yang jelas dan cepat",
+      "en": "Clear, fast interfaces"
+    },
+    "description": {
+      "id": "Komponen React, aksesibilitas, dan animasi yang punya alasan. Tampilan yang mudah dipakai di laptop maupun ponsel.",
+      "en": "React components, accessibility and motion that has a reason. Interfaces that work on laptop and phone alike."
+    },
+    "tags": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "CSS"
+    ],
+    "projects": [
+      "lensajentik",
+      "cocokin"
+    ],
+    "published": true
+  },
+  {
+    "id": "fullstack",
+    "title": {
+      "id": "Full-stack sampai dipakai",
+      "en": "Full-stack, through to real use"
+    },
+    "description": {
+      "id": "Dari database sampai layar, dibawa sampai dipakai. Salah satunya sistem scan absensi gym yang menggantikan buku catatan.",
+      "en": "From database to screen, carried through to real use. One of them is a gym attendance scanner that replaced a paper logbook."
+    },
+    "tags": [
+      "REST API",
+      "Web",
+      "Mobile",
+      "Deploy"
+    ],
+    "projects": [
+      "trisis",
+      "reservaseat"
+    ],
+    "published": true
+  },
+  {
+    "id": "design",
+    "title": {
+      "id": "Desain sebelum kode",
+      "en": "Design before code"
+    },
+    "description": {
+      "id": "Rancangan UI/UX di Figma sebelum kode ditulis, supaya yang dibangun sudah jelas bentuknya.",
+      "en": "UI/UX designed in Figma before code is written, so what gets built already has a clear shape."
+    },
+    "tags": [
+      "Figma",
+      "UI/UX",
+      "Prototyping"
+    ],
+    "projects": [
+      "lensajentik",
+      "cocokin"
+    ],
+    "published": true
+  }
+]

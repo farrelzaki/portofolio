@@ -136,40 +136,42 @@ Setiap fase diakhiri verifikasi dan commit. Perkiraan dalam sesi kerja; total ±
 
 ### Fase 0 — Fondasi dan jalur deploy (± 1 sesi)
 
-- [ ] `git init`, atur identitas commit (`Farrel Muhammad Zaki <farrelmzaki77@gmail.com>`), commit kondisi v1.
-- [ ] Repo GitHub, push ke `main`.
-- [ ] ESLint + Vitest, skrip `npm run lint` / `npm test`; isi tabel *Perintah* di `AGENTS.md`.
-- [ ] Sambungkan repo ke hosting (Vercel/Netlify) dan deploy pertama, supaya jalur push → online sudah terbukti sejak awal.
+- [x] `git init`, atur identitas commit (`Farrel Muhammad Zaki <farrelmzaki77@gmail.com>`), commit kondisi v1.
+- [x] Repo GitHub, push ke `main`.
+- [x] ESLint + Vitest, skrip `npm run lint` / `npm test`; isi tabel *Perintah* di `AGENTS.md`.
+- [x] Sambungkan repo ke hosting (Vercel/Netlify) dan deploy pertama, supaya jalur push → online sudah terbukti sejak awal.
 - **Selesai jika:** build, lint, test lulus; URL publik menampilkan v1; push kecil (mis. ubah README) memicu deploy otomatis.
 
 ### Fase 1 — Konten pindah ke file (± 1 sesi)
 
-- [ ] Skema zod di `src/content/schema.js`.
-- [ ] Konversi `src/data.js` ke `content/*.json`; gambar dari `src/assets/` ke `public/media/`.
-- [ ] Situs publik membaca JSON; fungsi murni `t(lang, value)` (fallback EN ke ID) dan `formatPeriod()` beserta test.
-- [ ] Test yang memvalidasi semua file konten terhadap skema, dijalankan sebelum build (`prebuild`).
+- [x] Skema zod di `src/content/schema.js`.
+- [x] Konversi `src/data.js` ke `content/*.json`; gambar dari `src/assets/` ke `public/media/`.
+- [x] Situs publik membaca JSON; fungsi murni `t(lang, value)` (fallback EN ke ID) dan `formatPeriod()` beserta test.
+- [x] Test yang memvalidasi semua file konten terhadap skema, dijalankan sebelum build (`prebuild`).
 - **Selesai jika:** tampilan identik dengan v1 di 1440/768/390 px, dan JSON yang sengaja dirusak membuat build gagal.
 
-### Fase 1B — Desain ulang situs publik mengikuti brandappart.com (± 4–5 sesi)
+### Fase 1B — Desain ulang situs publik mengikuti brandappart.com (± 4–5 sesi) — v1 selesai 2026-11-03
 
 Acuan lengkap dan nilai terukur: `docs/RISET_DESAIN.md`. Desain ulang memakai data dari `content/*.json`
 (Fase 1), sehingga panel admin nanti langsung mengisi tampilan baru.
 
-- [ ] Fondasi: token baru (latar `#F6F8FC`, tinta `#0B1220`, abu-biru `#7C8BA6`, aksen `#2563EB`),
+- [x] Fondasi: token baru (latar `#F6F8FC`, tinta `#0B1220`, abu-biru `#7C8BA6`, aksen `#2563EB`),
       Archivo + Manrope + IBM Plex Mono, Lenis, GSAP + ScrollTrigger + Flip, kurva `cubic-bezier(0.36,0.33,0,1)`.
-- [ ] Kerangka tetap: logo, CTA kanan atas, MENU kiri bawah + panel gelap 650 px, dock ikon kiri,
+- [x] Kerangka tetap: logo, CTA kanan atas, MENU kiri bawah + panel gelap 650 px, dock ikon kiri,
       garis progres kanan, jam Bogor, pill CTA melayang, kursor kustom dengan label.
-- [ ] Hero: judul raksasa + jejak gambar mengikuti kursor + marquee logo teknologi.
-- [ ] Showreel: garis yang membesar ke layar penuh (Flip) + parallax.
-- [ ] Projek: mosaik 2 kolom, label kartu yang melebar saat hover, kartu sorotan IFEST.
-- [ ] Prestasi: cincin kartu berputar terikat scroll di section gelap.
-- [ ] Keahlian: tumpukan kartu warna yang di-pin dan terbang ke atas.
-- [ ] Pengalaman: kartu kipas yang menyebar saat di-scroll.
-- [ ] Tech stack: cincin 3D mengelilingi teks raksasa.
-- [ ] Footer gelap: judul raksasa dua warna, kontak, sitemap, wordmark raksasa; stiker jatuh (opsional).
-- [ ] Ponsel: komposisi sendiri (efek berat disederhanakan); `prefers-reduced-motion` mematikan gerak berpindah.
+- [x] Hero: judul raksasa + jejak gambar mengikuti kursor + marquee logo teknologi.
+- [x] Showreel: garis yang membesar ke layar penuh (clip-path di-scrub, bukan Flip) + parallax + pergantian gambar.
+- [x] Projek: mosaik 2 kolom, label kartu yang melebar saat hover, kartu sorotan IFEST.
+- [x] Cincin kartu (projek + sertifikat) berputar terikat scroll di section gelap, tautan "Lihat semua kode saya" ke GitHub.
+- [x] Keahlian: tumpukan kartu warna yang di-pin dan terbang ke atas.
+- [x] Prestasi: kartu kipas yang menyebar saat di-scroll. Pengalaman: baris besar yang menggelap saat hover.
+- [x] Tech stack: cincin 3D mengelilingi teks raksasa.
+- [x] Footer gelap: judul raksasa dua warna, kontak, sitemap, wordmark raksasa; stiker jatuh (opsional).
+- [x] Ponsel: komposisi sendiri (efek berat disederhanakan); `prefers-reduced-motion` mematikan gerak berpindah.
 - **Selesai jika:** semua section berjalan di 1440/768/390 px tanpa error konsol dan tanpa scroll horizontal;
   animasi hanya `transform`/`opacity`/`clip-path`; Lighthouse performa ≥ 85 di desktop.
+- **Status 2026-11-03:** dua syarat pertama terverifikasi lewat screenshot; Lighthouse **belum diukur**.
+  Menunggu aset asli (foto profil, screenshot projek) untuk menggantikan ilustrasi.
 
 ### Fase 2 — API lokal admin (± 1 sesi)
 
@@ -195,7 +197,7 @@ Acuan lengkap dan nilai terukur: `docs/RISET_DESAIN.md`. Desain ulang memakai da
 ### Fase 5 — Pengujian akhir dan serah terima (± 0,5–1 sesi)
 
 - [ ] Uji alur lengkap di Windows (laptop Farrel), termasuk menambah projek baru dengan cover.
-- [ ] Hapus `src/data.js` dan aset lama yang sudah dipindah.
+- [x] Hapus `src/data.js` dan aset lama yang sudah dipindah (dikerjakan di Fase 1).
 - [ ] Perbarui `PRD.md`, `ARSITEKTUR.md`, `DESIGN_SYSTEM.md` (komponen admin), dan `AGENTS.md` (perintah).
 - [ ] Panduan singkat "cara update portofolio" di `README.md`.
 
