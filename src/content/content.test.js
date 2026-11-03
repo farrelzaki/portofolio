@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { schemas } from './schema.js'
 import { formatPeriod, splitAccent, t } from './index.js'
+import { TECH_ICONS } from './icons.js'
 
 const dir = path.resolve(__dirname, '../../content')
 const read = (f) => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))
@@ -31,6 +32,10 @@ describe('file konten valid terhadap skema', () => {
       const ids = read(f).map((x) => x.id)
       expect(new Set(ids).size, f).toBe(ids.length)
     }
+  })
+
+  it('ikon hero tersedia di modul ikon', () => {
+    for (const k of read('settings.json').heroIcons) expect(TECH_ICONS[k], k).toBeTruthy()
   })
 
   it('slide showreel merujuk projek yang ada', () => {

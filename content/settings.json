@@ -149,5 +149,29 @@
       "image": "/media/projects/cocokin-2.jpg",
       "project": "cocokin"
     }
+  ],
+  "heroIcons": [
+    "laravel",
+    "react",
+    "postgresql",
+    "figma",
+    "nextdotjs",
+    "php",
+    "supabase",
+    "typescript",
+    "flutter",
+    "github",
+    "mongodb",
+    "vite",
+    "tailwindcss",
+    "nodedotjs",
+    "postman",
+    "googlegemini",
+    "capacitor",
+    "onnx",
+    "git",
+    "javascript",
+    "express",
+    "vercel"
   ]
 }

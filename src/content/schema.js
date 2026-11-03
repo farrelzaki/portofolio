@@ -33,6 +33,7 @@ export const settingsSchema = z.object({
   }),
   floatingCta: textRequired,
   showreel: z.array(z.object({ image: media, project: slug })).min(1),
+  heroIcons: z.array(z.string().regex(/^[a-z0-9]+$/)).min(3),
 })
 
 export const projectSchema = z.object({
