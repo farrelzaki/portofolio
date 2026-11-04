@@ -27,21 +27,27 @@ export default function Showreel({ lang, ui }) {
     const ctx = gsap.context(() => {
       // Saat masuk layar: kartu kecil membulat di tengah. Saat di-pin: membesar dari tengah ke layar penuh.
       gsap.set('.showreel-ui', { opacity: 0, y: 20 })
+      gsap.set(media.current, { autoAlpha: 0 })
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: section.current, start: 'top top', end: '+=110%', scrub: 0.8, pin: true, anticipatePin: 1 },
+        scrollTrigger: { trigger: section.current, start: 'top top', end: '+=280%', scrub: 0.8, pin: true, anticipatePin: 1 },
       })
       // Nilai awal & akhir eksplisit 4 sisi: browser meringkas inset(a b a b) menjadi 2 nilai,
       // yang membuat interpolasi GSAP tidak simetris.
       tl.fromTo(frame.current,
         { clipPath: 'inset(36.1% 24.1% 36.2% 24.2% round 18px)' },
         { clipPath: 'inset(0.01% 0.02% 0.03% 0.04% round 0px)', ease: 'power2.inOut', duration: 1, immediateRender: true })
-        .fromTo(media.current, { scale: 1.12 }, { scale: 1.02, ease: 'power2.inOut', duration: 1 }, 0)
-        .to('.showreel-ui', { opacity: 1, y: 0, ease: 'power2.out', duration: 0.3, stagger: 0.05 }, 0.75)
+        // Selama membesar isinya hitam pekat; foto proyek baru masuk setelah frame penuh.
+        .fromTo(media.current, { autoAlpha: 0, scale: 1.14 }, { autoAlpha: 1, scale: 1.02, ease: 'power2.out', duration: 0.45 }, 1)
+        .to('.showreel-ui', { opacity: 1, y: 0, ease: 'power2.out', duration: 0.3, stagger: 0.06 }, 1.25)
+        // Jeda: section tetap di-pin beberapa gulir agar tidak mudah terlewat.
+        .to({}, { duration: 1.15 })
       // Kartu kecil ikut naik pelan saat section masuk dari bawah.
       gsap.fromTo(frame.current, { yPercent: 12 }, {
         yPercent: 0, ease: 'none',
         scrollTrigger: { trigger: section.current, start: 'top bottom', end: 'top top', scrub: true },
       })
+      // Saat ditahan, foto bergerak sangat pelan supaya layar tidak terasa membeku.
+      tl.to(media.current, { scale: 1.08, ease: 'none', duration: 1.4 }, 1.25)
     }, section)
     ScrollTrigger.refresh()
     return () => ctx.revert()

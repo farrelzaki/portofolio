@@ -48,6 +48,7 @@ export const projectSchema = z.object({
   gallery: z.array(media),
   coverAlt: text,
   illustration: z.boolean(),
+  accent: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   demoUrl: url,
   repoUrl: url,
   published: z.boolean(),

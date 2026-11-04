@@ -78,7 +78,8 @@ function useIconTrail(ref, title, foot) {
       // Jaga ikon tetap utuh di dalam layar (tidak terpotong tepi atau tertutup kerangka tetap).
       const m = 110
       const x = gsap.utils.clamp(m, b.width - m, e.clientX - b.left + rnd(-50, 50))
-      const y = gsap.utils.clamp(m, Math.min(b.height, window.innerHeight) - m, e.clientY - b.top + rnd(-50, 50))
+      // Boleh dekat/melewati batas bawah hero: ikon digambar di atas section berikutnya, tetap di dalam layar.
+      const y = gsap.utils.clamp(m, Math.min(b.height + 40, window.innerHeight - b.top - 70), e.clientY - b.top + rnd(-50, 50))
       const el = pool[i++ % pool.length]
       const rot = rnd(-40, 40)
       const size = rnd(0.78, 1.25)

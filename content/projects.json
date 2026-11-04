@@ -32,6 +32,7 @@
       "en": "LensaJentik home screen"
     },
     "illustration": false,
+    "accent": "#3B5BDB",
     "demoUrl": "",
     "repoUrl": "https://github.com/farrelzaki/BackendLensaJentik",
     "published": true
@@ -67,6 +68,7 @@
       "en": "SUDEPI app screens: cash scan, transaction dialog, verified payment"
     },
     "illustration": false,
+    "accent": "#2563EB",
     "demoUrl": "",
     "repoUrl": "https://github.com/farrelzaki/SUDEPI",
     "published": true
@@ -100,6 +102,7 @@
       "en": "Logo and restaurant floor plan from the ReservaSeat app"
     },
     "illustration": false,
+    "accent": "#5B6B2E",
     "demoUrl": "",
     "repoUrl": "https://github.com/Mattazz44/frontendreservaseat",
     "published": true
@@ -136,6 +139,7 @@
       "en": "Cocokin! app screens: home, preferences, major recommendations"
     },
     "illustration": false,
+    "accent": "#EA4335",
     "demoUrl": "",
     "repoUrl": "https://github.com/Daliondroid/FajarWasHere-Joints",
     "published": true
@@ -168,6 +172,7 @@
       "en": "Illustration of the Trisis Gym QR check-in"
     },
     "illustration": true,
+    "accent": "#0B1220",
     "demoUrl": "",
     "repoUrl": "",
     "published": true
