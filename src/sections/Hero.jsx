@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { content, splitAccent, t } from '../content/index.js'
 import { TECH_ICONS } from '../content/icons.js'
-import { finePointer, gsap, prefersReduced, scrollToTarget, useLenis } from '../lib/motion.js'
+import { finePointer, gsap, prefersReduced } from '../lib/motion.js'
+import { Link } from '../lib/router.jsx'
 import { Avatar } from '../components/Chrome.jsx'
 
 const { settings } = content
@@ -88,8 +89,8 @@ function useIconTrail(ref, title, foot) {
       gsap.killTweensOf(el)
       gsap.set(el, { x, y, zIndex: z++, rotate: rot - Math.sign(dx || 1) * 18, scale: 0.3 * size, autoAlpha: 1 })
       gsap.timeline({ onComplete: () => { alive-- } })
-        .to(el, { scale: size, rotate: rot, x: `+=${dx * 0.18}`, y: `+=${dy * 0.18}`, duration: 0.6, ease: 'back.out(1.7)' })
-        .to(el, { scale: 0, autoAlpha: 0, y: '+=80', rotate: rot + rnd(-30, 30), duration: 0.7, ease: 'power3.in' }, `+=${rnd(0.5, 0.9)}`)
+        .to(el, { scale: size, rotate: rot, x: `+=${dx * 0.18}`, y: `+=${dy * 0.18}`, duration: 0.45, ease: 'back.out(1.7)' })
+        .to(el, { scale: 0, autoAlpha: 0, y: '+=80', rotate: rot + rnd(-30, 30), duration: 0.5, ease: 'power3.in' }, `+=${rnd(0.35, 0.65)}`)
     }
     const section = root.closest('section')
     section.addEventListener('pointermove', onMove)
@@ -104,7 +105,6 @@ export default function Hero({ lang, ui }) {
   const trail = useRef(null)
   const title = useRef(null)
   const foot = useRef(null)
-  const lenis = useLenis()
   useIconTrail(trail, title, foot)
 
   const [a, accent, b] = splitAccent(t(lang, settings.hero.title), t(lang, settings.hero.accent))
@@ -112,9 +112,9 @@ export default function Hero({ lang, ui }) {
   useEffect(() => {
     if (prefersReduced()) return
     const words = title.current.querySelectorAll('.w > span')
-    const tl = gsap.timeline({ delay: 0.15 })
-    tl.from(words, { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.06 })
-      .from('.hero-foot > *', { y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08 }, '-=0.7')
+    const tl = gsap.timeline({ delay: 0.05 })
+    tl.from(words, { yPercent: 110, duration: 0.8, ease: 'expo.out', stagger: 0.04 })
+      .from('.hero-foot > *', { y: 24, opacity: 0, duration: 0.65, ease: 'expo.out', stagger: 0.06 }, '-=0.55')
     return () => tl.kill()
   }, [lang])
 
@@ -136,10 +136,10 @@ export default function Hero({ lang, ui }) {
       <div className="hero-bottom">
         <div ref={foot} className="hero-foot">
           <p className="hero-intro">{t(lang, settings.hero.intro)}</p>
-          <a className="hero-cta" href="#contact" onClick={(e) => { e.preventDefault(); scrollToTarget(lenis, '#contact') }}>
+          <Link className="hero-cta" to="/kontak">
             <span>{ui.contactCta}</span>
             <Avatar size={28} />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

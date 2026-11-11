@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import TwoTone from '../components/TwoTone.jsx'
+import MoreLink from '../components/MoreLink.jsx'
 
 const { settings, services, projects } = content
 const byId = Object.fromEntries(projects.map((p) => [p.id, p]))
@@ -12,7 +13,7 @@ const TONES = ['blue', 'sky', 'ink', 'paper']
  * miring (rotateX) dan kartu berikutnya naik dari belakang. Ponsel/reduced motion:
  * kartu bertumpuk dengan position: sticky biasa.
  */
-export default function Services({ lang, ui, onOpen }) {
+export default function Services({ lang, ui, onOpen, bare = false }) {
   const root = useRef(null)
   const stage = useRef(null)
   const wide = useMedia('(min-width: 900px)')
@@ -51,10 +52,13 @@ export default function Services({ lang, ui, onOpen }) {
   }, [wide, lang])
 
   return (
-    <section ref={root} className="services" id="services" data-theme="light">
-      <header className="sec-head center">
-        <TwoTone as="h2" className="small" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
-      </header>
+    <section ref={root} className={`services ${bare ? 'bare' : ''}`} id="services" data-theme="light">
+      {!bare && (
+        <header className="sec-head center">
+          <TwoTone as="h2" className="small" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
+          <MoreLink to="/keahlian" label={ui.seeAll.services} />
+        </header>
+      )}
       <div ref={stage} className="tiles-stage">
         <div className="tiles">
           {services.map((s, i) => (

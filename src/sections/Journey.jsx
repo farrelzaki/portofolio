@@ -1,15 +1,18 @@
 import { content, formatPeriod, t } from '../content/index.js'
 import TwoTone from '../components/TwoTone.jsx'
+import MoreLink from '../components/MoreLink.jsx'
 
 const { settings, experiences } = content
 
-export default function Journey({ lang }) {
+export default function Journey({ lang, ui, bare = false }) {
   const sec = settings.sections.journey
   return (
-    <section className="journey" id="journey" data-theme="light">
-      <header className="sec-head left">
-        <TwoTone as="h2" className="small" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
-      </header>
+    <section className={`journey ${bare ? 'bare' : ''}`} id="journey" data-theme="light">
+      {!bare && (
+        <header className="sec-head left">
+          <TwoTone as="h2" className="small" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
+        </header>
+      )}
       <ol className="jlist">
         {experiences.map((e) => (
           <li key={e.id} className="jrow">
@@ -20,6 +23,7 @@ export default function Journey({ lang }) {
           </li>
         ))}
       </ol>
+      {!bare && <MoreLink to="/pengalaman" label={ui.seeAll.journey} />}
     </section>
   )
 }

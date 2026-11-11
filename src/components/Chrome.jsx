@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
-import { SECTIONS } from '../i18n.js'
-import { scrollToTarget, useLenis } from '../lib/motion.js'
+import { finePointer, useLenis } from '../lib/motion.js'
+import { Link, PAGES, pathOf } from '../lib/router.jsx'
 
-const { settings, projects } = content
+const { settings, projects, services, stack } = content
 
 /* Tema (terang/gelap) section yang sedang berada di bawah titik y tertentu. */
 function themeAt(y) {
@@ -15,28 +15,19 @@ function themeAt(y) {
   return 'light'
 }
 
-function useChromeState() {
-  const [state, setState] = useState({ top: 'light', mid: 'light', bottom: 'light', active: '', progress: 0, pastHero: false, nearEnd: false })
+function useChromeState(page) {
+  const [state, setState] = useState({ top: 'light', mid: 'light', bottom: 'light', progress: 0, pastHero: false, nearEnd: false })
   useEffect(() => {
     let raf = 0
     const run = () => {
       raf = 0
       const h = window.innerHeight
       const max = document.documentElement.scrollHeight - h
-      let active = ''
-      for (const id of SECTIONS) {
-        const el = document.getElementById(id)
-        if (el) {
-          const r = el.getBoundingClientRect()
-          if (r.top < h * 0.5 && r.bottom > h * 0.5) active = id
-        }
-      }
       const footer = document.getElementById('contact')
       setState({
         top: themeAt(36),
         mid: themeAt(h / 2),
         bottom: themeAt(h - 30),
-        active,
         progress: max > 0 ? window.scrollY / max : 0,
         pastHero: window.scrollY > h * 0.85,
         nearEnd: footer ? footer.getBoundingClientRect().top < h * 0.8 : false,
@@ -44,10 +35,12 @@ function useChromeState() {
     }
     const on = () => { if (!raf) raf = requestAnimationFrame(run) }
     run()
+    // Halaman baru: hitung ulang setelah transisi selesai menggambar.
+    const late = setTimeout(run, 900)
     window.addEventListener('scroll', on, { passive: true })
     window.addEventListener('resize', on)
-    return () => { window.removeEventListener('scroll', on); window.removeEventListener('resize', on) }
-  }, [])
+    return () => { clearTimeout(late); window.removeEventListener('scroll', on); window.removeEventListener('resize', on) }
+  }, [page])
   return state
 }
 
@@ -82,6 +75,7 @@ function useClock(timezone) {
 }
 
 const ICONS = {
+  home: <path d="M4 11l8-7 8 7M6 9.5V20h12V9.5M10 20v-5h4v5" />,
   work: <path d="M4 7h16v12H4zM9 7V5h6v2" />,
   services: <path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12" />,
   achievements: <path d="M8 4h8v5a4 4 0 0 1-8 0zM12 13v4M8 20h8M16 6h3a3 3 0 0 1-3 3M8 6H5a3 3 0 0 0 3 3" />,
@@ -103,9 +97,50 @@ export function Avatar({ size = 30 }) {
     : <span className="avatar avatar-initials" style={{ width: size, height: size }} aria-hidden="true">FZ</span>
 }
 
-export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
+/** Panel gelap yang terbuka saat ikon Projek/Keahlian di dock di-hover (meniru brandappart.com). */
+function Peek({ kind, lang, ui, onPick }) {
+  if (kind === 'work') {
+    return (
+      <>
+        <span className="peek-label mono">{ui.nav.work}</span>
+        <ul className="peek-links">
+          {projects.map((p, i) => (
+            <li key={p.id} style={{ '--i': i }}><Link to={`/projek/${p.id}`} onClick={onPick}>{p.name}</Link></li>
+          ))}
+          <li style={{ '--i': projects.length }}><Link to="/projek" onClick={onPick} className="peek-all">{ui.seeAll.work} →</Link></li>
+        </ul>
+        <span className="peek-label mono">{ui.featured}</span>
+        <div className="peek-cards">
+          {projects.slice(0, 2).map((p) => (
+            <Link key={p.id} to={`/projek/${p.id}`} onClick={onPick} className="peek-card" style={{ '--accent': p.accent }}>
+              <img src={p.cover} alt="" loading="lazy" />
+              <span><strong>{p.name}</strong><em className="mono">{p.year} · {t(lang, p.category)}</em></span>
+            </Link>
+          ))}
+        </div>
+      </>
+    )
+  }
+  return (
+    <>
+      <span className="peek-label mono">{ui.nav.services}</span>
+      <ul className="peek-links long">
+        {services.map((x, i) => (
+          <li key={x.id} style={{ '--i': i }}><Link to="/keahlian" onClick={onPick}>{t(lang, x.title)}</Link></li>
+        ))}
+      </ul>
+      <span className="peek-label mono">{ui.stack}</span>
+      <ul className="peek-chips">{stack.map((x) => <li key={x}>{x}</li>)}</ul>
+    </>
+  )
+}
+
+export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page }) {
   const lenis = useLenis()
-  const s = useChromeState()
+  const s = useChromeState(page)
+  const [peek, setPeekState] = useState(null)
+  const [peekKind, setPeekKind] = useState('work')
+  const setPeek = (k) => { setPeekState(k); if (k) setPeekKind(k) }
   const scrollingDown = useScrollingDown()
   const ctaVisible = s.pastHero && !s.nearEnd && !menuOpen && !scrollingDown
   const hideTop = scrollingDown && s.pastHero && !menuOpen
@@ -113,11 +148,14 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
   const flyout = useRef(null)
   const toggle = useRef(null)
 
-  const go = (id) => (e) => {
-    e.preventDefault()
-    setMenuOpen(false)
-    scrollToTarget(lenis, `#${id}`)
-  }
+  const closeAll = () => { setMenuOpen(false); setPeek(null) }
+
+  useEffect(() => {
+    if (!peek) return
+    const onKey = (e) => { if (e.key === 'Escape') setPeekState(null) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [peek])
 
   useEffect(() => {
     if (!menuOpen) return
@@ -130,24 +168,35 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
 
   return (
     <>
-      <a className="skip" href="#work" onClick={go('work')}>{ui.skip}</a>
+      <a className="skip" href="#main">{ui.skip}</a>
 
-      <a href="#top" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={settings.name} onClick={(e) => { e.preventDefault(); scrollToTarget(lenis, '#top') }}>
+      <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
         <span>Farrel</span><span>Zaki</span>
-      </a>
+      </Link>
 
-      <a href="#contact" className={`top-cta chrome-${s.top} ${hideTop ? 'hide' : ''}`} onClick={go('contact')}>
+      <Link to="/kontak" className={`top-cta chrome-${s.top} ${hideTop || page === 'contact' ? 'hide' : ''}`} onClick={closeAll}>
         <span>{ui.contactCta}</span>
-      </a>
+      </Link>
 
-      <nav className={`dock chrome-${s.mid}`} aria-label={ui.navigation}>
-        {SECTIONS.map((id) => (
-          <a key={id} href={`#${id}`} className={s.active === id ? 'on' : ''} onClick={go(id)} aria-label={ui.nav[id]}>
-            <Icon name={id} />
-            <span className="dock-tag">{ui.nav[id]}</span>
-          </a>
-        ))}
-      </nav>
+      <div className="navzone" onMouseLeave={() => setPeek(null)}>
+        <div className={`peek ${peek ? 'open' : ''}`} inert={!peek} data-lenis-prevent>
+          <Peek key={peekKind} kind={peekKind} lang={lang} ui={ui} onPick={closeAll} />
+        </div>
+        <nav className={`dock chrome-${peek ? 'dark' : s.mid}`} aria-label={ui.navigation}>
+          {PAGES.map(({ id, path }) => (
+            <Link
+              key={id} to={path} onClick={closeAll}
+              className={`${page === id ? 'on' : ''} ${peek === id ? 'peeking' : ''}`}
+              aria-current={page === id ? 'page' : undefined}
+              aria-label={ui.nav[id]}
+              onMouseEnter={() => finePointer() && setPeek(id === 'work' || id === 'services' ? id : null)}
+            >
+              <Icon name={id} />
+              <span className="dock-tag">{ui.nav[id]}</span>
+            </Link>
+          ))}
+        </nav>
+      </div>
 
       <div className={`progress chrome-${s.top}`} aria-hidden="true">
         <span style={{ transform: `translateY(${s.progress * 100}%)` }} />
@@ -171,23 +220,23 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen }) {
 
       <div className={`float-cta ${ctaVisible ? 'show' : ''}`} aria-hidden={!ctaVisible}>
         <span className="float-cta-text">{t(lang, settings.floatingCta)}</span>
-        <a href="#contact" onClick={go('contact')} tabIndex={ctaVisible ? 0 : -1}>
+        <Link to="/kontak" onClick={closeAll} tabIndex={ctaVisible ? 0 : -1}>
           {ui.contactCta} <Avatar size={26} />
-        </a>
+        </Link>
       </div>
 
       <div className={`scrim ${menuOpen ? 'show' : ''}`} onClick={() => setMenuOpen(false)} aria-hidden="true" />
       <div id="flyout" ref={flyout} className={`flyout ${menuOpen ? 'open' : ''}`} aria-hidden={!menuOpen} data-lenis-prevent>
         <ul className="flyout-links">
-          {SECTIONS.map((id, i) => (
+          {PAGES.map(({ id, path }, i) => (
             <li key={id} style={{ '--i': i }}>
-              <a href={`#${id}`} onClick={go(id)} tabIndex={menuOpen ? 0 : -1}>{ui.nav[id]}</a>
+              <Link to={path} onClick={closeAll} className={page === id ? 'on' : ''} tabIndex={menuOpen ? 0 : -1}>{ui.nav[id]}</Link>
             </li>
           ))}
         </ul>
         <ul className="flyout-small">
           {projects.map((p) => (
-            <li key={p.id}><a href="#work" onClick={go('work')} tabIndex={menuOpen ? 0 : -1}>{p.name}</a></li>
+            <li key={p.id}><Link to={`${pathOf('work')}/${p.id}`} onClick={closeAll} tabIndex={menuOpen ? 0 : -1}>{p.name}</Link></li>
           ))}
         </ul>
         <div className="flyout-foot">

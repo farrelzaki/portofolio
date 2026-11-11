@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import TwoTone from '../components/TwoTone.jsx'
+import MoreLink from '../components/MoreLink.jsx'
 
 const { settings, achievements } = content
 
@@ -43,6 +44,7 @@ export default function Achievements({ lang, ui }) {
       <header className="sec-head left">
         <TwoTone as="h2" className="small" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
       </header>
+      <MoreLink to="/prestasi" label={ui.seeAll.achievements} align="left" />
       <div className="fan">
         {achievements.map((a, i) => (
           <figure key={a.id} className={`acard ${i % 2 ? 'alt' : ''}`} style={{ zIndex: i + 1 }}>

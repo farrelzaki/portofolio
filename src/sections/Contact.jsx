@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
-import { gsap, prefersReduced, scrollToTarget, useLenis } from '../lib/motion.js'
-import { SECTIONS } from '../i18n.js'
+import { gsap, prefersReduced, useLenis } from '../lib/motion.js'
+import { Link, PAGES } from '../lib/router.jsx'
 import TwoTone from '../components/TwoTone.jsx'
 
 const { settings, stack, projects } = content
 
 /** Footer gelap: stiker teknologi jatuh dan memantul, judul raksasa, kontak, sitemap, wordmark. */
-export default function Contact({ lang, ui, setLang }) {
+export default function Contact({ lang, ui, setLang, asPage = false }) {
   const root = useRef(null)
   const lenis = useLenis()
   const sec = settings.sections.contact
@@ -27,7 +27,7 @@ export default function Contact({ lang, ui, setLang }) {
     return () => ctx.revert()
   }, [])
 
-  const go = (id) => (e) => { e.preventDefault(); scrollToTarget(lenis, `#${id}`) }
+  const toTop = (e) => { e.preventDefault(); if (lenis) lenis.scrollTo(0, { duration: 1.4 }); else window.scrollTo({ top: 0 }) }
   const links = [
     settings.links.github && ['GitHub', settings.links.github],
     settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
@@ -36,7 +36,7 @@ export default function Contact({ lang, ui, setLang }) {
   ].filter(Boolean)
 
   return (
-    <footer ref={root} className="contact" id="contact" data-theme="dark">
+    <footer ref={root} className={`contact ${asPage ? 'as-page' : ''}`} id="contact" data-theme="dark">
       <div className="stickers" aria-hidden="true">
         {stack.slice(0, 12).map((s, i) => (
           <span
@@ -48,7 +48,7 @@ export default function Contact({ lang, ui, setLang }) {
       </div>
 
       <div className="contact-main">
-        <TwoTone as="h2" className="huge" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
+        <TwoTone as={asPage ? 'h1' : 'h2'} className="huge" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
         <p className="contact-intro">{t(lang, sec.intro)}</p>
         <a className="contact-mail" href={`mailto:${settings.email}`} data-cursor={ui.sendEmail}>{settings.email}</a>
         <div className="contact-actions">
@@ -60,11 +60,11 @@ export default function Contact({ lang, ui, setLang }) {
       <div className="sitemap">
         <div>
           <h3 className="mono">{ui.navigation}</h3>
-          <ul>{SECTIONS.map((id) => <li key={id}><a href={`#${id}`} onClick={go(id)}>{ui.nav[id]}</a></li>)}</ul>
+          <ul>{PAGES.map(({ id, path }) => <li key={id}><Link to={path}>{ui.nav[id]}</Link></li>)}</ul>
         </div>
         <div>
           <h3 className="mono">{ui.projects}</h3>
-          <ul>{projects.map((p) => <li key={p.id}><a href="#work" onClick={go('work')}>{p.name}</a></li>)}</ul>
+          <ul>{projects.map((p) => <li key={p.id}><Link to={`/projek/${p.id}`}>{p.name}</Link></li>)}</ul>
         </div>
         <div>
           <h3 className="mono">{ui.contact}</h3>
@@ -87,7 +87,7 @@ export default function Contact({ lang, ui, setLang }) {
       <div className="foot-line mono">
         <span>© 2026 {settings.name}</span>
         <span>{ui.builtWith}</span>
-        <a href="#top" onClick={go('top')}>{ui.backToTop} ↑</a>
+        <a href="#main" onClick={toTop}>{ui.backToTop} ↑</a>
       </div>
       <p className="wordmark" aria-hidden="true">{settings.shortName}</p>
     </footer>
