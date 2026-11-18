@@ -134,18 +134,18 @@ export function AchievementsPage({ lang, ui }) {
       <PageHead index={3} label={ui.nav.achievements} lead={t(lang, sec.achievements.lead)} tail={t(lang, sec.achievements.tail)} count={`${achievements.length} ${ui.items}`} />
       <div className="agrid">
         {achievements.map((a, i) => (
-          <figure key={a.id} className={`acard ${i % 2 ? 'alt' : ''}`}>
+          <Link key={a.id} to={`/prestasi/${a.id}`} className={`acard acard-link ${i % 2 ? 'alt' : ''}`} data-cursor={ui.caseStudy}>
             <div className="acard-top mono">
               <span>{a.date.slice(0, 4)}</span>
               {a.highlight && <span className="badge">{ui.highlight}</span>}
             </div>
             <div className="acard-img"><img src={a.image} alt={t(lang, a.title)} loading="lazy" /></div>
-            <figcaption>
+            <span className="acard-cap">
               <strong>{t(lang, a.title)}</strong>
               <span className="mono">{t(lang, a.issuer)}</span>
-              {t(lang, a.description) && <p>{t(lang, a.description)}</p>}
-            </figcaption>
-          </figure>
+              {t(lang, a.description) && <span className="acard-desc">{t(lang, a.description)}</span>}
+            </span>
+          </Link>
         ))}
       </div>
     </section>

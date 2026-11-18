@@ -11,6 +11,53 @@
       "id": "Platform Web-GIS yang menyatukan cuaca real-time, angka bebas jentik dari kader, dan laporan warga menjadi peta risiko DBD dan Malaria per kecamatan, dibuat untuk TIC 9.0 2026. Saya membangun REST API-nya di Laravel 13 + PostgreSQL: autentikasi Sanctum, skor risiko 0–100 lewat job terjadwal, gamifikasi, dan ekspor laporan.",
       "en": "A Web-GIS platform that merges real-time weather, larvae-free rates from health volunteers and citizen reports into a dengue and malaria risk map per district, built for TIC 9.0 2026. I built its REST API in Laravel 13 + PostgreSQL: Sanctum auth, a 0–100 risk score computed by scheduled jobs, gamification and report exports."
     },
+    "story": {
+      "problem": {
+        "id": "Pencatatan Angka Bebas Jentik (ABJ) oleh kader masih di kertas lalu direkap manual ke Puskesmas, jadi lambat dan rawan salah. Genangan di lingkungan warga sering luput dari pemantauan, dan deteksi risiko DBD/Malaria masih reaktif karena belum memakai data cuaca real-time. Konteksnya besar: lebih dari 244 ribu kasus DBD di Indonesia pada 2024.",
+        "en": "Larvae-free rate (ABJ) records from health volunteers were still kept on paper and tallied manually at community health centres, which was slow and error-prone. Breeding spots around homes went unnoticed, and dengue/malaria risk detection stayed reactive because real-time weather data was not used. The stakes are high: more than 244,000 dengue cases in Indonesia in 2024."
+      },
+      "contribution": {
+        "id": "Saya memegang backend: REST API Laravel 13 dengan PostgreSQL, autentikasi Laravel Sanctum, perhitungan skor risiko 0–100 lewat job terjadwal, gamifikasi untuk laporan warga, dan ekspor laporan.",
+        "en": "I owned the backend: a Laravel 13 REST API on PostgreSQL, Laravel Sanctum auth, the 0–100 risk score computed by scheduled jobs, gamification for citizen reports, and report exports."
+      },
+      "process": [
+        {
+          "id": "Menyatukan tiga sumber data lewat API: cuaca Open-Meteo per kecamatan (suhu, curah hujan 7 hari, kelembapan, elevasi), ABJ kader 30 hari terakhir, dan laporan warga yang bisa dikirim anonim dengan foto.",
+          "en": "Merged three data sources through the API: Open-Meteo weather per district (temperature, 7-day rainfall, humidity, elevation), the last 30 days of volunteer ABJ data, and citizen reports that can be sent anonymously with photos."
+        },
+        {
+          "id": "Mengolah data lewat RiskScoreService dan SkorCuacaCalculator menjadi skor 0–100, lalu mengklasifikasikannya menjadi risiko rendah, sedang, atau tinggi per kecamatan.",
+          "en": "Processed the data through RiskScoreService and SkorCuacaCalculator into a 0–100 score, then classified each district as low, medium or high risk."
+        },
+        {
+          "id": "Menjalankan perhitungan dan notifikasi dengan queue job dan scheduler Laravel; skema akhirnya 11 model Eloquent dan 22 migrasi.",
+          "en": "Ran scoring and notifications on Laravel queue jobs and the scheduler; the final schema has 11 Eloquent models and 22 migrations."
+        },
+        {
+          "id": "Integrasi layanan luar: Cloudinary untuk foto laporan dan API wilayah emsifa untuk data kecamatan. Backend di-deploy ke Railway, frontend Vue 3 ke Vercel.",
+          "en": "Integrated outside services: Cloudinary for report photos and the emsifa region API for district data. The backend runs on Railway, the Vue 3 frontend on Vercel."
+        }
+      ],
+      "decisions": [],
+      "results": [
+        {
+          "id": "Peta risiko per kecamatan yang publik dan gratis, bisa diakses tanpa login, dengan skor 0–100 dan prediksi 14 hari ke depan.",
+          "en": "A public, free district risk map usable without logging in, with a 0–100 score and a 14-day forecast."
+        },
+        {
+          "id": "Notifikasi otomatis ke wilayah terdampak saat risiko naik atau cuaca ekstrem.",
+          "en": "Automatic notifications to affected areas when risk rises or the weather turns extreme."
+        },
+        {
+          "id": "Diikutkan di Technology Innovative Challenge (TIC) 9.0 2026, HIMATIF Universitas Jember.",
+          "en": "Entered in Technology Innovative Challenge (TIC) 9.0 2026, HIMATIF Universitas Jember."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
+    },
     "role": {
       "id": "Backend",
       "en": "Backend"
@@ -49,6 +96,66 @@
       "id": "Asisten transaksi tunai untuk tunanetra. Kamera membaca banyak lembar Rupiah sekaligus, menghitung kembalian, dan berjalan 100% offline di Android. Saya menangani backend: konversi YOLOv8-Nano ke ONNX INT8 (±6 MB), state machine transaksi, kalkulator kembalian, filter IoU, dan basis data lokal.",
       "en": "A cash-transaction assistant for blind users. The camera reads several Rupiah notes at once, calculates change and runs 100% offline on Android. I handled the backend: converting YOLOv8-Nano to ONNX INT8 (~6 MB), the transaction state machine, change calculator, IoU filter and the local database."
     },
+    "story": {
+      "problem": {
+        "id": "Ada lebih dari 4,1 juta penyandang disabilitas penglihatan di Indonesia (SUSENAS 2023), dan nominal uang kertas sebagian besar hanya bisa dikenali secara visual. Kode tunanetra (blind code) sulit diraba saat uang kusut, terlipat, atau aus. Aplikasi yang ada hanya membaca selembar demi selembar, tidak menghitung kembalian, sebagian berbayar, dan butuh internet.",
+        "en": "Indonesia has more than 4.1 million people with visual impairments (SUSENAS 2023), and banknote values are mostly visual. The tactile blind code is hard to feel on crumpled, folded or worn notes. Existing apps read one note at a time, do not check change, are sometimes paid, and need the internet."
+      },
+      "contribution": {
+        "id": "Di tim PenungguTokenReset saya memegang backend: mengonversi model YOLOv8-Nano ke ONNX INT8 (±6 MB), membangun state machine transaksi dan kalkulator kembalian, mengintegrasikan filter IoU dan deteksi keberadaan koin, serta mengelola basis data lokal di sisi klien.",
+        "en": "In team PenungguTokenReset I owned the backend: converting the YOLOv8-Nano model to ONNX INT8 (~6 MB), building the transaction state machine and change calculator, wiring the IoU filter and coin-presence detection, and managing the client-side local database."
+      },
+      "process": [
+        {
+          "id": "Merancang alur 4 fase tanpa perlu mencari tombol: bidik uang dengan panduan nada (Sonar Aiming), mode transaksi dan kalkulator kembalian, layar kasir yang dibalik ke pedagang, lalu cek kembalian.",
+          "en": "Designed a 4-phase flow that never requires finding a button: aim at the money with tone guidance (Sonar Aiming), transaction mode and change calculator, a merchant-facing display, then a change check."
+        },
+        {
+          "id": "Model dilatih sebelum hackathon sesuai regulasi, dengan dataset ±1.400 citra yang diaugmentasi (kusut, redup, terlipat) untuk 15 kelas: 14 pecahan TE 2016 & 2022 plus satu kelas koin.",
+          "en": "The model was trained before the hackathon, as the rules required, on ~1,400 augmented images (crumpled, dim, folded) for 15 classes: 14 notes from the 2016 and 2022 series plus one coin class."
+        },
+        {
+          "id": "Menyusun basis data IndexedDB dengan 8 object store, dari referensi denominasi, versi model, sesi transaksi, sampai log deteksi yang menjadi jejak audit.",
+          "en": "Built an IndexedDB database with 8 object stores, from denomination reference and model version to transaction sessions and detection logs that serve as an audit trail."
+        },
+        {
+          "id": "Membagi 24 jam live coding di Unpad menjadi 8 jam fondasi paralel, 8 jam integrasi dan native (Capacitor APK), dan 8 jam pengujian serta demo.",
+          "en": "Split the 24-hour on-site live coding at Unpad into 8 hours of parallel foundations, 8 hours of integration and native packaging (Capacitor APK), and 8 hours of testing and demo prep."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "100% offline di ponsel (edge AI): tanpa biaya server, data transaksi tidak pernah keluar dari perangkat, dan tetap jalan di pasar yang sinyalnya buruk.",
+          "en": "Fully offline on the phone (edge AI): no server costs, transaction data never leaves the device, and it works in markets with poor signal."
+        },
+        {
+          "id": "Ambang keyakinan ≥ 0,85 dengan kebijakan abstain: kalau ragu, sistem meminta pindai ulang alih-alih menebak, karena salah sebut nominal bisa merugikan pengguna.",
+          "en": "A confidence threshold of ≥ 0.85 with an abstain policy: when unsure, the system asks for a rescan instead of guessing, because a wrong value can cost the user money."
+        },
+        {
+          "id": "Filter IoU > 0,40 untuk memisahkan lembar yang bertumpuk agar tidak terhitung dua kali.",
+          "en": "An IoU > 0.40 filter to separate overlapping notes so none are counted twice."
+        },
+        {
+          "id": "Koin hanya dideteksi keberadaannya; nominal koin dihitung dari selisih antara kembalian wajib dan total uang kertas.",
+          "en": "Coins are only detected as present; the coin amount is derived from the gap between the required change and the counted notes."
+        },
+        {
+          "id": "Model YOLOv8-Nano terkuantisasi INT8 dijalankan dengan ONNX Runtime Web + WASM SIMD supaya ringan di HP dengan RAM terbatas.",
+          "en": "An INT8-quantised YOLOv8-Nano runs on ONNX Runtime Web + WASM SIMD so it stays light on phones with little RAM."
+        }
+      ],
+      "results": [
+        {
+          "id": "Finalis Hackathon IFEST 2026, Informatics Festival FMIPA Universitas Padjadjaran.",
+          "en": "Finalist, Hackathon IFEST 2026, Informatics Festival, FMIPA Universitas Padjadjaran."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
+    },
     "role": {
       "id": "Backend · rancangan pipeline model",
       "en": "Backend · model pipeline design"
@@ -85,6 +192,66 @@
       "id": "Sistem reservasi meja restoran multi-cabang. Satu RESTful API Laravel + MongoDB melayani aplikasi Flutter untuk pelanggan dan dasbor Blade untuk admin. 10 endpoint diuji dengan PHPUnit dan Postman, respons rata-rata 214–589 ms, dan konflik slot waktu ditolak dengan 422.",
       "en": "A multi-branch restaurant table reservation system. One Laravel + MongoDB RESTful API serves a Flutter app for customers and a Blade dashboard for admins. 10 endpoints tested with PHPUnit and Postman, 214–589 ms average response, and overlapping slots rejected with a 422."
     },
+    "story": {
+      "problem": {
+        "id": "Banyak restoran kecil dan menengah masih menerima reservasi lewat buku atau telepon, sehingga rawan reservasi ganda dan sulit dipantau terpusat, apalagi kalau restorannya punya lebih dari satu cabang. Pelanggan butuh aplikasi mobile, sementara pengelola butuh dasbor web, dan keduanya harus memakai data yang sama.",
+        "en": "Many small and mid-sized restaurants still take bookings by notebook or phone, which invites double bookings and is hard to monitor centrally, especially across several branches. Customers need a mobile app and managers need a web dashboard, and both must share the same data."
+      },
+      "contribution": {
+        "id": "",
+        "en": ""
+      },
+      "process": [
+        {
+          "id": "Mengikuti alur Waterfall: analisis kebutuhan, perancangan basis data dan endpoint, implementasi, lalu pengujian.",
+          "en": "Followed a Waterfall flow: requirements, database and endpoint design, implementation, then testing."
+        },
+        {
+          "id": "Membangun 10 kelompok endpoint: autentikasi, cabang, ketersediaan jam dan meja, serta siklus reservasi (buat, check-in lewat kode QR, selesai, batal) dengan slot 30 menit.",
+          "en": "Built 10 endpoint groups: auth, branches, hour and table availability, and the reservation lifecycle (create, QR check-in, complete, cancel) on 30-minute slots."
+        },
+        {
+          "id": "Menguji dengan PHPUnit dan Postman (black-box), 10 iterasi per endpoint, termasuk urutan alur bisnis reservasi → check-in → selesai.",
+          "en": "Tested with PHPUnit and Postman (black-box), 10 iterations per endpoint, including the business sequence reserve → check-in → complete."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "Laravel dijadikan murni REST server (decoupled), sehingga satu backend melayani aplikasi Flutter pelanggan dan dasbor Blade admin tanpa sinkronisasi manual.",
+          "en": "Laravel acts purely as a REST server (decoupled), so one backend serves the customer Flutter app and the admin Blade dashboard without manual syncing."
+        },
+        {
+          "id": "MongoDB dengan daftar slot terblokir disimpan sebagai array di dalam dokumen reservasi, jadi tidak perlu tabel pivot dan join.",
+          "en": "MongoDB, with blocked slots stored as an array inside each reservation document, so no pivot table or joins are needed."
+        },
+        {
+          "id": "Slot yang bertabrakan dengan reservasi aktif (pending, paid, checked_in) ditolak dengan status 422 untuk mencegah reservasi ganda.",
+          "en": "Slots that clash with an active booking (pending, paid, checked_in) are rejected with a 422 to prevent double bookings."
+        },
+        {
+          "id": "Bearer token kustom yang di-hash SHA-256 untuk mengamankan pertukaran data antar-platform.",
+          "en": "A custom bearer token hashed with SHA-256 to secure data exchange across platforms."
+        }
+      ],
+      "results": [
+        {
+          "id": "Semua test PHPUnit lolos (231 ms) dan ke-10 endpoint merespons sesuai skenario, baik data valid (200) maupun slot bertabrakan (422).",
+          "en": "All PHPUnit tests passed (231 ms) and all 10 endpoints responded as specified, for valid data (200) and clashing slots (422)."
+        },
+        {
+          "id": "Waktu respons rata-rata 214–589 ms; paling lambat di register karena hashing bcrypt.",
+          "en": "Average response time of 214–589 ms; register is slowest because of bcrypt hashing."
+        },
+        {
+          "id": "Hasilnya ditulis sebagai jurnal Project Based Learning bersama tim.",
+          "en": "The work was written up as a Project Based Learning paper with the team."
+        }
+      ],
+      "reflection": {
+        "id": "Cakupan test masih tipis (2 test case), jadi skenario kritis seperti auto-cancel, akses berbasis peran, dan check-in QR perlu diuji. Pengujian juga baru di lingkungan pengembangan, sehingga load testing, caching data cabang, dan notifikasi real-time (WebSocket) jadi langkah berikutnya.",
+        "en": "Test coverage is still thin (2 test cases), so critical paths like auto-cancel, role-based access and QR check-in need tests. Testing also only ran in a development environment, so load testing, caching branch data and real-time notifications (WebSocket) are the next steps."
+      }
+    },
     "role": {
       "id": "",
       "en": ""
@@ -118,6 +285,58 @@
     "description": {
       "id": "Platform pemilihan jurusan dan estimasi peluang masuk PTN untuk siswa kelas 12, berbasis data resmi seleksi nasional, dibuat untuk Hackathon JOINTS UGM 2026. Saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
       "en": "A major-selection and state-university admission-chance platform for final-year students, built on official national selection data for the JOINTS UGM 2026 Hackathon. I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, Gemini integration and QA."
+    },
+    "story": {
+      "problem": {
+        "id": "Riset ICCN (2023) mencatat 87% mahasiswa merasa salah jurusan. Mulai SNPMB 2026, siswa yang lolos SNBP terkunci dan tidak boleh ikut UTBK-SNBT maupun jalur mandiri PTN, sementara nilai TKA ikut menentukan eligibilitas. Siswa kelas 12 harus memilih dari 5.150 prodi di 146 PTN tanpa alat yang objektif, dan chatbot AI biasa sering mengarang angka peluang.",
+        "en": "ICCN research (2023) found 87% of Indonesian students feel they chose the wrong major. From SNPMB 2026, students admitted through SNBP are locked out of UTBK-SNBT and independent tracks, and academic test (TKA) scores now count toward eligibility. Final-year students pick from 5,150 programmes at 146 state universities without an objective tool, and generic AI chatbots often make up admission odds."
+      },
+      "contribution": {
+        "id": "Di tim FajarWasHere saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
+        "en": "In team FajarWasHere I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, the Gemini integration and QA."
+      },
+      "process": [
+        {
+          "id": "Asesmen minat 30 butir O*NET Holland RIASEC, dicocokkan ke profil karier dengan korelasi Pearson.",
+          "en": "A 30-item O*NET Holland RIASEC interest assessment, matched to career profiles with Pearson correlation."
+        },
+        {
+          "id": "Input akademik per jalur: NPSN sekolah (kuota eligibilitas), rapor, dan 2 mapel pilihan TKA untuk SNBP, atau target 7 subtes UTBK untuk SNBT.",
+          "en": "Academic input per track: school NPSN (eligibility quota), report grades and 2 elective TKA subjects for SNBP, or 7 UTBK subtest targets for SNBT."
+        },
+        {
+          "id": "Simulasi jurusan berisi 3 studi kasus tingkat awal kuliah, lalu 3 kartu rekomendasi: impian, pengaman, dan alternatif.",
+          "en": "A major simulation with 3 first-year case studies, then 3 recommendation cards: dream, safety net and alternative."
+        },
+        {
+          "id": "Dibangun dengan Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth), dan Gemini 2.5 Flash selama periode hackathon 12–16 September 2026.",
+          "en": "Built with Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth) and Gemini 2.5 Flash during the 12–16 September 2026 hackathon window."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "Angka peluang 100% dihitung mesin skoring deterministik (pure function TypeScript), bukan oleh LLM, karena LLM rawan halusinasi angka.",
+          "en": "Admission odds come 100% from a deterministic scoring engine (pure TypeScript functions), never from the LLM, because LLMs hallucinate numbers."
+        },
+        {
+          "id": "Gemini hanya jadi narator: ia mengambil angka lewat function calling ke API internal dan tidak punya wewenang mengubahnya.",
+          "en": "Gemini is only the narrator: it fetches numbers via function calling to the internal API and cannot change them."
+        },
+        {
+          "id": "Memakai Gemini 2.5 Flash karena Gemini 1.5 Flash sudah dihentikan, dan 2.5 Flash cepat serta mendukung output JSON terstruktur.",
+          "en": "Used Gemini 2.5 Flash because 1.5 Flash was discontinued, and 2.5 Flash is fast and supports structured JSON output."
+        }
+      ],
+      "results": [
+        {
+          "id": "MVP fungsional untuk Hackathon JOINTS UGM 2026, lengkap dengan demo interaktif untuk juri.",
+          "en": "A working MVP for the JOINTS UGM 2026 Hackathon, with an interactive demo for the judges."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
     },
     "role": {
       "id": "Backend, Data & AI",
@@ -155,6 +374,23 @@
     "description": {
       "id": "Sistem scan absensi untuk gym klien, menggantikan pencatatan manual di buku yang menyulitkan pemantauan dan manajemen membership. Saya mengerjakannya sebagai full-stack developer.",
       "en": "A scan-based attendance system for a client gym, replacing paper-book logging that made memberships hard to track and manage. I worked on it as the full-stack developer."
+    },
+    "story": {
+      "problem": {
+        "id": "Absensi gym klien masih dicatat manual di buku, sehingga kehadiran sulit dipantau dan membership sulit dikelola.",
+        "en": "The client gym still logged attendance by hand in a book, which made attendance hard to track and memberships hard to manage."
+      },
+      "contribution": {
+        "id": "Saya mengerjakan sistem ini sebagai full-stack developer.",
+        "en": "I built this system as the full-stack developer."
+      },
+      "process": [],
+      "decisions": [],
+      "results": [],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
     },
     "role": {
       "id": "Full-stack",

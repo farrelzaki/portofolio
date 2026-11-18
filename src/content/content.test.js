@@ -47,6 +47,11 @@ describe('file konten valid terhadap skema', () => {
     const ids = new Set(read('projects.json').map((p) => p.id))
     for (const s of read('services.json')) for (const p of s.projects) expect(ids.has(p), `${s.id} → ${p}`).toBe(true)
   })
+
+  it('prestasi yang ditautkan ke projek merujuk projek yang ada', () => {
+    const ids = new Set(read('projects.json').map((p) => p.id))
+    for (const a of read('achievements.json')) if (a.project) expect(ids.has(a.project), `${a.id} → ${a.project}`).toBe(true)
+  })
 })
 
 describe('t()', () => {

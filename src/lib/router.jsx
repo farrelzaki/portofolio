@@ -39,7 +39,7 @@ export function matchRoute(path) {
   const [, first, second] = clean.split('/')
   const hit = PAGES.find((p) => p.path === `/${first}`)
   if (!hit) return { page: 'notfound' }
-  if (second && hit.id !== 'work') return { page: 'notfound' }
+  if (second && hit.id !== 'work' && hit.id !== 'achievements') return { page: 'notfound' }
   return { page: hit.id, param: second }
 }
 

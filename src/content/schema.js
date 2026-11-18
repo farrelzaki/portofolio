@@ -10,6 +10,16 @@ const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/)
 
 const pair = z.object({ lead: textRequired, tail: textRequired })
 
+/** Studi kasus. Semua bagian boleh kosong; bagian kosong tidak ditampilkan. */
+const story = z.object({
+  problem: text,
+  contribution: text,
+  process: z.array(textRequired),
+  decisions: z.array(textRequired),
+  results: z.array(textRequired),
+  reflection: text,
+})
+
 export const settingsSchema = z.object({
   name: z.string().min(1),
   shortName: z.string().min(1),
@@ -42,6 +52,7 @@ export const projectSchema = z.object({
   year: z.union([z.literal(''), z.string().regex(/^\d{4}$/)]),
   category: textRequired,
   description: textRequired,
+  story,
   role: text,
   tags: z.array(z.string().min(1)),
   cover: media,
@@ -78,6 +89,8 @@ export const achievementSchema = z.object({
   title: textRequired,
   issuer: textRequired,
   description: text,
+  project: z.union([z.literal(''), slug]),
+  story,
   image: media,
   date: z.string().regex(/^\d{4}(-(0[1-9]|1[0-2]))?$/),
   highlight: z.boolean(),
