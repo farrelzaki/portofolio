@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
-import { finePointer, gsap, prefersReduced, useLenis } from '../lib/motion.js'
+import { finePointer, gsap, prefersReduced } from '../lib/motion.js'
 import { Link, PAGES } from '../lib/router.jsx'
 import { Avatar } from '../components/Chrome.jsx'
+import Icon from '../components/Icon.jsx'
+import { FootBar, Wordmark } from '../sections/Contact.jsx'
 import './pages.css'
 
 const { settings, services } = content
@@ -38,13 +40,12 @@ function useMagnet(ref) {
 
 /**
  * Halaman Kontak (ref. dennissnellenberg.com/contact + pilihan chip cuberto.com/contacts):
- * pertanyaan bernomor yang menyusun email atau pesan WhatsApp. Tidak ada server: tombol
+ * formulir singkat yang menyusun email atau pesan WhatsApp. Tidak ada server: tombol
  * kirim hanya membuka aplikasi email / WhatsApp pengunjung dengan pesan yang sudah terisi.
  */
 export default function ContactPage({ lang, ui, setLang }) {
   const root = useRef(null)
   const send = useRef(null)
-  const lenis = useLenis()
   const time = useClock(settings.timezone)
   const [form, setForm] = useState({ name: '', email: '', topics: [], message: '' })
   const [copied, setCopied] = useState(false)
@@ -82,7 +83,6 @@ export default function ContactPage({ lang, ui, setLang }) {
 
   const title = `${t(lang, sec.lead)} ${t(lang, sec.tail)}`
   const words = title.split(' ')
-  const toTop = (e) => { e.preventDefault(); if (lenis) lenis.scrollTo(0, { duration: 1.4 }); else window.scrollTo({ top: 0 }) }
 
   return (
     <div ref={root} className="ct-page" data-theme="dark" id="contact">
@@ -96,24 +96,21 @@ export default function ContactPage({ lang, ui, setLang }) {
         </h1>
         <div className="ct-me ct-fade">
           <Avatar size={96} />
-          <span className="ct-arrow" aria-hidden="true">↘</span>
+          <p className="ct-lede">{t(lang, sec.intro)}</p>
         </div>
       </section>
 
       <div className="ct-grid">
         <form className="ct-form" onSubmit={(e) => { e.preventDefault(); if (ready) window.location.href = mailto }}>
           <label className="ct-q">
-            <span className="mono">01</span>
             <span className="ct-ask">{c.qName}</span>
             <input value={form.name} onChange={set('name')} placeholder={c.phName} autoComplete="name" />
           </label>
           <label className="ct-q">
-            <span className="mono">02</span>
             <span className="ct-ask">{c.qEmail}</span>
             <input type="email" value={form.email} onChange={set('email')} placeholder={c.phEmail} autoComplete="email" />
           </label>
           <fieldset className="ct-q">
-            <span className="mono">03</span>
             <legend className="ct-ask">{c.qTopics}</legend>
             <div className="ct-chips">
               {options.map((o) => (
@@ -122,43 +119,43 @@ export default function ContactPage({ lang, ui, setLang }) {
             </div>
           </fieldset>
           <label className="ct-q">
-            <span className="mono">04</span>
-            <span className="ct-ask">{c.qMessage} *</span>
+            <span className="ct-ask">{c.qMessage}</span>
             <textarea value={form.message} onChange={set('message')} placeholder={c.phMessage} rows={4} required />
           </label>
 
           <div className="ct-send">
-            <button ref={send} type="submit" className="ct-send-btn" disabled={!ready} data-cursor={ready ? c.sendMail : undefined}>
+            <button ref={send} type="submit" className="ct-send-btn" disabled={!ready} aria-describedby="ct-hint">
               <span>{c.sendMail}</span>
+              <Icon name="right" />
             </button>
             <div className="ct-send-alt">
-              <a className={`pill pill-ghost ${ready ? '' : 'off'}`} href={ready ? wa : undefined} aria-disabled={!ready} target="_blank" rel="noreferrer">{c.sendWa} ↗</a>
-              <p className="mono">{ready ? c.note : c.needMessage}</p>
+              <a className={`pill pill-ghost ${ready ? '' : 'off'}`} href={ready ? wa : undefined} aria-disabled={!ready} target="_blank" rel="noreferrer">{c.sendWa} <Icon name="external" /></a>
+              <p id="ct-hint" aria-live="polite">{ready ? c.note : c.needMessage}</p>
             </div>
           </div>
         </form>
 
         <aside className="ct-info ct-fade">
           <div>
-            <h2 className="mono">{c.details}</h2>
-            <button type="button" className="ct-mail" onClick={copy} aria-live="polite">
-              <span>{settings.email}</span>
-              <em className="mono">{copied ? c.copied : c.copy}</em>
+            <h2>{c.details}</h2>
+            <a className="ct-mail" href={`mailto:${settings.email}`}>{settings.email}</a>
+            <button type="button" className="ct-copy" onClick={copy} aria-live="polite">
+              <Icon name={copied ? 'check' : 'copy'} /> {copied ? c.copied : c.copy}
             </button>
-            <a href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp ↗</a>
-            {settings.links.github && <a href={settings.links.github} target="_blank" rel="noreferrer">GitHub ↗</a>}
+            <a href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <Icon name="external" /></a>
+            {settings.links.github && <a href={settings.links.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a>}
           </div>
           <div>
-            <h2 className="mono">{c.where}</h2>
+            <h2>{c.where}</h2>
             <p>{settings.location}</p>
-            <p className="ct-clock">{time} <span className="mono">WIB</span></p>
+            <p className="ct-clock">{time} <span>WIB</span></p>
           </div>
           <div>
-            <h2 className="mono">{ui.navigation}</h2>
+            <h2>{ui.navigation}</h2>
             <ul className="ct-nav">{PAGES.map(({ id, path }) => <li key={id}><Link to={path}>{ui.nav[id]}</Link></li>)}</ul>
           </div>
           <div>
-            <h2 className="mono">{ui.language}</h2>
+            <h2>{ui.language}</h2>
             <div className="lang lang-foot" role="group" aria-label={ui.language}>
               {['id', 'en'].map((l) => (
                 <button key={l} type="button" className={lang === l ? 'on' : ''} aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
@@ -168,10 +165,9 @@ export default function ContactPage({ lang, ui, setLang }) {
         </aside>
       </div>
 
-      <footer className="ct-foot mono">
-        <span>© 2026 {settings.name}</span>
-        <span>{ui.builtWith}</span>
-        <a href="#main" onClick={toTop}>{ui.backToTop} ↑</a>
+      <footer className="ct-foot">
+        <FootBar ui={ui} />
+        <Wordmark />
       </footer>
     </div>
   )

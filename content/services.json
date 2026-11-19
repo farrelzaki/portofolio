@@ -2,12 +2,12 @@
   {
     "id": "backend",
     "title": {
-      "id": "Backend yang tidak gampang rusak",
-      "en": "Backends that hold up"
+      "id": "Backend & API",
+      "en": "Backend & APIs"
     },
     "description": {
-      "id": "REST API, logika bisnis, dan basis data yang konsisten. Validasi konflik slot, autentikasi token, state machine, dan pengujian otomatis.",
-      "en": "REST APIs, business logic and consistent data. Slot-conflict validation, token auth, state machines and automated tests."
+      "id": "REST API, logika bisnis, dan basis data yang konsisten: validasi konflik jadwal, autentikasi token, state machine, dan pengujian otomatis.",
+      "en": "REST APIs, business logic and consistent data: schedule-conflict validation, token auth, state machines and automated tests."
     },
     "tags": [
       "Laravel",
@@ -25,12 +25,12 @@
   {
     "id": "frontend",
     "title": {
-      "id": "Antarmuka yang jelas dan cepat",
-      "en": "Clear, fast interfaces"
+      "id": "Antarmuka web",
+      "en": "Web interfaces"
     },
     "description": {
-      "id": "Komponen React, aksesibilitas, dan animasi yang punya alasan. Tampilan yang mudah dipakai di laptop maupun ponsel.",
-      "en": "React components, accessibility and motion that has a reason. Interfaces that work on laptop and phone alike."
+      "id": "Komponen React yang aksesibel, animasi yang punya tujuan, dan tampilan yang nyaman di laptop maupun ponsel.",
+      "en": "Accessible React components, purposeful motion, and layouts that work on laptop and phone."
     },
     "tags": [
       "React",
@@ -47,12 +47,12 @@
   {
     "id": "fullstack",
     "title": {
-      "id": "Full-stack sampai dipakai",
-      "en": "Full-stack, through to real use"
+      "id": "Full-stack",
+      "en": "Full-stack"
     },
     "description": {
-      "id": "Dari database sampai layar, dibawa sampai dipakai. Salah satunya sistem scan absensi gym yang menggantikan buku catatan.",
-      "en": "From database to screen, carried through to real use. One of them is a gym attendance scanner that replaced a paper logbook."
+      "id": "Dari basis data sampai layar, dikerjakan hingga dipakai pengguna. Salah satunya sistem absensi gym yang menggantikan buku catatan.",
+      "en": "From database to screen, carried through to real users, including a gym attendance system that replaced a paper logbook."
     },
     "tags": [
       "REST API",
@@ -69,12 +69,12 @@
   {
     "id": "design",
     "title": {
-      "id": "Desain sebelum kode",
-      "en": "Design before code"
+      "id": "Desain UI/UX",
+      "en": "UI/UX design"
     },
     "description": {
-      "id": "Rancangan UI/UX di Figma sebelum kode ditulis, supaya yang dibangun sudah jelas bentuknya.",
-      "en": "UI/UX designed in Figma before code is written, so what gets built already has a clear shape."
+      "id": "Merancang alur dan antarmuka di Figma sebelum menulis kode, agar arah produk jelas sejak awal.",
+      "en": "Designing flows and interfaces in Figma before writing code, so the product’s direction is clear from the start."
     },
     "tags": [
       "Figma",

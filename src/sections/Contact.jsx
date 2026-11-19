@@ -1,95 +1,157 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, useLenis } from '../lib/motion.js'
 import { Link, PAGES } from '../lib/router.jsx'
-import TwoTone from '../components/TwoTone.jsx'
+import { Avatar } from '../components/Chrome.jsx'
+import Icon from '../components/Icon.jsx'
 
-const { settings, stack, projects } = content
+const { settings, projects } = content
 
-/** Footer gelap: stiker teknologi jatuh dan memantul, judul raksasa, kontak, sitemap, wordmark. */
-export default function Contact({ lang, ui, setLang, asPage = false }) {
-  const root = useRef(null)
+function useClock(tz) {
+  const fmt = () => new Intl.DateTimeFormat('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: tz }).format(new Date()).replace('.', ':')
+  const [now, setNow] = useState(fmt)
+  useEffect(() => {
+    const id = setInterval(() => setNow(fmt()), 15000)
+    return () => clearInterval(id)
+  })
+  return now
+}
+
+/** Wordmark selebar footer: ukuran huruf dihitung agar pas satu baris, huruf naik bergantian saat terlihat. */
+export function Wordmark() {
+  const box = useRef(null)
+  const text = useRef(null)
+  useLayoutEffect(() => {
+    const fit = () => {
+      const el = text.current
+      if (!el || !box.current) return
+      el.style.fontSize = '100px'
+      const w = el.getBoundingClientRect().width
+      const cs = getComputedStyle(box.current)
+      const room = box.current.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)
+      // Sedikit ruang cadangan agar huruf terakhir (dan titik "i") tidak terpotong.
+      if (w) el.style.fontSize = `${(100 * room * 0.985) / w}px`
+    }
+    fit()
+    document.fonts?.ready.then(fit)
+    window.addEventListener('resize', fit)
+    return () => window.removeEventListener('resize', fit)
+  }, [])
+  useEffect(() => {
+    if (prefersReduced()) return
+    const tw = gsap.from(box.current.querySelectorAll('.wm-ch'), {
+      yPercent: 100, duration: 1.2, ease: 'expo.out', stagger: 0.035,
+      scrollTrigger: { trigger: box.current, start: 'top 98%' },
+    })
+    return () => { tw.scrollTrigger?.kill(); tw.kill() }
+  }, [])
+  return (
+    <div ref={box} className="wm" aria-hidden="true">
+      <span ref={text} className="wm-text">
+        {settings.shortName.split('').map((c, i) => <span key={i} className="wm-ch">{c === ' ' ? ' ' : c}</span>)}
+      </span>
+    </div>
+  )
+}
+
+/** Baris paling bawah: hak cipta, kredit, kembali ke atas. Dipakai footer dan halaman Kontak. */
+export function FootBar({ ui }) {
   const lenis = useLenis()
+  const toTop = (e) => { e.preventDefault(); if (lenis) lenis.scrollTo(0, { duration: 1.4 }); else window.scrollTo({ top: 0 }) }
+  return (
+    <div className="ft-bar">
+      <span>© 2026 {settings.name}</span>
+      <span>{ui.builtWith}</span>
+      <a href="#main" onClick={toTop} className="ft-top-link">{ui.backToTop} <Icon name="up" /></a>
+    </div>
+  )
+}
+
+/** Footer di semua halaman kecuali Kontak. */
+export default function Contact({ lang, ui, setLang }) {
+  const root = useRef(null)
+  const time = useClock(settings.timezone)
+  const [copied, setCopied] = useState(false)
   const sec = settings.sections.contact
 
   useEffect(() => {
     if (prefersReduced()) return
     const ctx = gsap.context(() => {
-      gsap.from('.sticker', {
-        y: () => -window.innerHeight * 0.7,
-        rotate: () => gsap.utils.random(-90, 90),
-        duration: 1.6,
-        ease: 'bounce.out',
-        stagger: { each: 0.07, from: 'random' },
-        scrollTrigger: { trigger: root.current, start: 'top 75%' },
-      })
+      gsap.from('.ft-line > span', { yPercent: 105, duration: 1.1, ease: 'expo.out', stagger: 0.08, scrollTrigger: { trigger: '.ft-title', start: 'top 88%' } })
     }, root)
     return () => ctx.revert()
-  }, [])
+  }, [lang])
 
-  const toTop = (e) => { e.preventDefault(); if (lenis) lenis.scrollTo(0, { duration: 1.4 }); else window.scrollTo({ top: 0 }) }
-  const links = [
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(settings.email); setCopied(true); setTimeout(() => setCopied(false), 1800) } catch { /* clipboard diblokir */ }
+  }
+
+  const socials = [
+    ['Email', `mailto:${settings.email}`],
+    ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
     settings.links.github && ['GitHub', settings.links.github],
     settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
     settings.links.instagram && ['Instagram', settings.links.instagram],
-    settings.links.cv && ['CV', settings.links.cv],
   ].filter(Boolean)
 
   return (
-    <footer ref={root} className={`contact ${asPage ? 'as-page' : ''}`} id="contact" data-theme="dark">
-      <div className="stickers" aria-hidden="true">
-        {stack.slice(0, 12).map((s, i) => (
-          <span
-            key={s}
-            className={`sticker tone-${['blue', 'paper', 'sky', 'ink'][i % 4]}`}
-            style={{ '--x': `${4 + i * 7.9}%`, '--y': `${[18, 58, 30, 76, 12, 50, 84, 26, 64, 10, 44, 72][i]}px`, '--r': `${(i % 2 ? 1 : -1) * (5 + (i * 11) % 22)}deg` }}
-          >{s}</span>
-        ))}
-      </div>
-
-      <div className="contact-main">
-        <TwoTone as={asPage ? 'h1' : 'h2'} className="huge" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
-        <p className="contact-intro">{t(lang, sec.intro)}</p>
-        <a className="contact-mail" href={`mailto:${settings.email}`} data-cursor={ui.sendEmail}>{settings.email}</a>
-        <div className="contact-actions">
-          <a className="pill pill-light" href={`mailto:${settings.email}`}>{ui.sendEmail}</a>
-          <a className="pill pill-ghost" href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">{ui.whatsapp}</a>
+    <footer ref={root} className="ft" id="contact" data-theme="dark">
+      <div className="ft-head">
+        <h2 className="ft-title" aria-label={`${t(lang, sec.lead)} ${t(lang, sec.tail)}`}>
+          <span className="ft-line" aria-hidden="true"><span>{t(lang, sec.lead)}</span></span>
+          <span className="ft-line ft-tail" aria-hidden="true"><span>{t(lang, sec.tail)}</span></span>
+        </h2>
+        <div className="ft-pitch">
+          <p>{t(lang, sec.intro)}</p>
+          <div className="ft-actions">
+            <Link to="/kontak" className="ft-primary">
+              <Avatar size={34} />
+              <span>{ui.startChat}</span>
+              <Icon name="right" />
+            </Link>
+            <a className="ft-secondary" href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <Icon name="external" /></a>
+          </div>
         </div>
       </div>
 
-      <div className="sitemap">
+      <div className="ft-mailrow">
+        <a className="ft-mail" href={`mailto:${settings.email}`}>
+          <span>{settings.email}</span>
+          <i aria-hidden="true"><Icon name="external" /></i>
+        </a>
+        <button type="button" className="ft-copy" onClick={copy} aria-live="polite">
+          <Icon name={copied ? 'check' : 'copy'} />
+          <span>{copied ? ui.contactPage.copied : ui.contactPage.copy}</span>
+        </button>
+      </div>
+
+      <nav className="ft-cols" aria-label={ui.navigation}>
         <div>
-          <h3 className="mono">{ui.navigation}</h3>
+          <h3>{ui.navigation}</h3>
           <ul>{PAGES.map(({ id, path }) => <li key={id}><Link to={path}>{ui.nav[id]}</Link></li>)}</ul>
         </div>
         <div>
-          <h3 className="mono">{ui.projects}</h3>
-          <ul>{projects.map((p) => <li key={p.id}><Link to={`/projek/${p.id}`}>{p.name}</Link></li>)}</ul>
+          <h3>{ui.projects}</h3>
+          <ul>{projects.map((p) => <li key={p.id}><Link to={`/proyek/${p.id}`}>{p.name}</Link></li>)}</ul>
         </div>
         <div>
-          <h3 className="mono">{ui.contact}</h3>
-          <ul>
-            <li><a href={`mailto:${settings.email}`}>Email</a></li>
-            <li><a href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp</a></li>
-            {links.map(([label, href]) => <li key={label}><a href={href} target="_blank" rel="noreferrer">{label}</a></li>)}
-          </ul>
+          <h3>{ui.contact}</h3>
+          <ul>{socials.map(([label, href]) => <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>)}</ul>
         </div>
         <div>
-          <h3 className="mono">{ui.language}</h3>
+          <h3>{ui.location}</h3>
+          <p>{settings.location}</p>
+          <p className="ft-time"><span>{time}</span> WIB</p>
           <div className="lang lang-foot" role="group" aria-label={ui.language}>
             {['id', 'en'].map((l) => (
               <button key={l} type="button" className={lang === l ? 'on' : ''} aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
             ))}
           </div>
         </div>
-      </div>
+      </nav>
 
-      <div className="foot-line mono">
-        <span>© 2026 {settings.name}</span>
-        <span>{ui.builtWith}</span>
-        <a href="#main" onClick={toTop}>{ui.backToTop} ↑</a>
-      </div>
-      <p className="wordmark" aria-hidden="true">{settings.shortName}</p>
+      <FootBar ui={ui} />
+      <Wordmark />
     </footer>
   )
 }

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { content, formatMonth, formatPeriod, t } from '../content/index.js'
 import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
+import Icon from '../components/Icon.jsx'
 import './pages.css'
 
 const { experiences, achievements, projects, settings } = content
@@ -15,7 +16,7 @@ function buildTimeline() {
   const items = [
     ...experiences.map((e) => ({ kind: 'experience', date: e.start, id: e.id, title: e.title, sub: e.organization, text: e.description, period: [e.start, e.end] })),
     ...achievements.filter((a) => !expIds.has(a.id)).map((a) => ({ kind: 'award', date: a.date, id: a.id, title: a.title, sub: a.issuer, text: a.description, to: `/prestasi/${a.id}` })),
-    ...projects.filter((p) => p.year).map((p) => ({ kind: 'project', date: p.year, id: p.id, title: { id: p.name, en: p.name }, sub: p.category, text: p.description, to: `/projek/${p.id}`, accent: p.accent })),
+    ...projects.filter((p) => p.year).map((p) => ({ kind: 'project', date: p.year, id: p.id, title: { id: p.name, en: p.name }, sub: p.category, text: p.description, to: `/proyek/${p.id}`, accent: p.accent })),
   ]
   // Urut menurut tanggal; entri yang hanya punya tahun ditaruh di akhir tahunnya.
   const key = (d) => (d.length === 4 ? `${d}-13` : d)
@@ -73,16 +74,14 @@ export default function JourneyPage({ lang, ui }) {
   return (
     <div ref={root} className="jo-page" data-theme="light">
       <section className="jo-hero" data-theme="light">
-        <span className="mono jo-fade">(04) {ui.nav.journey}</span>
         <h1 className="jo-title jo-fade">{t(lang, sec.lead)}<br /><em>{t(lang, sec.tail)}</em></h1>
-        <p className="lede jo-fade">{YEARS[0]?.year}–{last.slice(0, 4)} · {YEARS.reduce((n, y) => n + y.items.length, 0)} {ui.items}</p>
+        <p className="lede jo-fade">{YEARS[0]?.year}–{last.slice(0, 4)}</p>
       </section>
 
       <div className="jo-body">
         <aside className="jo-side" aria-hidden="true">
           <div className="jo-sticky">
             <Odometer value={year} />
-            <span className="mono">{ui.year}</span>
           </div>
         </aside>
         <div className="jo-line" aria-hidden="true"><i /></div>
@@ -95,14 +94,14 @@ export default function JourneyPage({ lang, ui }) {
                   const inner = (
                     <>
                       <span className="jo-dot" aria-hidden="true" />
-                      <span className="jo-meta mono">
+                      <span className="jo-meta">
                         <span className={`jo-kind k-${it.kind}`}>{kindLabel[it.kind]}</span>
                         <span>{it.period ? formatPeriod(lang, ...it.period) : (it.date.length > 4 ? formatMonth(lang, it.date) : it.date)}</span>
                       </span>
                       <strong>{t(lang, it.title)}</strong>
                       <span className="jo-sub">{typeof it.sub === 'string' ? it.sub : t(lang, it.sub)}</span>
                       {t(lang, it.text) && <span className="jo-text">{t(lang, it.text)}</span>}
-                      {it.to && <span className="jo-go mono">{it.kind === 'project' ? ui.caseStudy : ui.certificate} →</span>}
+                      {it.to && <span className="jo-go">{it.kind === 'project' ? ui.caseStudy : ui.certificate} <Icon name="right" /></span>}
                     </>
                   )
                   return (

@@ -66,13 +66,12 @@ export default function Services({ lang, ui, onOpen, bare = false }) {
               <span className="tile-shade" aria-hidden="true" />
               <div className="tile-top">
                 <h3>{t(lang, s.title)}</h3>
-                <span className="tile-no mono">({String(i + 1).padStart(2, '0')})</span>
               </div>
               <p className="tile-text">{t(lang, s.description)}</p>
               <div className="tile-bottom">
                 <ul className="chips">{s.tags.map((x) => <li key={x}>{x}</li>)}</ul>
                 <div className="tile-projects">
-                  <span className="mono">{ui.related}</span>
+                  <span className="tile-label">{ui.related}</span>
                   <div>
                     {s.projects.map((pid) => byId[pid] && (
                       <button key={pid} type="button" onClick={() => onOpen(pid)} data-cursor={ui.viewProject} aria-label={`${ui.openProject}: ${byId[pid].name}`}>

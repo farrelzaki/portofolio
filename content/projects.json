@@ -372,8 +372,8 @@
       "en": "Attendance system · Client project"
     },
     "description": {
-      "id": "Sistem scan absensi untuk gym klien, menggantikan pencatatan manual di buku yang menyulitkan pemantauan dan manajemen membership. Saya mengerjakannya sebagai full-stack developer.",
-      "en": "A scan-based attendance system for a client gym, replacing paper-book logging that made memberships hard to track and manage. I worked on it as the full-stack developer."
+      "id": "Sistem absensi berbasis scan untuk gym klien. Menggantikan pencatatan manual di buku yang menyulitkan pemantauan kehadiran dan pengelolaan membership. Dikerjakan sebagai full-stack developer.",
+      "en": "A scan-based attendance system for a client gym, replacing paper logbooks that made attendance and memberships hard to track. Built as the full-stack developer."
     },
     "story": {
       "problem": {

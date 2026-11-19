@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { finePointer, useLenis } from '../lib/motion.js'
 import { Link, PAGES, pathOf } from '../lib/router.jsx'
+import LineIcon from './Icon.jsx'
 
 const { settings, projects, services, stack } = content
 
@@ -102,19 +103,19 @@ function Peek({ kind, lang, ui, onPick }) {
   if (kind === 'work') {
     return (
       <>
-        <span className="peek-label mono">{ui.nav.work}</span>
+        <span className="peek-label">{ui.nav.work}</span>
         <ul className="peek-links">
           {projects.map((p, i) => (
-            <li key={p.id} style={{ '--i': i }}><Link to={`/projek/${p.id}`} onClick={onPick}>{p.name}</Link></li>
+            <li key={p.id} style={{ '--i': i }}><Link to={`/proyek/${p.id}`} onClick={onPick}>{p.name}</Link></li>
           ))}
-          <li style={{ '--i': projects.length }}><Link to="/projek" onClick={onPick} className="peek-all">{ui.seeAll.work} →</Link></li>
+          <li style={{ '--i': projects.length }}><Link to="/proyek" onClick={onPick} className="peek-all">{ui.seeAll.work} <LineIcon name="right" /></Link></li>
         </ul>
-        <span className="peek-label mono">{ui.featured}</span>
+        <span className="peek-label">{ui.featured}</span>
         <div className="peek-cards">
           {projects.slice(0, 2).map((p) => (
-            <Link key={p.id} to={`/projek/${p.id}`} onClick={onPick} className="peek-card" style={{ '--accent': p.accent }}>
+            <Link key={p.id} to={`/proyek/${p.id}`} onClick={onPick} className="peek-card" style={{ '--accent': p.accent }}>
               <img src={p.cover} alt="" loading="lazy" />
-              <span><strong>{p.name}</strong><em className="mono">{p.year} · {t(lang, p.category)}</em></span>
+              <span><strong>{p.name}</strong><em>{p.year} · {t(lang, p.category)}</em></span>
             </Link>
           ))}
         </div>
@@ -123,13 +124,13 @@ function Peek({ kind, lang, ui, onPick }) {
   }
   return (
     <>
-      <span className="peek-label mono">{ui.nav.services}</span>
+      <span className="peek-label">{ui.nav.services}</span>
       <ul className="peek-links long">
         {services.map((x, i) => (
           <li key={x.id} style={{ '--i': i }}><Link to="/keahlian" onClick={onPick}>{t(lang, x.title)}</Link></li>
         ))}
       </ul>
-      <span className="peek-label mono">{ui.stack}</span>
+      <span className="peek-label">{ui.stack}</span>
       <ul className="peek-chips">{stack.map((x) => <li key={x}>{x}</li>)}</ul>
     </>
   )

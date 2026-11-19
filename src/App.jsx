@@ -23,7 +23,7 @@ function keyOf(route) {
   const known = route.page === 'work' ? projectById[route.param] : awardById[route.param]
   return known ? `${route.page}/${route.param}` : 'notfound'
 }
-const openProject = (id) => navigate(`/projek/${id}`)
+const openProject = (id) => navigate(`/proyek/${id}`)
 
 function readLang() {
   try { return localStorage.getItem('lang') === 'en' ? 'en' : 'id' } catch { return 'id' }

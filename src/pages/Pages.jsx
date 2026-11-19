@@ -6,7 +6,6 @@ import Work from '../sections/Work.jsx'
 import Ring from '../sections/Ring.jsx'
 import Services from '../sections/Services.jsx'
 import Achievements from '../sections/Achievements.jsx'
-import Stack from '../sections/Stack.jsx'
 import Journey from '../sections/Journey.jsx'
 
 /** Beranda: ringkasan semua bagian, masing-masing punya tautan ke halaman lengkapnya. */
@@ -19,7 +18,6 @@ export function HomePage({ lang, ui, onOpen }) {
       <Ring lang={lang} ui={ui} />
       <Services lang={lang} ui={ui} onOpen={onOpen} />
       <Achievements lang={lang} ui={ui} />
-      <Stack lang={lang} />
       <Journey lang={lang} ui={ui} />
     </>
   )
@@ -28,7 +26,7 @@ export function HomePage({ lang, ui, onOpen }) {
 export function NotFoundPage({ ui }) {
   return (
     <section className="page page-404" data-theme="light">
-      <PageHead index={404} label={ui.notFound} lead="404" tail={ui.notFound}>
+      <PageHead lead="404" tail={ui.notFound} intro={ui.notFoundText}>
         <Link to="/" className="pill pill-dark">{ui.backHome}</Link>
       </PageHead>
     </section>

@@ -3,6 +3,7 @@ import { content, t } from '../content/index.js'
 import { gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
 import TwoTone from '../components/TwoTone.jsx'
+import Icon from '../components/Icon.jsx'
 
 const { projects, achievements } = content
 const ORDER = ['problem', 'contribution', 'process', 'decisions', 'results', 'reflection']
@@ -43,25 +44,24 @@ function useReveal(root, key) {
 /** Isi studi kasus: Masalah, Peran, Proses, Keputusan, Hasil, Refleksi. */
 function Story({ story, lang, ui }) {
   const keys = filled(story, lang)
-  if (keys.length === 0) return <p className="cs-soon mono">{ui.storySoon}</p>
-  return keys.map((k, i) => {
+  if (keys.length === 0) return null
+  return keys.map((k) => {
     const v = story[k]
     return (
       <section key={k} className={`cs-sec cs-k-${k}`}>
         <h2 className="cs-sec-label">
-          <span className="mono">({String(i + 1).padStart(2, '0')})</span>
-          <span>{ui.story[k]}</span>
+          {ui.story[k]}
         </h2>
         <div className="cs-sec-body">
           {!Array.isArray(v) && <p className={k === 'problem' || k === 'reflection' ? 'cs-big' : 'cs-text'}>{t(lang, v)}</p>}
           {k === 'process' && (
-            <ol className="cs-steps">{v.map((x, j) => <li key={j}><span className="mono">{String(j + 1).padStart(2, '0')}</span><p>{t(lang, x)}</p></li>)}</ol>
+            <ol className="cs-steps">{v.map((x, j) => <li key={j}><span className="cs-step-n" aria-hidden="true">{j + 1}</span><p>{t(lang, x)}</p></li>)}</ol>
           )}
           {k === 'decisions' && (
             <ul className="cs-decisions">{v.map((x, j) => <li key={j}><p>{t(lang, x)}</p></li>)}</ul>
           )}
           {k === 'results' && (
-            <ul className="cs-results">{v.map((x, j) => <li key={j}><i aria-hidden="true">✓</i><p>{t(lang, x)}</p></li>)}</ul>
+            <ul className="cs-results">{v.map((x, j) => <li key={j}><i aria-hidden="true"><Icon name="check" /></i><p>{t(lang, x)}</p></li>)}</ul>
           )}
         </div>
       </section>
@@ -69,7 +69,7 @@ function Story({ story, lang, ui }) {
   })
 }
 
-/** Halaman studi kasus satu projek: /projek/:id */
+/** Halaman studi kasus satu projek: /proyek/:id */
 export function ProjectPage({ id, lang, ui }) {
   const root = useRef(null)
   const i = projects.findIndex((x) => x.id === id)
@@ -83,26 +83,26 @@ export function ProjectPage({ id, lang, ui }) {
   return (
     <article ref={root} className="cs" data-theme="light" style={{ '--accent': p.accent }}>
       <header className="cs-hero">
-        <Link to="/projek" className="cs-back mono cs-fade">← {ui.allWork.join(' ')}</Link>
-        <span className="cs-meta mono cs-fade">{[p.year, t(lang, p.category)].filter(Boolean).join(' · ')}</span>
+        <Link to="/proyek" className="cs-back cs-fade"><Icon name="left" /> {ui.allWork.join(' ')}</Link>
+        <span className="cs-meta cs-fade">{[p.year, t(lang, p.category)].filter(Boolean).join(' · ')}</span>
         <h1 className="cs-title">{p.name}</h1>
         <p className="lede cs-fade">{t(lang, p.description)}</p>
         <dl className="cs-facts cs-fade">
-          {role && <div><dt className="mono">{ui.role}</dt><dd>{role}</dd></div>}
-          {p.year && <div><dt className="mono">{ui.year}</dt><dd>{p.year}</dd></div>}
-          <div className="cs-facts-tech"><dt className="mono">{ui.tech}</dt><dd><ul className="chips">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul></dd></div>
+          {role && <div><dt>{ui.role}</dt><dd>{role}</dd></div>}
+          {p.year && <div><dt>{ui.year}</dt><dd>{p.year}</dd></div>}
+          <div className="cs-facts-tech"><dt>{ui.tech}</dt><dd><ul className="chips">{p.tags.map((x) => <li key={x}>{x}</li>)}</ul></dd></div>
         </dl>
         {(p.repoUrl || p.demoUrl) && (
           <div className="cs-links cs-fade">
-            {p.repoUrl && <a className="pill pill-dark" href={p.repoUrl} target="_blank" rel="noreferrer">{ui.repo} ↗</a>}
-            {p.demoUrl && <a className="pill pill-line" href={p.demoUrl} target="_blank" rel="noreferrer">{ui.demo} ↗</a>}
+            {p.repoUrl && <a className="pill pill-dark" href={p.repoUrl} target="_blank" rel="noreferrer">{ui.repo} <Icon name="external" /></a>}
+            {p.demoUrl && <a className="pill pill-line" href={p.demoUrl} target="_blank" rel="noreferrer">{ui.demo} <Icon name="external" /></a>}
           </div>
         )}
       </header>
 
       <figure className="cs-cover">
         <img src={p.cover} alt={t(lang, p.coverAlt)} />
-        {p.illustration && <figcaption className="mono ppanel-note">{ui.illustration}</figcaption>}
+        {p.illustration && <figcaption className="cs-note">{ui.illustration}</figcaption>}
       </figure>
 
       <div className="cs-body">
@@ -110,13 +110,13 @@ export function ProjectPage({ id, lang, ui }) {
 
         {awards.map((a) => (
           <section key={a.id} className="cs-sec cs-award">
-            <h2 className="cs-sec-label"><span className="mono">★</span><span>{ui.competition}</span></h2>
+            <h2 className="cs-sec-label">{ui.competition}</h2>
             <div className="cs-sec-body">
               <Link to={`/prestasi/${a.id}`} className="cs-award-card">
                 <img src={a.image} alt="" loading="lazy" />
                 <span>
                   <strong>{t(lang, a.title)}</strong>
-                  <span className="mono">{t(lang, a.issuer)}</span>
+                  <span className="cs-award-issuer">{t(lang, a.issuer)}</span>
                 </span>
               </Link>
             </div>
@@ -129,8 +129,8 @@ export function ProjectPage({ id, lang, ui }) {
       </div>
 
       {next && next.id !== p.id && (
-        <Link to={`/projek/${next.id}`} className="cs-next" style={{ '--accent': next.accent }} data-theme="dark">
-          <span className="mono">{ui.nextProject} →</span>
+        <Link to={`/proyek/${next.id}`} className="cs-next" style={{ '--accent': next.accent }} data-theme="dark">
+          <span className="cs-next-label">{ui.nextProject} <Icon name="right" /></span>
           <TwoTone as="span" className="cs-next-title" lead={next.name} tail={t(lang, next.category)} />
           <img src={next.cover} alt="" loading="lazy" />
         </Link>
@@ -151,13 +151,13 @@ export function AwardPage({ id, lang, ui }) {
   return (
     <article ref={root} className="cs" data-theme="light" style={{ '--accent': p?.accent ?? '#1D4ED8' }}>
       <header className="cs-hero">
-        <Link to="/prestasi" className="cs-back mono cs-fade">← {ui.nav.achievements}</Link>
-        <span className="cs-meta mono cs-fade">{[a.date.slice(0, 4), t(lang, a.issuer)].filter(Boolean).join(' · ')}</span>
+        <Link to="/prestasi" className="cs-back cs-fade"><Icon name="left" /> {ui.nav.achievements}</Link>
+        <span className="cs-meta cs-fade">{[a.date.slice(0, 4), t(lang, a.issuer)].filter(Boolean).join(' · ')}</span>
         <h1 className="cs-title cs-title-sm">{t(lang, a.title)}</h1>
         {t(lang, a.description) && <p className="lede cs-fade">{t(lang, a.description)}</p>}
         {p && (
           <div className="cs-links cs-fade">
-            <Link className="pill pill-dark" to={`/projek/${p.id}`}>{ui.caseStudy}: {p.name} →</Link>
+            <Link className="pill pill-dark" to={`/proyek/${p.id}`}>{ui.caseStudy}: {p.name} <Icon name="right" /></Link>
           </div>
         )}
       </header>

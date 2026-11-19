@@ -3,12 +3,12 @@ import { useSyncExternalStore } from 'react'
 
 /**
  * Router kecil berbasis History API (tanpa dependensi). Halaman:
- * /, /projek, /projek/:id, /keahlian, /prestasi, /pengalaman, /kontak.
+ * /, /proyek, /proyek/:id, /keahlian, /prestasi, /prestasi/:id, /pengalaman, /kontak.
  * Vercel mengarahkan semua path ke index.html (vercel.json).
  */
 export const PAGES = [
   { id: 'home', path: '/' },
-  { id: 'work', path: '/projek' },
+  { id: 'work', path: '/proyek' },
   { id: 'services', path: '/keahlian' },
   { id: 'achievements', path: '/prestasi' },
   { id: 'journey', path: '/pengalaman' },
@@ -36,7 +36,9 @@ export const usePath = () => useSyncExternalStore(subscribe, () => window.locati
 export function matchRoute(path) {
   const clean = path.replace(/\/+$/, '') || '/'
   if (clean === '/') return { page: 'home' }
-  const [, first, second] = clean.split('/')
+  const [, rawFirst, second] = clean.split('/')
+  // Alamat lama /projek tetap berfungsi.
+  const first = rawFirst === 'projek' ? 'proyek' : rawFirst
   const hit = PAGES.find((p) => p.path === `/${first}`)
   if (!hit) return { page: 'notfound' }
   if (second && hit.id !== 'work' && hit.id !== 'achievements') return { page: 'notfound' }

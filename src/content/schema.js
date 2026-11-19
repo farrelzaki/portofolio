@@ -35,8 +35,8 @@ export const settingsSchema = z.object({
   sections: z.object({
     work: pair.extend({ intro: textRequired }),
     ring: pair,
-    services: pair,
-    achievements: pair,
+    services: pair.extend({ statement: textRequired }),
+    achievements: pair.extend({ intro: textRequired }),
     stack: pair,
     journey: pair,
     contact: pair.extend({ intro: textRequired }),

@@ -55,7 +55,7 @@ export default function Achievements({ lang, ui }) {
             <div className="acard-img"><img src={a.image} alt={`${t(lang, a.title)}`} loading="lazy" /></div>
             <figcaption>
               <strong>{t(lang, a.title)}</strong>
-              <span className="mono">{t(lang, a.issuer)}</span>
+              <span className="acard-issuer">{t(lang, a.issuer)}</span>
               {t(lang, a.description) && <p>{t(lang, a.description)}</p>}
             </figcaption>
           </figure>

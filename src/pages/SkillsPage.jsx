@@ -3,6 +3,7 @@ import { content, t } from '../content/index.js'
 import { TECH_ICONS } from '../content/icons.js'
 import { finePointer, gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
+import Icon from '../components/Icon.jsx'
 import './pages.css'
 
 const { services, stack, projects, settings } = content
@@ -28,9 +29,9 @@ const TOOLS = (() => {
 })()
 
 /** Pernyataan besar yang menyala per kata saat digulir (ref. locomotive.ca/en/about). */
-function Statement({ lang, ui }) {
+function Statement({ lang }) {
   const root = useRef(null)
-  const words = services.map((s) => t(lang, s.title).replace(/\.?$/, '.')).join(' ').split(' ')
+  const words = t(lang, settings.sections.services.statement).split(' ')
   useEffect(() => {
     if (prefersReduced()) return
     const ctx = gsap.context(() => {
@@ -38,15 +39,11 @@ function Statement({ lang, ui }) {
         opacity: 1, ease: 'none', stagger: 0.1,
         scrollTrigger: { trigger: root.current, start: 'top 70%', end: 'bottom 45%', scrub: true },
       })
-      gsap.from('.sk-hero-top > *', { y: 20, opacity: 0, duration: 0.8, ease: 'expo.out', stagger: 0.06, delay: 0.25 })
     }, root)
     return () => ctx.revert()
   }, [lang])
   return (
     <section ref={root} className="sk-hero" data-theme="light">
-      <div className="sk-hero-top mono">
-        <span>(02)</span><span>{ui.nav.services}</span><span>{services.length} {ui.items}</span>
-      </div>
       <h1 className="sk-statement" aria-label={words.join(' ')}>
         {words.map((w, i) => <span key={i} className="sk-word" aria-hidden="true">{w} </span>)}
       </h1>
@@ -67,25 +64,24 @@ function Capabilities({ lang, ui }) {
   }, [])
   return (
     <section ref={root} className="sk-caps" data-theme="light">
-      <h2 className="mono sk-label">{ui.services}</h2>
+      <h2 className="sk-label">{ui.services}</h2>
       <ol>
         {services.map((s, i) => {
           const on = open === i
           return (
             <li key={s.id} className={`sk-row ${on ? 'on' : ''}`}>
               <button type="button" className="sk-row-head" aria-expanded={on} aria-controls={`sk-${s.id}`} onClick={() => setOpen(on ? -1 : i)} onMouseEnter={() => finePointer() && setOpen(i)}>
-                <span className="mono">({String(i + 1).padStart(2, '0')})</span>
                 <span className="sk-row-title">{t(lang, s.title)}</span>
-                <i aria-hidden="true">+</i>
+                <i aria-hidden="true"><Icon name="plus" /></i>
               </button>
               <div id={`sk-${s.id}`} className="sk-row-body" role="region">
                 <div>
                   <p>{t(lang, s.description)}</p>
                   <ul className="sk-chips">{s.tags.map((x) => <li key={x}>{x}</li>)}</ul>
                   <div className="sk-related">
-                    <span className="mono">{ui.related}</span>
+                    <span className="sk-related-label">{ui.related}</span>
                     {s.projects.map((pid) => byId[pid] && (
-                      <Link key={pid} to={`/projek/${pid}`} tabIndex={on ? 0 : -1} style={{ '--accent': byId[pid].accent }}>
+                      <Link key={pid} to={`/proyek/${pid}`} tabIndex={on ? 0 : -1} style={{ '--accent': byId[pid].accent }}>
                         <img src={byId[pid].cover} alt="" loading="lazy" />
                         <span>{byId[pid].name}</span>
                       </Link>
@@ -124,7 +120,7 @@ function Toolbox({ ui }) {
   return (
     <section ref={root} className="sk-tools" data-theme="dark">
       <header>
-        <h2 className="mono sk-label">{ui.stack}</h2>
+        <h2 className="sk-label">{ui.stack}</h2>
         <span className="sk-tools-count">{String(TOOLS.length).padStart(2, '0')}</span>
       </header>
       <ul ref={grid} className="sk-grid" onPointerMove={finePointer() ? onMove : undefined}>
@@ -144,7 +140,7 @@ function Toolbox({ ui }) {
 export default function SkillsPage({ lang, ui }) {
   return (
     <>
-      <Statement lang={lang} ui={ui} />
+      <Statement lang={lang} />
       <Capabilities lang={lang} ui={ui} />
       <Toolbox ui={ui} />
     </>

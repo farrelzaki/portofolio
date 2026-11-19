@@ -4,6 +4,7 @@ import { finePointer } from '../lib/motion.js'
 import { useCardReveal } from '../lib/cards.js'
 import TwoTone from '../components/TwoTone.jsx'
 import MoreLink from '../components/MoreLink.jsx'
+import Icon from '../components/Icon.jsx'
 
 const { settings, projects, achievements } = content
 const highlight = achievements.find((a) => a.highlight)
@@ -50,7 +51,7 @@ export function Card({ p, lang, ui, onOpen, className = '' }) {
               <span>{t(lang, p.category)}</span>
             </span>
           </span>
-          <span className="pcard-discover mono" aria-hidden="true">{ui.viewProject} <i>→</i></span>
+          <span className="pcard-discover mono" aria-hidden="true">{ui.viewProject} <Icon name="right" /></span>
         </div>
       </button>
     </article>
@@ -69,7 +70,7 @@ export default function Work({ lang, ui, onOpen }) {
     <section ref={root} className="work" id="work" data-theme="light">
       <header className="sec-head center">
         <TwoTone as="h2" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
-        <span className="arrow" aria-hidden="true">↓</span>
+        <span className="arrow" aria-hidden="true"><Icon name="down" /></span>
         <p className="lede">{t(lang, sec.intro)}</p>
       </header>
 
@@ -79,7 +80,6 @@ export default function Work({ lang, ui, onOpen }) {
         {rest[1] && <Card p={rest[1]} lang={lang} ui={ui} onOpen={onOpen} className="tall" />}
         {highlight && (
           <article className="hcard" data-reveal>
-            <span className="mono">{ui.highlight}</span>
             <p className="hcard-quote">{t(lang, highlight.title)}</p>
             <div className="hcard-foot">
               <img src={highlight.image} alt="" loading="lazy" />
@@ -92,7 +92,7 @@ export default function Work({ lang, ui, onOpen }) {
         )}
         {rest.slice(2).map((p) => <Card key={p.id} p={p} lang={lang} ui={ui} onOpen={onOpen} />)}
       </div>
-      <MoreLink to="/projek" label={ui.seeAll.work} />
+      <MoreLink to="/proyek" label={ui.seeAll.work} />
     </section>
   )
 }

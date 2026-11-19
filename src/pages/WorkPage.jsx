@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { finePointer, gsap, prefersReduced, ScrollTrigger, useMedia } from '../lib/motion.js'
 import { Link, navigate } from '../lib/router.jsx'
+import Icon from '../components/Icon.jsx'
 import './pages.css'
 
 const { projects } = content
@@ -98,20 +99,20 @@ export default function WorkPage({ lang, ui }) {
       {animated ? (
         <section ref={stage} className="wk-stage" data-theme="dark" style={{ backgroundColor: deepen(projects[0].accent) }}>
           <div className="wk-left">
-            <span className="wk-count mono">({String(active + 1).padStart(2, '0')}/{String(n).padStart(2, '0')}) {ui.nav.work}</span>
+            <span className="wk-count" aria-hidden="true"><b>{String(active + 1).padStart(2, '0')}</b> / {String(n).padStart(2, '0')}</span>
             <h1 className="wk-names" aria-live="polite">
               {projects.map((x, i) => (
                 <span key={x.id} className="wk-name" style={{ opacity: i === 0 ? 1 : undefined }} aria-hidden={i !== active}>{x.name}</span>
               ))}
             </h1>
             <div className="wk-copy" key={p.id}>
-              <span className="mono">{year}</span>
+              <span className="wk-meta">{year}</span>
               <p>{t(lang, p.description)}</p>
-              <Link to={`/projek/${p.id}`} className="wk-open mono" data-cursor={ui.caseStudy}>{ui.caseStudy} →</Link>
+              <Link to={`/proyek/${p.id}`} className="wk-open">{ui.caseStudy} <Icon name="right" /></Link>
             </div>
           </div>
 
-          <button type="button" className="wk-covers" onClick={() => navigate(`/projek/${p.id}`)} data-cursor={ui.viewProject} aria-label={`${ui.openProject}: ${p.name}`}>
+          <button type="button" className="wk-covers" onClick={() => navigate(`/proyek/${p.id}`)} data-cursor={ui.viewProject} aria-label={`${ui.openProject}: ${p.name}`}>
             {projects.map((x, i) => (
               <span key={x.id} className="wk-cover" style={{ clipPath: i === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)', background: x.accent }}>
                 <img src={x.cover} alt="" />
@@ -130,17 +131,16 @@ export default function WorkPage({ lang, ui }) {
           {p.gallery[0] && (
             <span className="wk-thumb" key={`t-${p.id}`}><img src={p.gallery[0]} alt="" /></span>
           )}
-          <span className="wk-hint mono" aria-hidden="true">Scroll ↓</span>
         </section>
       ) : (
         <section className="wk-stack" data-theme="dark">
-          <span className="wk-count mono">({String(n).padStart(2, '0')}) {ui.nav.work}</span>
+          <h1 className="wk-stack-title">{ui.nav.work}</h1>
           {projects.map((x) => (
-            <Link key={x.id} to={`/projek/${x.id}`} className="wk-card" style={{ backgroundColor: deepen(x.accent) }}>
+            <Link key={x.id} to={`/proyek/${x.id}`} className="wk-card" style={{ backgroundColor: deepen(x.accent) }}>
               <span className="wk-card-img"><img src={x.cover} alt="" loading="lazy" /></span>
               <strong>{x.name}</strong>
-              <span className="mono">{[x.year, t(lang, x.category)].filter(Boolean).join(' · ')}</span>
-              <span className="wk-open mono">{ui.caseStudy} →</span>
+              <span className="wk-meta">{[x.year, t(lang, x.category)].filter(Boolean).join(' · ')}</span>
+              <span className="wk-open">{ui.caseStudy} <Icon name="right" /></span>
             </Link>
           ))}
         </section>
@@ -178,13 +178,13 @@ function WorkIndex({ lang, ui }) {
   return (
     <section ref={root} className="wi" data-theme="light">
       <header className="wi-head">
-        <h2 className="mono">{ui.list}</h2>
-        <div className="wi-cols mono" aria-hidden="true"><span>{ui.category}</span><span>{ui.role}</span><span>{ui.year}</span></div>
+        <h2>{ui.allWork.join(' ')}</h2>
+        <div className="wi-cols" aria-hidden="true"><span>{ui.category}</span><span>{ui.role}</span><span>{ui.year}</span></div>
       </header>
       <ol className="wi-list" onPointerLeave={() => setHover(null)}>
         {projects.map((x) => (
           <li key={x.id} className="wi-row" style={{ '--accent': x.accent }}>
-            <Link to={`/projek/${x.id}`} onPointerEnter={() => setHover(x.id)} onFocus={() => setHover(x.id)} data-cursor={ui.viewProject}>
+            <Link to={`/proyek/${x.id}`} onPointerEnter={() => setHover(x.id)} onFocus={() => setHover(x.id)} data-cursor={ui.viewProject}>
               <span className="wi-name">{x.name}</span>
               <span className="wi-cat">{t(lang, x.category)}</span>
               <span className="wi-role">{t(lang, x.role)}</span>
