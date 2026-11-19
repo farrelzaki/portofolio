@@ -29,7 +29,7 @@ const MONTHS = {
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 }
 
-function formatMonth(lang, ym) {
+export function formatMonth(lang, ym) {
   const [y, m] = ym.split('-').map(Number)
   return `${MONTHS[lang === 'en' ? 'en' : 'id'][m - 1]} ${y}`
 }

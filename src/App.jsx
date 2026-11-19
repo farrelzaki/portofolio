@@ -6,7 +6,12 @@ import { matchRoute, navigate, usePath } from './lib/router.jsx'
 import Chrome from './components/Chrome.jsx'
 import Cursor from './components/Cursor.jsx'
 import Contact from './sections/Contact.jsx'
-import { AchievementsPage, ContactPage, HomePage, JourneyPage, NotFoundPage, ServicesPage, WorkPage } from './pages/Pages.jsx'
+import { HomePage, NotFoundPage } from './pages/Pages.jsx'
+import WorkPage from './pages/WorkPage.jsx'
+import SkillsPage from './pages/SkillsPage.jsx'
+import AwardsPage from './pages/AwardsPage.jsx'
+import JourneyPage from './pages/JourneyPage.jsx'
+import ContactPage from './pages/ContactPage.jsx'
 import { AwardPage, ProjectPage } from './pages/CaseStudy.jsx'
 
 const projectById = Object.fromEntries(content.projects.map((p) => [p.id, p]))
@@ -93,7 +98,7 @@ export default function App() {
 
   const props = { lang, ui, onOpen: openProject, setLang, id: param }
   const views = {
-    home: HomePage, work: WorkPage, services: ServicesPage, achievements: AchievementsPage,
+    home: HomePage, work: WorkPage, services: SkillsPage, achievements: AwardsPage,
     journey: JourneyPage, contact: ContactPage, notfound: NotFoundPage,
   }
   const View = param ? (page === 'work' ? ProjectPage : AwardPage) : (views[page] ?? NotFoundPage)
