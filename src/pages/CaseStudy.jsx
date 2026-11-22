@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
-import TwoTone from '../components/TwoTone.jsx'
 import Icon from '../components/Icon.jsx'
 
 const { projects, achievements } = content
@@ -131,7 +130,8 @@ export function ProjectPage({ id, lang, ui }) {
       {next && next.id !== p.id && (
         <Link to={`/proyek/${next.id}`} className="cs-next" style={{ '--accent': next.accent }} data-theme="dark">
           <span className="cs-next-label">{ui.nextProject} <Icon name="right" /></span>
-          <TwoTone as="span" className="cs-next-title" lead={next.name} tail={t(lang, next.category)} />
+          <span className="cs-next-title">{next.name}</span>
+          <span className="cs-next-cat">{t(lang, next.category)}</span>
           <img src={next.cover} alt="" loading="lazy" />
         </Link>
       )}

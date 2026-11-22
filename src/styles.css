@@ -84,6 +84,17 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 /* =========================================================
    Kerangka tetap
    ========================================================= */
+/* Gradasi di tepi layar: konten memudar sebelum lewat di bawah nama, tombol, dan jam. */
+.edge { position: fixed; left: 0; right: 0; z-index: 38; height: clamp(72px, 11vh, 110px); pointer-events: none; }
+.edge-top { top: 0; }
+.edge-bottom { bottom: 0; height: clamp(64px, 9vh, 96px); }
+.edge::before, .edge::after { content: ''; position: absolute; inset: 0; transition: opacity 0.4s var(--ease); }
+.edge-top::before { background: linear-gradient(to bottom, var(--bg) 0%, rgba(246, 248, 252, 0.86) 45%, rgba(246, 248, 252, 0)); }
+.edge-top::after { background: linear-gradient(to bottom, var(--ink) 0%, rgba(11, 18, 32, 0.86) 45%, rgba(11, 18, 32, 0)); opacity: 0; }
+.edge-bottom::before { background: linear-gradient(to top, var(--bg) 0%, rgba(246, 248, 252, 0.86) 40%, rgba(246, 248, 252, 0)); }
+.edge-bottom::after { background: linear-gradient(to top, var(--ink) 0%, rgba(11, 18, 32, 0.86) 40%, rgba(11, 18, 32, 0)); opacity: 0; }
+.edge.is-dark::before { opacity: 0; }
+.edge.is-dark::after { opacity: 1; }
 .brand, .top-cta, .menu-toggle, .clock, .dock, .progress { position: fixed; z-index: 40; transition: color 0.4s var(--ease), background-color 0.4s var(--ease), transform 0.6s var(--ease), opacity 0.4s var(--ease); }
 .brand.hide, .top-cta.hide { transform: translateY(-160%); opacity: 0; }
 /* Latar pill tipis sewarna section supaya elemen tetap terbaca di atas gambar/kartu */
@@ -336,7 +347,7 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .ring-item { position: absolute; left: 0; top: 0; width: var(--card); aspect-ratio: 1; margin: calc(var(--card) / -2) 0 0 calc(var(--card) / -2); transform: rotate(var(--a)) translateY(calc(-1 * var(--radius))) rotate(10deg); }
 .ring-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); }
 .ring-link { position: relative; z-index: 2; text-align: center; }
-.ring-title { display: block; font-size: clamp(44px, min(5.6vw, 10svh), 96px); text-shadow: 0 6px 40px rgba(11, 18, 32, 0.8); }
+.ring-title { display: block; font-size: clamp(38px, min(4.2vw, 8svh), 80px); text-shadow: 0 6px 40px rgba(11, 18, 32, 0.9); }
 .ring-link:hover .ring-title .tail { color: var(--bg); }
 .ring-title .tail { transition: color 0.5s var(--ease); }
 
@@ -686,7 +697,8 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .cs-next-label { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--sky); }
 .cs-next-label .icon { transition: transform 0.5s var(--ease-out); }
 .cs-next:hover .cs-next-label .icon { transform: translateX(5px); }
-.cs-next-title { font-size: clamp(56px, 10vw, 170px); }
+.cs-next-title { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(52px, 8vw, 140px); letter-spacing: -0.055em; line-height: 0.9; }
+.cs-next-cat { font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; color: #AEB9CF; }
 .cs-next img { position: absolute; right: calc(var(--gut) + 48px); top: 50%; z-index: -1; width: min(42vw, 620px); aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; opacity: 0.35; transform: translateY(-50%) rotate(3deg) scale(0.92); transition: opacity 0.6s var(--ease), transform 0.9s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) {
   .cs-next:hover img { opacity: 0.9; transform: translateY(-50%) rotate(-2deg) scale(1); }
@@ -728,7 +740,8 @@ time, .tnum { font-variant-numeric: tabular-nums; }
   .acard { margin: 0; scroll-snap-align: center; width: 78vw; }
 
   .ring { height: 100svh; min-height: 620px; }
-  .ring { --card: 76px; --radius: min(44vw, 38svh); }
+  .ring { --card: 64px; --radius: min(46vw, 40svh); }
+  .ring-title { font-size: 30px; }
 
   .stack-card { transform: rotateY(var(--a)) translateZ(42vw); }
 

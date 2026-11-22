@@ -120,8 +120,7 @@ function Toolbox({ ui }) {
   return (
     <section ref={root} className="sk-tools" data-theme="dark">
       <header>
-        <h2 className="sk-label">{ui.stack}</h2>
-        <span className="sk-tools-count">{String(TOOLS.length).padStart(2, '0')}</span>
+        <h2>{ui.stackTitle}</h2>
       </header>
       <ul ref={grid} className="sk-grid" onPointerMove={finePointer() ? onMove : undefined}>
         {TOOLS.map(({ label, icon }) => (

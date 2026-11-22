@@ -170,6 +170,8 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
   return (
     <>
       <a className="skip" href="#main">{ui.skip}</a>
+      <div className={`edge edge-top ${s.top === 'dark' ? 'is-dark' : ''}`} aria-hidden="true" />
+      <div className={`edge edge-bottom ${s.bottom === 'dark' ? 'is-dark' : ''}`} aria-hidden="true" />
 
       <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
         <span>Farrel</span><span>Zaki</span>
