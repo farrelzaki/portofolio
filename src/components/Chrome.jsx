@@ -25,6 +25,10 @@ function useChromeState(page) {
       const h = window.innerHeight
       const max = document.documentElement.scrollHeight - h
       const footer = document.getElementById('contact')
+      // Bagian showreel (bagian kedua beranda): tombol tengah disembunyikan agar tidak menutupi kontrolnya.
+      const reel = document.querySelector('.showreel')
+      const rr = reel?.getBoundingClientRect()
+      const overReel = rr ? rr.top < h * 0.9 && rr.bottom > h * 0.1 : false
       setState({
         top: themeAt(36),
         mid: themeAt(h / 2),
@@ -32,6 +36,7 @@ function useChromeState(page) {
         progress: max > 0 ? window.scrollY / max : 0,
         pastHero: window.scrollY > h * 0.85,
         nearEnd: footer ? footer.getBoundingClientRect().top < h * 0.8 : false,
+        overReel,
       })
     }
     const on = () => { if (!raf) raf = requestAnimationFrame(run) }
@@ -143,7 +148,7 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
   const [peekKind, setPeekKind] = useState('work')
   const setPeek = (k) => { setPeekState(k); if (k) setPeekKind(k) }
   const scrollingDown = useScrollingDown()
-  const ctaVisible = s.pastHero && !s.nearEnd && !menuOpen && !scrollingDown
+  const ctaVisible = s.pastHero && !s.nearEnd && !s.overReel && !menuOpen && !scrollingDown
   const hideTop = scrollingDown && s.pastHero && !menuOpen
   const time = useClock(settings.timezone)
   const flyout = useRef(null)
@@ -170,8 +175,6 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
   return (
     <>
       <a className="skip" href="#main">{ui.skip}</a>
-      <div className={`edge edge-top ${s.top === 'dark' ? 'is-dark' : ''}`} aria-hidden="true" />
-      <div className={`edge edge-bottom ${s.bottom === 'dark' ? 'is-dark' : ''}`} aria-hidden="true" />
 
       <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
         <span>Farrel</span><span>Zaki</span>

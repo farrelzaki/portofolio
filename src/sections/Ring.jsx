@@ -10,7 +10,7 @@ const ITEMS = [
   ...projects.flatMap((p) => p.gallery.map((g) => ({ src: g, label: p.name }))),
 ].slice(0, 12)
 
-/** Cincin kartu yang berputar mengikuti scroll di sekitar judul raksasa (section gelap). */
+/** Transisi masuk gelap + cincin kartu proyek di sekitar judul GitHub. */
 export default function Ring({ lang, ui }) {
   const root = useRef(null)
   const ring = useRef(null)
@@ -19,14 +19,29 @@ export default function Ring({ lang, ui }) {
   useEffect(() => {
     if (prefersReduced()) return
     const ctx = gsap.context(() => {
-      gsap.fromTo(ring.current, { rotate: -40 }, {
-        rotate: 140, ease: 'none',
-        scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true },
+      // --k (jarak dari pusat) di elemen orbit; skala & opacity di gambar agar transform orbit tetap utuh.
+      const items = gsap.utils.toArray('.ring-item')
+      const imgs = gsap.utils.toArray('.ring-item img')
+      gsap.set('.ring-dark', { clipPath: 'circle(0% at 50% 50%)' })
+      gsap.set(items, { '--k': 0 })
+      gsap.set(imgs, { opacity: 0, scale: 0.3 })
+      gsap.set('.ring-link', { opacity: 0, y: 40 })
+      // Di-pin: (1) lingkaran gelap melebar dari tengah layar, (2) kartu proyek berputar keluar dari
+      // tengah ke orbitnya, (3) judul muncul, (4) cincin terus berputar pelan mengikuti gulir.
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: root.current, start: 'top top', end: '+=230%', scrub: 0.8, pin: true, anticipatePin: 1,
+          // Tema kerangka (nama, tombol, jam) ikut berganti saat lingkaran gelap sudah menutupi layar.
+          onUpdate: (self) => { root.current.dataset.theme = self.progress > 0.18 ? 'dark' : 'light' },
+          onLeaveBack: () => { root.current.dataset.theme = 'light' },
+        },
       })
-      gsap.from('.ring-item', {
-        scale: 0.4, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.04,
-        scrollTrigger: { trigger: root.current, start: 'top 70%' },
-      })
+        .to('.ring-dark', { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.in', duration: 1 })
+        .fromTo(ring.current, { rotate: -200 }, { rotate: 0, ease: 'power3.out', duration: 1.3 }, 0.85)
+        .to(items, { '--k': 1, ease: 'power3.out', duration: 1, stagger: 0.025 }, 0.85)
+        .to(imgs, { opacity: 1, scale: 1, ease: 'power3.out', duration: 0.8, stagger: 0.025 }, 0.85)
+        .to('.ring-link', { opacity: 1, y: 0, ease: 'power2.out', duration: 0.45 }, 1.9)
+        .to(ring.current, { rotate: 60, ease: 'none', duration: 1.2 }, 2.15)
     }, root)
     return () => ctx.revert()
   }, [])
@@ -34,7 +49,8 @@ export default function Ring({ lang, ui }) {
   const href = settings.links.github || `mailto:${settings.email}`
 
   return (
-    <section ref={root} className="ring" data-theme="dark">
+    <section ref={root} className="ring" data-theme={prefersReduced() ? 'dark' : 'light'}>
+      <div className="ring-dark" aria-hidden="true" />
       <div ref={ring} className="ring-track" aria-hidden="true">
         {ITEMS.map((it, i) => (
           <div key={i} className="ring-item" style={{ '--a': `${(360 / ITEMS.length) * i}deg` }}>

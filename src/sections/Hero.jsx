@@ -4,6 +4,7 @@ import { TECH_ICONS } from '../content/icons.js'
 import { finePointer, gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
 import { Avatar } from '../components/Chrome.jsx'
+import { introDone } from '../lib/intro.js'
 
 const { settings } = content
 
@@ -17,86 +18,102 @@ function isLight(hex) {
   return 0.299 * r + 0.587 * g + 0.114 * b > 170
 }
 
-function makeTile(icon, i) {
+/** Logo tanpa kotak: glyph utama + dua salinan "gema" yang memancar keluar. */
+function makePop() {
   const el = document.createElement('div')
-  // Sebagian kartu putih dengan glyph berwarna merek, sebagian kartu berwarna merek dengan glyph kontras.
-  const filled = i % 3 !== 0 && icon.hex !== '#000000' && icon.hex !== '#181717' && icon.hex !== '#0A0A0A'
-  const glyph = filled ? (isLight(icon.hex) ? '#0B1220' : '#FFFFFF') : icon.hex
-  el.className = `trail-tile ${filled ? 'filled' : ''}`
-  if (filled) el.style.background = icon.hex
-  el.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="${glyph}" d="${icon.path}"/></svg><span style="color:${filled ? glyph : '#0B1220'}">${icon.title}</span>`
+  el.className = 'pop'
+  el.innerHTML = '<svg class="pop-echo" viewBox="0 0 24 24"><path/></svg><svg class="pop-echo" viewBox="0 0 24 24"><path/></svg><svg class="pop-main" viewBox="0 0 24 24"><path/></svg>'
   return el
 }
 
+function paint(el, icon) {
+  // Merek berwarna sangat gelap memakai tinta situs; merek sangat terang diberi bayangan tipis.
+  const hex = ['#000000', '#181717', '#0A0A0A', '#000'].includes(icon.hex) ? '#0B1220' : icon.hex
+  el.querySelectorAll('path').forEach((p) => { p.setAttribute('d', icon.path); p.setAttribute('fill', hex) })
+  el.classList.toggle('light', isLight(hex))
+  el.setAttribute('data-name', icon.title)
+}
+
 /**
- * Popup ikon tools mengikuti kursor (meniru jejak gantungan kunci brandappart.com), dibuat jarang
- * dan acak: jarak & jeda minimum diacak tiap kali, ada peluang dilewati, maksimal 3 ikon sekaligus,
- * dan tidak pernah muncul di atas atau dekat teks hero.
+ * Popup logo tools yang "terkunci" per zona: hero dibagi menjadi grid tak terlihat, setiap
+ * zona punya titik dan kemiringan tetap. Masuk ke zona memunculkan logo besar dengan efek
+ * gema; kembali ke zona yang sama selalu menampilkan logo yang berbeda. Zona di dekat teks
+ * hero tidak pernah dipakai.
  */
 function useIconTrail(ref, title, foot) {
   useEffect(() => {
     const root = ref.current
     if (!root || !finePointer() || prefersReduced() || ICONS.length === 0) return
-    const rnd = gsap.utils.random
-    const pool = gsap.utils.shuffle(ICONS.map((icon, i) => {
-      const el = makeTile(icon, i)
+    const COLS = 6
+    const ROWS = 4
+    const cells = Array.from({ length: COLS * ROWS }, (_, k) => {
+      // Titik & sudut tetap per zona (pseudo-acak dari indeks), supaya terasa tersusun, bukan kaku.
+      const r = (n) => ((Math.sin(k * 12.9898 + n * 78.233) * 43758.5453) % 1 + 1) % 1
+      const el = makePop()
       root.appendChild(el)
       gsap.set(el, { xPercent: -50, yPercent: -50, autoAlpha: 0 })
-      return el
-    }))
-    let i = 0
-    let z = 1
-    let alive = 0
-    let last = null
-    let lastTime = 0
-    let needDist = rnd(260, 420)
-    let needGap = rnd(450, 850)
+      return { el, jx: r(1) - 0.5, jy: r(2) - 0.5, rot: (r(3) - 0.5) * 28, next: Math.floor(r(4) * ICONS.length) }
+    })
+    const shown = new Set()
+    let current = -1
 
-    // Zona larangan: kotak teks hero diperbesar setengah ukuran ikon + jarak aman.
-    const textRefs = [title, foot]
-    const blocked = (x, y) => textRefs.some((r) => {
-      const els = r.current ? [r.current] : []
-      return els.some((el) => {
-        const b = el.getBoundingClientRect()
-        const pad = 70
-        return x > b.left - pad && x < b.right + pad && y > b.top - pad && y < b.bottom + pad
-      })
+    const blocked = (x, y) => [title, foot].some((r) => {
+      if (!r.current) return false
+      const b = r.current.getBoundingClientRect()
+      const pad = 90
+      return x > b.left - pad && x < b.right + pad && y > b.top - pad && y < b.bottom + pad
     })
 
-    const onMove = (e) => {
-      const now = performance.now()
-      if (!last) { last = { x: e.clientX, y: e.clientY }; return }
-      if (Math.hypot(e.clientX - last.x, e.clientY - last.y) < needDist || now - lastTime < needGap) return
-      const dx = e.clientX - last.x
-      const dy = e.clientY - last.y
-      last = { x: e.clientX, y: e.clientY }
-      lastTime = now
-      needDist = rnd(260, 420)
-      needGap = rnd(450, 850)
-      if (alive >= 3 || Math.random() < 0.2 || blocked(e.clientX, e.clientY)) return
-
+    const pop = (k) => {
       const b = root.getBoundingClientRect()
-      // Jaga ikon tetap utuh di dalam layar (tidak terpotong tepi atau tertutup kerangka tetap).
-      const m = 110
-      const x = gsap.utils.clamp(m, b.width - m, e.clientX - b.left + rnd(-50, 50))
-      // Boleh dekat/melewati batas bawah hero: ikon digambar di atas section berikutnya, tetap di dalam layar.
-      const y = gsap.utils.clamp(m, Math.min(b.height + 40, window.innerHeight - b.top - 70), e.clientY - b.top + rnd(-50, 50))
-      const el = pool[i++ % pool.length]
-      const rot = rnd(-40, 40)
-      const size = rnd(0.78, 1.25)
-      alive++
+      const h = Math.min(b.height, window.innerHeight)
+      const cw = b.width / COLS
+      const ch = h / ROWS
+      const cell = cells[k]
+      const x = (k % COLS + 0.5 + cell.jx * 0.5) * cw
+      const y = (Math.floor(k / COLS) + 0.5 + cell.jy * 0.5) * ch
+      if (blocked(b.left + x, b.top + y)) return
+      // Logo berikutnya untuk zona ini, dilewati bila sedang tampil di zona lain.
+      let idx = cell.next
+      for (let n = 0; n < ICONS.length && shown.has(idx); n++) idx = (idx + 1) % ICONS.length
+      cell.next = (idx + 5) % ICONS.length
+      shown.add(idx)
+      cell.idx = idx
+      paint(cell.el, ICONS[idx])
       root.dataset.spawns = String(Number(root.dataset.spawns || 0) + 1)
-      gsap.killTweensOf(el)
-      gsap.set(el, { x, y, zIndex: z++, rotate: rot - Math.sign(dx || 1) * 18, scale: 0.3 * size, autoAlpha: 1 })
-      gsap.timeline({ onComplete: () => { alive-- } })
-        .to(el, { scale: size, rotate: rot, x: `+=${dx * 0.18}`, y: `+=${dy * 0.18}`, duration: 0.45, ease: 'back.out(1.7)' })
-        .to(el, { scale: 0, autoAlpha: 0, y: '+=80', rotate: rot + rnd(-30, 30), duration: 0.5, ease: 'power3.in' }, `+=${rnd(0.35, 0.65)}`)
+
+      const [e1, e2, main] = cell.el.children
+      gsap.killTweensOf([cell.el, e1, e2, main])
+      gsap.set(cell.el, { x, y, rotate: cell.rot, autoAlpha: 1, zIndex: Number(root.dataset.spawns) })
+      gsap.set([e1, e2], { scale: 1, opacity: 0 })
+      gsap.timeline({ onComplete: () => shown.delete(idx) })
+        .fromTo(main, { scale: 0, rotate: -cell.rot }, { scale: 1, rotate: 0, duration: 0.55, ease: 'back.out(2.2)' })
+        .fromTo(e1, { scale: 0.9, opacity: 0.45 }, { scale: 1.7, opacity: 0, duration: 0.8, ease: 'power2.out' }, 0.12)
+        .fromTo(e2, { scale: 0.9, opacity: 0.3 }, { scale: 2.4, opacity: 0, duration: 1, ease: 'power2.out' }, 0.24)
+        .to(main, { scale: 0.6, opacity: 0, duration: 0.4, ease: 'power3.in' }, 1.5)
+        .set(main, { opacity: 1 })
+        .set(cell.el, { autoAlpha: 0 })
     }
+
+    const onMove = (e) => {
+      const b = root.getBoundingClientRect()
+      const h = Math.min(b.height, window.innerHeight)
+      const cx = Math.floor(((e.clientX - b.left) / b.width) * COLS)
+      const cy = Math.floor(((e.clientY - b.top) / h) * ROWS)
+      if (cx < 0 || cy < 0 || cx >= COLS || cy >= ROWS) return
+      const k = cy * COLS + cx
+      if (k === current) return
+      current = k
+      pop(k)
+    }
+    const onLeave = () => { current = -1 }
     const section = root.closest('section')
     section.addEventListener('pointermove', onMove)
+    section.addEventListener('pointerleave', onLeave)
     return () => {
       section.removeEventListener('pointermove', onMove)
-      pool.forEach((el) => { gsap.killTweensOf(el); el.remove() })
+      section.removeEventListener('pointerleave', onLeave)
+      cells.forEach((c) => { gsap.killTweensOf(c.el); c.el.remove() })
     }
   }, [ref, title, foot])
 }
@@ -112,10 +129,14 @@ export default function Hero({ lang, ui }) {
   useEffect(() => {
     if (prefersReduced()) return
     const words = title.current.querySelectorAll('.w > span')
-    const tl = gsap.timeline({ delay: 0.05 })
+    // Tunggu animasi pembuka (bila ada) selesai; sampai saat itu teks disembunyikan.
+    const tl = gsap.timeline({ paused: true, delay: 0.05 })
     tl.from(words, { yPercent: 110, duration: 0.8, ease: 'expo.out', stagger: 0.04 })
       .from('.hero-foot > *', { y: 24, opacity: 0, duration: 0.65, ease: 'expo.out', stagger: 0.06 }, '-=0.55')
-    return () => tl.kill()
+    tl.progress(0.001).pause()
+    let alive = true
+    introDone.then(() => { if (alive) tl.restart(true) })
+    return () => { alive = false; tl.kill() }
   }, [lang])
 
   const words = (str, cls = '') => str.split(/(\s+)/).filter(Boolean).map((w, k) =>

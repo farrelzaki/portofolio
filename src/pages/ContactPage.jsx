@@ -3,7 +3,6 @@ import { content, t } from '../content/index.js'
 import { finePointer, gsap, prefersReduced } from '../lib/motion.js'
 import { Avatar } from '../components/Chrome.jsx'
 import Icon from '../components/Icon.jsx'
-import { FootBar, Wordmark } from '../sections/Contact.jsx'
 import './pages.css'
 
 const { settings, services } = content
@@ -92,7 +91,7 @@ export default function ContactPage({ lang, ui }) {
   const words = title.split(' ')
 
   return (
-    <div ref={root} className="ct-page" data-theme="dark" id="contact">
+    <div ref={root} className="ct-page" data-theme="dark">
       <section className="ct-hero" data-theme="dark">
         <h1 className="ct-title" aria-label={title}>
           {words.map((w, i) => (
@@ -171,10 +170,6 @@ export default function ContactPage({ lang, ui }) {
         </form>
       </section>
 
-      <footer className="ct-foot">
-        <FootBar ui={ui} />
-        <Wordmark />
-      </footer>
     </div>
   )
 }

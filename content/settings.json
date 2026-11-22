@@ -24,12 +24,12 @@
   },
   "hero": {
     "title": {
-      "id": "Software yang bisa diandalkan",
-      "en": "Software you can rely on"
+      "id": "Selamat datang di portofolio saya",
+      "en": "Welcome to my portfolio"
     },
     "accent": {
-      "id": "diandalkan",
-      "en": "rely on"
+      "id": "portofolio saya",
+      "en": "portfolio"
     },
     "intro": {
       "id": "Saya Farrel, mahasiswa Software Engineering di IPB University. Saya membangun perangkat lunak web dan mobile, dari API dan basis data sampai antarmuka yang dipakai orang.",

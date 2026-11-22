@@ -5,7 +5,9 @@ import { Link, navigate } from '../lib/router.jsx'
 import Icon from '../components/Icon.jsx'
 import './pages.css'
 
-const { projects } = content
+// Slide show memuat 5 proyek teratas (urutan di projects.json); indeks di bawahnya memuat semua.
+const ALL = content.projects
+const projects = ALL.slice(0, 5)
 
 /** Gelapkan warna aksen supaya teks putih selalu terbaca sebagai latar penuh. */
 function deepen(hex, k = 0.38) {
@@ -182,7 +184,7 @@ function WorkIndex({ lang, ui }) {
         <div className="wi-cols" aria-hidden="true"><span>{ui.category}</span><span>{ui.role}</span><span>{ui.year}</span></div>
       </header>
       <ol className="wi-list" onPointerLeave={() => setHover(null)}>
-        {projects.map((x) => (
+        {ALL.map((x) => (
           <li key={x.id} className="wi-row" style={{ '--accent': x.accent }}>
             <Link to={`/proyek/${x.id}`} onPointerEnter={() => setHover(x.id)} onFocus={() => setHover(x.id)} data-cursor={ui.viewProject}>
               <span className="wi-name">{x.name}</span>
@@ -195,8 +197,8 @@ function WorkIndex({ lang, ui }) {
       </ol>
       <div ref={preview} className={`wi-preview ${hover ? 'show' : ''}`} aria-hidden="true">
         <div className="wi-preview-inner">
-          <div className="wi-preview-track" style={{ transform: `translateY(${-100 * Math.max(0, projects.findIndex((x) => x.id === hover))}%)` }}>
-            {projects.map((x) => <span key={x.id} style={{ background: x.accent }}><img src={x.cover} alt="" loading="lazy" /></span>)}
+          <div className="wi-preview-track" style={{ transform: `translateY(${-100 * Math.max(0, ALL.findIndex((x) => x.id === hover))}%)` }}>
+            {ALL.map((x) => <span key={x.id} style={{ background: x.accent }}><img src={x.cover} alt="" loading="lazy" /></span>)}
           </div>
         </div>
       </div>

@@ -3,9 +3,10 @@ import { content, t } from './content/index.js'
 import { ui as UI } from './i18n.js'
 import { gsap, LenisContext, prefersReduced, ScrollTrigger, useLenisSetup } from './lib/motion.js'
 import { matchRoute, navigate, usePath } from './lib/router.jsx'
+import { finishIntro, PLAY_INTRO } from './lib/intro.js'
 import Chrome from './components/Chrome.jsx'
 import Cursor from './components/Cursor.jsx'
-import Contact from './sections/Contact.jsx'
+import Contact, { FooterLite } from './sections/Contact.jsx'
 import { HomePage, NotFoundPage } from './pages/Pages.jsx'
 import WorkPage from './pages/WorkPage.jsx'
 import SkillsPage from './pages/SkillsPage.jsx'
@@ -40,6 +41,7 @@ export default function App() {
   const shownRef = useRef(shown)
   const curtain = useRef(null)
   const label = useRef(null)
+  const bar = useRef(null)
   const [page, param] = shown.split('/')
 
   useEffect(() => {
@@ -56,6 +58,36 @@ export default function App() {
     return () => window.removeEventListener('load', onLoad)
   }, [])
 
+  /** Ganti teks tirai; kata peran tampil redup, nama tujuan tampil terang. */
+  const say = (text, final = false) => {
+    if (!label.current) return
+    label.current.textContent = text
+    label.current.classList.toggle('final', final)
+  }
+
+  // Pembuka situs (sekali per sesi): kata-kata peran bergulir, garis progres terisi,
+  // nama muncul, lalu tirai terangkat dan beranda mulai beranimasi.
+  useEffect(() => {
+    if (!PLAY_INTRO) return
+    const words = ui.loaderWords
+    const tl = gsap.timeline({ delay: 0.2, onComplete: finishIntro })
+    tl.set(curtain.current, { yPercent: 0, autoAlpha: 1 })
+      .fromTo(bar.current, { scaleX: 0 }, { scaleX: 1, duration: 0.24 * words.length + 0.5, ease: 'power2.inOut' }, 0)
+    words.forEach((w, i) => {
+      tl.call(() => say(w), null, i * 0.24)
+        .fromTo(label.current, { yPercent: 70, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.2, ease: 'power3.out' }, i * 0.24)
+    })
+    tl.call(() => say(content.settings.shortName, true), null, words.length * 0.24 + 0.1)
+      .fromTo(label.current, { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, '<')
+      .to(label.current, { yPercent: -110, duration: 0.45, ease: 'power3.in' }, '+=0.35')
+      .to(bar.current, { scaleX: 0, transformOrigin: '100% 50%', duration: 0.45, ease: 'power3.in' }, '<')
+      .to(curtain.current, { yPercent: -100, duration: 0.9, ease: 'expo.inOut' }, '-=0.15')
+      .call(finishIntro, null, '-=0.45')
+      .set(curtain.current, { autoAlpha: 0 })
+    return () => { tl.kill(); finishIntro() }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   // Pindah halaman: tirai gelap naik menutup layar, halaman diganti, lalu tirai lanjut naik keluar.
   // Timeline tidak di-kill saat efek berganti (setShown memicu efek ini lagi); navigasi baru
   // di tengah transisi cukup mengambil alih tirai.
@@ -63,19 +95,28 @@ export default function App() {
     if (target === shownRef.current) return
     const swap = () => { shownRef.current = target; setShown(target) }
     if (prefersReduced()) { gsap.delayedCall(0, swap); return }
-    gsap.killTweensOf([curtain.current, label.current])
+    gsap.killTweensOf([curtain.current, label.current, bar.current])
     const [tp, tid] = target.split('/')
-    if (label.current) {
-      label.current.textContent = tid
-        ? (tp === 'work' ? projectById[tid].name : ui.nav[tp])
-        : (tp === 'home' || tp === 'notfound' ? content.settings.name : ui.nav[tp])
-    }
+    const final = tid
+      ? (tp === 'work' ? projectById[tid].name : ui.nav[tp])
+      : (tp === 'home' || tp === 'notfound' ? content.settings.shortName : ui.nav[tp])
+    const words = ui.loaderWords
+    const step = 0.16
     const tl = gsap.timeline()
     tl.set(curtain.current, { yPercent: 100, autoAlpha: 1 })
-      .to(curtain.current, { yPercent: 0, duration: 0.55, ease: 'power3.inOut' })
-      .fromTo(label.current, { yPercent: 120 }, { yPercent: 0, duration: 0.45, ease: 'expo.out' }, 0.3)
+      .set(bar.current, { scaleX: 0, transformOrigin: '0% 50%' })
+      .to(curtain.current, { yPercent: 0, duration: 0.5, ease: 'power3.inOut' })
+      .to(bar.current, { scaleX: 1, duration: step * words.length + 0.35, ease: 'power2.inOut' }, 0.3)
+    // Kata-kata peran berkedip cepat, lalu berhenti di nama halaman tujuan.
+    words.forEach((w, i) => {
+      tl.call(() => say(w), null, 0.3 + i * step)
+        .fromTo(label.current, { yPercent: 40, opacity: 0 }, { yPercent: 0, opacity: 1, duration: step, ease: 'power2.out' }, 0.3 + i * step)
+    })
+    tl.call(() => say(final, true), null, 0.3 + words.length * step)
+      .fromTo(label.current, { yPercent: 110, opacity: 1 }, { yPercent: 0, duration: 0.5, ease: 'expo.out' }, '<')
       .call(swap)
       .to(label.current, { yPercent: -120, duration: 0.35, ease: 'power3.in' }, '+=0.12')
+      .to(bar.current, { scaleX: 0, transformOrigin: '100% 50%', duration: 0.35, ease: 'power3.in' }, '<')
       .to(curtain.current, { yPercent: -100, duration: 0.6, ease: 'power3.inOut' }, '<0.1')
       .set(curtain.current, { autoAlpha: 0 })
   }, [target, ui])
@@ -110,9 +151,10 @@ export default function App() {
       <main id="main" key={shown}>
         <View {...props} />
       </main>
-      {page !== 'contact' && <Contact lang={lang} ui={ui} setLang={setLang} />}
-      <div ref={curtain} className="curtain" aria-hidden="true">
+      {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite ui={ui} />}
+      <div ref={curtain} className={`curtain ${PLAY_INTRO ? 'is-intro' : ''}`} aria-hidden="true">
         <span className="curtain-label"><span ref={label} /></span>
+        <span className="curtain-bar"><i ref={bar} /></span>
       </div>
     </LenisContext.Provider>
   )

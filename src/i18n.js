@@ -3,7 +3,8 @@
 export const ui = {
   id: {
     nav: { home: 'Beranda', work: 'Proyek', services: 'Keahlian', achievements: 'Prestasi', journey: 'Pengalaman', contact: 'Kontak' },
-    menu: 'Menu', close: 'Tutup', contactCta: 'Hubungi saya', language: 'Bahasa', startChat: 'Mulai percakapan',
+    loaderWords: ['Software Engineer', 'Backend Developer', 'Full-stack Developer', 'UI/UX'],
+    menu: 'Menu', close: 'Tutup', contactCta: 'Hubungi saya', language: 'Bahasa', startChat: 'Mulai percakapan', liteAsk: 'Punya proyek atau lowongan magang?',
     viewProject: 'Lihat proyek', openProject: 'Buka proyek', seeCode: 'Lihat kode',
     repo: 'Repositori', demo: 'Demo', role: 'Peran', tech: 'Teknologi', illustration: 'Ilustrasi, bukan tangkapan layar produk',
     showreel: 'Cuplikan proyek', sendEmail: 'Kirim email', whatsapp: 'WhatsApp', backToTop: 'Kembali ke atas',
@@ -20,12 +21,13 @@ export const ui = {
     },
     nextProject: 'Proyek berikutnya', competition: 'Kompetisi', caseStudy: 'Baca studi kasus', backTo: 'Kembali', certificate: 'Lihat sertifikat',
     seeAll: { work: 'Semua proyek', services: 'Semua keahlian', achievements: 'Semua prestasi', journey: 'Semua pengalaman' },
-    grid: 'Grid', list: 'Daftar', items: 'entri', featured: 'Proyek pilihan', services: 'Layanan', stack: 'Teknologi', stackTitle: 'Alat yang saya pakai',
+    grid: 'Grid', list: 'Daftar', items: 'entri', featured: 'Proyek pilihan', services: 'Layanan', stack: 'Teknologi', stackTitle: 'Alat yang saya pakai', skillsHint: 'Pilih keahlian untuk melihat proyek yang memakainya.', toolsHint: 'Klik tool bertanda angka untuk melihat proyeknya.', projectsWord: 'proyek', projectWord: 'proyek', usedIn: 'dipakai di',
     notFound: 'Halaman tidak ditemukan', notFoundText: 'Alamat ini tidak ada atau sudah dipindahkan.', backHome: 'Kembali ke beranda', year: 'Tahun', category: 'Kategori',
   },
   en: {
     nav: { home: 'Home', work: 'Work', services: 'Skills', achievements: 'Awards', journey: 'Experience', contact: 'Contact' },
-    menu: 'Menu', close: 'Close', contactCta: 'Get in touch', language: 'Language', startChat: 'Start a conversation',
+    loaderWords: ['Software Engineer', 'Backend Developer', 'Full-stack Developer', 'UI/UX'],
+    menu: 'Menu', close: 'Close', contactCta: 'Get in touch', language: 'Language', startChat: 'Start a conversation', liteAsk: 'Have a project or an internship opening?',
     viewProject: 'View project', openProject: 'Open project', seeCode: 'See code',
     repo: 'Repository', demo: 'Demo', role: 'Role', tech: 'Technology', illustration: 'Illustration, not a product screenshot',
     showreel: 'Project reel', sendEmail: 'Send an email', whatsapp: 'WhatsApp', backToTop: 'Back to top',
@@ -42,7 +44,7 @@ export const ui = {
     },
     nextProject: 'Next project', competition: 'Competition', caseStudy: 'Read the case study', backTo: 'Back', certificate: 'View certificate',
     seeAll: { work: 'All work', services: 'All skills', achievements: 'All awards', journey: 'All experience' },
-    grid: 'Grid', list: 'List', items: 'entries', featured: 'Featured work', services: 'Services', stack: 'Technology', stackTitle: 'Tools I work with',
+    grid: 'Grid', list: 'List', items: 'entries', featured: 'Featured work', services: 'Services', stack: 'Technology', stackTitle: 'Tools I work with', skillsHint: 'Open a skill to see the projects that use it.', toolsHint: 'Click a numbered tool to see its projects.', projectsWord: 'projects', projectWord: 'project', usedIn: 'is used in',
     notFound: 'Page not found', notFoundText: 'This address does not exist or has moved.', backHome: 'Back to home', year: 'Year', category: 'Category',
   },
 }

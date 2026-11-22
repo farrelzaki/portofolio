@@ -39,9 +39,10 @@ export function Wordmark() {
   }, [])
   useEffect(() => {
     if (prefersReduced()) return
+    // Diputar ulang setiap kali wordmark kembali terlihat; disembunyikan lagi saat keluar ke atas.
     const tw = gsap.from(box.current.querySelectorAll('.wm-ch'), {
       yPercent: 100, duration: 1.2, ease: 'expo.out', stagger: 0.035,
-      scrollTrigger: { trigger: box.current, start: 'top 98%' },
+      scrollTrigger: { trigger: box.current, start: 'top 98%', toggleActions: 'restart none restart reset' },
     })
     return () => { tw.scrollTrigger?.kill(); tw.kill() }
   }, [])
@@ -67,7 +68,30 @@ export function FootBar({ ui }) {
   )
 }
 
-/** Footer di semua halaman kecuali Kontak. */
+/** Footer ringkas untuk halaman selain beranda: ajakan singkat, tautan kontak, baris hak cipta. */
+export function FooterLite({ ui }) {
+  const links = [
+    ['Email', `mailto:${settings.email}`],
+    ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
+    settings.links.github && ['GitHub', settings.links.github],
+  ].filter(Boolean)
+  return (
+    <footer className="fl" id="contact" data-theme="dark">
+      <div className="fl-main">
+        <p className="fl-ask">{ui.liteAsk}</p>
+        <Link to="/kontak" className="fl-cta">{ui.contactCta} <Icon name="right" /></Link>
+        <ul className="fl-links">
+          {links.map(([label, href]) => (
+            <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>
+          ))}
+        </ul>
+      </div>
+      <FootBar ui={ui} />
+    </footer>
+  )
+}
+
+/** Footer lengkap di beranda. */
 export default function Contact({ lang, ui, setLang }) {
   const root = useRef(null)
   const time = useClock(settings.timezone)
