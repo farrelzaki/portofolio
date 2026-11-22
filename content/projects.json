@@ -337,20 +337,22 @@
       "Open-Meteo",
       "Web-GIS"
     ],
-    "cover": "/media/projects/lensajentik.jpg",
+    "cover": "/media/projects/lensajentik/cover.jpg",
     "gallery": [
-      "/media/projects/lensajentik-deck-2.jpg",
-      "/media/projects/lensajentik-deck-solusi.jpg"
+      "/media/projects/lensajentik/screen-1.jpg",
+      "/media/projects/lensajentik/screen-2.jpg"
     ],
     "coverAlt": {
-      "id": "Tampilan beranda LensaJentik",
-      "en": "LensaJentik home screen"
+      "id": "Beranda LensaJentik: \"Satu Peta, Seribu Langkah Cegah Wabah.\"",
+      "en": "LensaJentik home page: \"One Map, A Thousand Steps to Prevent Outbreaks.\""
     },
     "illustration": false,
     "accent": "#3B5BDB",
     "demoUrl": "",
     "repoUrl": "https://github.com/farrelzaki/BackendLensaJentik",
-    "published": true
+    "published": true,
+    "video": "/media/projects/lensajentik/demo.mp4",
+    "poster": "/media/projects/lensajentik/poster.jpg"
   },
   {
     "id": "sudepi",
