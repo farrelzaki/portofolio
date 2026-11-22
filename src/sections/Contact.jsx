@@ -68,26 +68,22 @@ export function FootBar({ ui }) {
   )
 }
 
-/** Footer ringkas untuk halaman selain beranda: ajakan singkat, tautan kontak, baris hak cipta. */
-export function FooterLite({ ui }) {
-  const links = [
-    ['Email', `mailto:${settings.email}`],
-    ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
-    settings.links.github && ['GitHub', settings.links.github],
-    settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
-    settings.links.instagram && ['Instagram', settings.links.instagram],
-  ].filter(Boolean)
+/** Footer ringkas untuk halaman selain beranda: navigasi antarhalaman dan baris hak cipta. */
+export function FooterLite({ ui, page }) {
   return (
     <footer className="fl" id="contact" data-theme="dark">
-      <div className="fl-main">
-        <p className="fl-ask">{ui.liteAsk}</p>
-        <Link to="/kontak" className="fl-cta">{ui.contactCta} <Icon name="right" /></Link>
-        <ul className="fl-links">
-          {links.map(([label, href]) => (
-            <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>
+      <nav className="fl-nav" aria-label={ui.navigation}>
+        <ul>
+          {PAGES.map(({ id, path }) => (
+            <li key={id}>
+              <Link to={path} className={page === id ? 'on' : ''} aria-current={page === id ? 'page' : undefined}>
+                <span>{ui.nav[id]}</span>
+                <Icon name="right" />
+              </Link>
+            </li>
           ))}
         </ul>
-      </div>
+      </nav>
       <FootBar ui={ui} />
     </footer>
   )

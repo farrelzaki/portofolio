@@ -154,7 +154,7 @@ export default function App() {
       <main id="main" key={shown}>
         <View {...props} />
       </main>
-      {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite ui={ui} />}
+      {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite ui={ui} page={page} />}
       <div ref={curtain} className={`curtain ${PLAY_INTRO ? 'is-intro' : ''}`} aria-hidden="true">
         <span className="curtain-label"><span ref={label} /></span>
         <span className="curtain-bar"><i ref={bar} /></span>

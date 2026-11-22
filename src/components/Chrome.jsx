@@ -119,8 +119,8 @@ function Peek({ kind, lang, ui, onPick }) {
         <div className="peek-cards">
           {projects.slice(0, 2).map((p) => (
             <Link key={p.id} to={`/proyek/${p.id}`} onClick={onPick} className="peek-card" style={{ '--accent': p.accent }}>
-              <img src={p.cover} alt="" loading="lazy" />
-              <span><strong>{p.name}</strong><em>{p.year} · {t(lang, p.category)}</em></span>
+              <span className="peek-card-img"><img src={p.cover} alt="" loading="lazy" /></span>
+              <span className="peek-card-cap"><strong>{p.name}</strong>{p.year && <em>{p.year}</em>}</span>
             </Link>
           ))}
         </div>
@@ -176,7 +176,7 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
     <>
       <a className="skip" href="#main">{ui.skip}</a>
 
-      <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
+      <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''} ${peek ? 'on-peek' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
         <span>Farrel</span><span>Zaki</span>
       </Link>
 
@@ -211,7 +211,7 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
       <button
         ref={toggle}
         type="button"
-        className={`menu-toggle chrome-${menuOpen ? 'dark' : s.bottom}`}
+        className={`menu-toggle chrome-${menuOpen ? 'dark' : s.bottom} ${peek ? 'on-peek' : ''}`}
         aria-expanded={menuOpen}
         aria-controls="flyout"
         onClick={() => setMenuOpen(!menuOpen)}

@@ -30,6 +30,7 @@ export default function Ring({ lang, ui }) {
       gsap.set(imgs, { opacity: 0, scale: 0.3 })
       gsap.set('.ring-link', { opacity: 0, y: 40 })
       gsap.set('.ring-cue', { opacity: 0 })
+      gsap.set('.ring-next', { autoAlpha: 0 })
       // Di-pin: (1) lingkaran gelap melebar dari tengah layar, (2) kartu proyek berputar keluar dari
       // tengah ke orbitnya, (3) judul muncul, (4) cincin berputar pelan, (5) keluar: kartu berputar
       // kembali ke tengah, judul memudar, lingkaran gelap menyusut sampai layar putih lagi.
@@ -42,6 +43,10 @@ export default function Ring({ lang, ui }) {
             root.current.dataset.theme = at > 0.8 && at < 4.35 ? 'dark' : 'light'
           },
           onLeaveBack: () => { root.current.dataset.theme = 'light' },
+          // Disembunyikan langsung (bukan lewat timeline yang ter-scrub) supaya tidak ada salinan
+          // judul yang ikut bergeser saat section Keahlian mulai di-pin.
+          onLeave: () => gsap.set(root.current, { autoAlpha: 0 }),
+          onEnterBack: () => gsap.set(root.current, { autoAlpha: 1 }),
         },
       })
       tl.to('.ring-dark', { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.in', duration: 1 })
@@ -57,11 +62,13 @@ export default function Ring({ lang, ui }) {
         .to(ring.current, { rotate: 200, ease: 'power2.in', duration: 1 }, 3.35)
         .to(items, { '--k': 0, ease: 'power3.in', duration: 0.9, stagger: { each: 0.02, from: 'end' } }, 3.35)
         .to(imgs, { opacity: 0, scale: 0.3, ease: 'power3.in', duration: 0.8, stagger: { each: 0.02, from: 'end' } }, 3.45)
+        // Judul "Dari data sampai layar" baru disiapkan di balik lingkaran gelap yang menutup layar,
+        // lalu tersingkap saat lingkaran menyusut. Posisinya sama persis dengan judul asli di
+        // section Keahlian (yang ditarik naik satu layar), jadi pergantiannya tidak terlihat.
+        .set('.ring-next', { autoAlpha: 1 }, 3.85)
         .to('.ring-dark', { clipPath: 'circle(0% at 50% 50%)', ease: 'power2.inOut', duration: 1 }, 3.9)
-        .to({}, { duration: 0.15 })
-        // Di akhir, judul "Dari data sampai layar" yang tersingkap tepat menimpa judul asli di
-        // section Keahlian (yang ditarik naik satu layar), jadi cincin bisa disembunyikan tanpa lompatan.
-        .set(root.current, { autoAlpha: 0 })
+        // Jeda agar animasi ter-scrub sudah selesai sebelum pin dilepas.
+        .to({}, { duration: 0.6 })
     }, root)
     return () => ctx.revert()
   }, [])

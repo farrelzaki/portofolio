@@ -128,6 +128,12 @@
 }
 .sk-proj-list.dark .sk-proj { background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--on-ink-08); color: var(--bg); }
 .sk-proj-list.dark .sk-proj-text span { color: #AEB9CF; }
+/* Di panel gelap, baris proyek berbalik menjadi putih saat di-hover. */
+.sk-row .sk-proj, .sk-proj-list.dark .sk-proj { transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.16s ease-out; }
+@media (hover: hover) and (pointer: fine) {
+  .sk-row .sk-proj:hover, .sk-proj-list.dark .sk-proj:hover { background: var(--paper); color: var(--ink); box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32); }
+  .sk-row .sk-proj:hover .sk-proj-text span, .sk-proj-list.dark .sk-proj:hover .sk-proj-text span { color: var(--slate); }
+}
 
 .sk-tools { padding: clamp(80px, 9vw, 140px) var(--page-right) clamp(90px, 10vw, 150px) var(--page-left); background: var(--ink); color: var(--bg); }
 .sk-tools header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 40px; margin-bottom: clamp(28px, 3vw, 44px); }

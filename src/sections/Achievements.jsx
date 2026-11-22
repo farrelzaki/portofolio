@@ -1,9 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
-import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
+import { finePointer, gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import TwoTone from '../components/TwoTone.jsx'
 import MoreLink from '../components/MoreLink.jsx'
-import { useTilt } from '../lib/tilt.js'
 
 const { settings, achievements } = content
 
@@ -13,7 +12,6 @@ export default function Achievements({ lang, ui }) {
   const wide = useMedia('(min-width: 900px)')
   const sec = settings.sections.achievements
   const n = achievements.length
-  useTilt(root, '.acard')
 
   useEffect(() => {
     if (!wide || prefersReduced()) return
@@ -41,6 +39,56 @@ export default function Achievements({ lang, ui }) {
     return () => ctx.revert()
   }, [wide, n, lang])
 
+  // Hover: kartu ditarik keluar dari tumpukan (naik), lalu diletakkan di depan semua kartu.
+  // Kartu itu tetap di depan sampai kartu lain di-hover; barulah ia dimasukkan kembali ke
+  // tempatnya sementara kartu baru ditarik keluar.
+  useEffect(() => {
+    if (!wide || prefersReduced() || !finePointer()) return
+    const slots = [...root.current.querySelectorAll('.acard-slot')]
+    let active = -1
+    const base = (i) => i + 1
+    const pullOut = (i) => {
+      const slot = slots[i]
+      const card = slot.firstElementChild
+      gsap.killTweensOf(card)
+      gsap.timeline()
+        .to(card, { yPercent: -62, rotate: (i - (n - 1) / 2) * -3, duration: 0.38, ease: 'power3.out' })
+        .call(() => { slot.style.zIndex = 50 })
+        .to(card, { yPercent: -6, y: 0, rotate: 0, scale: 1.12, duration: 0.6, ease: 'expo.out' })
+      card.classList.add('is-out')
+    }
+    const putBack = (i) => {
+      const slot = slots[i]
+      const card = slot.firstElementChild
+      gsap.killTweensOf(card)
+      card.classList.remove('is-out')
+      gsap.timeline()
+        .to(card, { yPercent: -62, scale: 1, rotate: (i - (n - 1) / 2) * 3, duration: 0.36, ease: 'power3.in' })
+        .call(() => { slot.style.zIndex = 40 })
+        .to(card, { yPercent: 0, rotate: 0, duration: 0.55, ease: 'expo.out' })
+        .call(() => { slot.style.zIndex = base(i) })
+    }
+    const handlers = slots.map((slot, i) => {
+      const on = () => {
+        if (active === i) return
+        if (active >= 0) putBack(active)
+        active = i
+        pullOut(i)
+      }
+      slot.addEventListener('pointerenter', on)
+      return on
+    })
+    return () => {
+      slots.forEach((slot, i) => {
+        slot.removeEventListener('pointerenter', handlers[i])
+        gsap.killTweensOf(slot.firstElementChild)
+        gsap.set(slot.firstElementChild, { clearProps: 'transform' })
+        slot.firstElementChild.classList.remove('is-out')
+        slot.style.zIndex = base(i)
+      })
+    }
+  }, [wide, n])
+
   return (
     <section ref={root} className="achievements" id="achievements" data-theme="light">
       <header className="sec-head left">
@@ -50,7 +98,7 @@ export default function Achievements({ lang, ui }) {
       <div className="fan">
         {achievements.map((a, i) => (
           <div key={a.id} className="acard-slot" style={{ zIndex: i + 1 }}>
-          <figure className={`acard tilt-card ${i % 2 ? 'alt' : ''}`}>
+          <figure className={`acard ${i % 2 ? 'alt' : ''}`}>
             <div className="acard-top mono">
               <span>{a.date.slice(0, 4)}</span>
               {a.highlight && <span className="badge">{ui.highlight}</span>}
