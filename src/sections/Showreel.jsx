@@ -2,11 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, ScrollTrigger } from '../lib/motion.js'
 import ScrollCue from '../components/ScrollCue.jsx'
+import DemoVideo from '../components/DemoVideo.jsx'
 
 const byId = Object.fromEntries(content.projects.map((p) => [p.id, p]))
 const SLIDES = content.settings.showreel
   .filter((r) => r.image && byId[r.project])
-  .map((r, k) => ({ src: r.image, project: byId[r.project], key: `${r.project}-${k}` }))
+  .map((r, k) => ({ src: r.image, project: byId[r.project], video: byId[r.project].video || '', key: `${r.project}-${k}` }))
+const videoOk = () => !prefersReduced() && !navigator.connection?.saveData
 
 /**
  * Showreel: kartu membulat di tengah bawah yang membesar ke layar penuh saat section di-pin
@@ -18,10 +20,13 @@ export default function Showreel({ lang, ui }) {
   const media = useRef(null)
   const [index, setIndex] = useState(0)
 
+  // Slide gambar berganti setiap 3,2 detik; slide video pindah setelah videonya selesai
+  // (dengan batas aman 20 detik bila video tidak pernah selesai, mis. gagal dimuat).
+  const next = () => setIndex((i) => (i + 1) % SLIDES.length)
   useEffect(() => {
-    const id = setInterval(() => setIndex((i) => (i + 1) % SLIDES.length), 3200)
-    return () => clearInterval(id)
-  }, [])
+    const id = setTimeout(next, SLIDES[index].video && videoOk() ? 20000 : 3200)
+    return () => clearTimeout(id)
+  }, [index])
 
   useEffect(() => {
     if (prefersReduced()) return
@@ -66,6 +71,9 @@ export default function Showreel({ lang, ui }) {
             {SLIDES.map((s, i) => (
               <img key={s.key} src={s.src} alt="" className={i === index ? 'on' : ''} loading={i < 2 ? 'eager' : 'lazy'} />
             ))}
+            {current.video && (
+              <DemoVideo key={current.key} className="showreel-video" src={current.video} poster={current.src} loop={false} onEnded={next} />
+            )}
           </div>
           <div className="showreel-caption showreel-ui">
             <span className="mono">{String(index + 1).padStart(2, '0')} / {String(SLIDES.length).padStart(2, '0')}</span>

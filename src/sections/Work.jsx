@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { finePointer, prefersReduced, ScrollTrigger } from '../lib/motion.js'
 import { useCardReveal } from '../lib/cards.js'
@@ -6,6 +6,7 @@ import TwoTone from '../components/TwoTone.jsx'
 import ScrollCue from '../components/ScrollCue.jsx'
 import MoreLink from '../components/MoreLink.jsx'
 import Icon from '../components/Icon.jsx'
+import DemoVideo from '../components/DemoVideo.jsx'
 
 const { settings, projects, achievements } = content
 const highlight = achievements.find((a) => a.highlight)
@@ -31,16 +32,23 @@ function offTilt(e) {
 export function Card({ p, lang, ui, onOpen, className = '' }) {
   const alt = p.gallery?.[0]
   const accent = p.accent || '#0B1220'
+  // Kartu dengan video demo memutar videonya saat di-hover (menggantikan gambar kedua).
+  const [hover, setHover] = useState(false)
+  const fine = finePointer()
   return (
     <article className={`pcard ${className}`} data-reveal style={{ '--accent': accent, '--on-accent': inkOn(accent) }}>
       <button
         type="button" className="pcard-btn" onClick={() => onOpen(p.id)} data-cursor={ui.viewProject} aria-label={`${ui.openProject}: ${p.name}`}
-        onPointerMove={finePointer() ? onTilt : undefined} onPointerLeave={finePointer() ? offTilt : undefined}
+        onPointerMove={fine ? onTilt : undefined}
+        onPointerEnter={fine ? () => setHover(true) : undefined}
+        onPointerLeave={fine ? (e) => { offTilt(e); setHover(false) } : undefined}
       >
         <div className="pcard-media">
           <div className="pcard-shift">
             <img className="pcard-img" src={p.cover} alt={t(lang, p.coverAlt)} loading="lazy" />
-            {alt && <img className="pcard-alt" src={alt} alt="" loading="lazy" aria-hidden="true" />}
+            {p.video && fine
+              ? <DemoVideo className="pcard-alt pcard-video" src={p.video} poster={p.poster} mode="manual" active={hover} />
+              : alt && <img className="pcard-alt" src={alt} alt="" loading="lazy" aria-hidden="true" />}
           </div>
         </div>
         <div className="pcard-label">

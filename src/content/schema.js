@@ -5,6 +5,8 @@ const text = z.object({ id: z.string(), en: z.string() })
 const textRequired = z.object({ id: z.string().min(1), en: z.string() })
 const url = z.union([z.literal(''), z.url()])
 const media = z.union([z.literal(''), z.string().regex(/^\/media\/[a-z0-9/_.-]+\.(jpg|jpeg|png|webp|pdf)$/i)])
+// Video demo (MP4) di bawah /media.
+const video = z.union([z.literal(''), z.string().regex(/^\/media\/[a-z0-9/_.-]+\.mp4$/i)])
 const slug = z.string().regex(/^[a-z0-9-]+$/)
 const month = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/)
 
@@ -58,6 +60,9 @@ export const projectSchema = z.object({
   tags: z.array(z.string().min(1)),
   cover: media,
   gallery: z.array(media),
+  // Opsional: video demo singkat + poster (frame pertama) untuk showreel, kartu, dan studi kasus.
+  video: video.optional(),
+  poster: media.optional(),
   coverAlt: text,
   illustration: z.boolean(),
   accent: z.string().regex(/^#[0-9a-fA-F]{6}$/),

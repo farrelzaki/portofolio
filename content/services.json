@@ -17,7 +17,30 @@
       "Postman"
     ],
     "projects": [
+      "nalarruang",
       "reservaseat",
+      "sudepi"
+    ],
+    "published": true
+  },
+  {
+    "id": "ml",
+    "title": {
+      "id": "AI di perangkat",
+      "en": "On-device AI"
+    },
+    "description": {
+      "id": "Model visi komputer yang berjalan langsung di browser atau ponsel dengan ONNX Runtime, tanpa server: pemeriksa tulisan aksara Jawa dan pendeteksi nominal Rupiah.",
+      "en": "Computer-vision models that run directly in the browser or on the phone with ONNX Runtime, no server: a Javanese handwriting checker and a Rupiah banknote detector."
+    },
+    "tags": [
+      "ONNX Runtime",
+      "CNN",
+      "YOLOv8",
+      "Python"
+    ],
+    "projects": [
+      "aksaralens",
       "sudepi"
     ],
     "published": true

@@ -1,5 +1,273 @@
 [
   {
+    "id": "nalarruang",
+    "name": "NalarRuang",
+    "year": "2026",
+    "category": {
+      "id": "WebGIS · Properti",
+      "en": "WebGIS · Real estate"
+    },
+    "description": {
+      "id": "Platform WebGIS untuk menemukan kawasan hunian ideal di Jabodetabek berdasarkan gaya hidup. Pengguna memilih persona (Commuter, Driver, Social & Vibe, Zen), lalu kawasan dinilai lewat enam layer data spasial publik: rekomendasi Top 3, penilaian bintang per persona, simulator rute, dan uji lahan.",
+      "en": "A WebGIS platform for finding the right residential area in Greater Jakarta based on lifestyle. Users pick personas (Commuter, Driver, Social & Vibe, Zen) and areas are scored across six public spatial data layers: Top 3 recommendations, per-persona star ratings, a route simulator and a site test."
+    },
+    "story": {
+      "problem": {
+        "id": "Memilih kawasan hunian masih bergantung pada iklan dan klaim agen, sementara data yang relevan dengan gaya hidup tiap orang (transit, banjir, polusi, fasilitas) tersebar di banyak sumber dan sulit dibaca.",
+        "en": "Choosing where to live still relies on ads and agents' claims, while the data that matters for each person's lifestyle (transit, flooding, pollution, amenities) is scattered across many sources and hard to read."
+      },
+      "contribution": {
+        "id": "Di tim lima orang saya Backend Developer: ERD dan skema PostGIS, boilerplate Laravel, migrasi, REST API, optimasi query spasial, Persona Grading dan Commute Simulator bersama tim, serta staging dan deployment.",
+        "en": "In a team of five I was the Backend Developer: the ERD and PostGIS schema, the Laravel boilerplate, migrations, the REST API, spatial query optimisation, Persona Grading and the Commute Simulator with the team, plus staging and deployment."
+      },
+      "process": [
+        {
+          "id": "Merancang skema PostGIS untuk layer peta dan memuat data nyata Jabodetabek: batas desa BIG, OSM, InaRISK, Commute Data API, dan GTFS TransJakarta.",
+          "en": "Designed the PostGIS schema for map layers and loaded real Greater Jakarta data: BIG village boundaries, OSM, InaRISK, the Commute Data API and TransJakarta GTFS."
+        },
+        {
+          "id": "Membangun REST API Laravel untuk layer, pencarian, penilaian persona, dan rute, dengan logika skor dan pemeringkatan dipisah dari HTTP supaya bisa diuji.",
+          "en": "Built the Laravel REST API for layers, search, persona scoring and routing, keeping scoring and ranking logic separate from HTTP so it can be tested."
+        },
+        {
+          "id": "Simulator rute memakai server publik Valhalla (cadangan OSRM) untuk kendaraan pribadi, jalan kaki, dan transportasi publik, termasuk rute alternatif.",
+          "en": "The route simulator uses public Valhalla servers (OSRM as fallback) for private vehicles, walking and public transport, including alternative routes."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "Tanpa akun dan tanpa login: preferensi persona hanya hidup selama sesi.",
+          "en": "No accounts and no login: persona preferences live only for the session."
+        },
+        {
+          "id": "Peta dipindah ke MapLibre GL JS dengan peta dasar OpenFreeMap (gratis, tanpa token), dengan Leaflet sebagai cadangan bila WebGL tidak tersedia.",
+          "en": "Moved the map to MapLibre GL JS on OpenFreeMap base maps (free, no token), with Leaflet as a fallback when WebGL is unavailable."
+        }
+      ],
+      "results": [
+        {
+          "id": "Proyek mata kuliah Sistem Informasi Geografis dan Manajemen Proyek TI; fitur dibekukan 20 Nov 2026 dan serah terima final 27 Nov 2026.",
+          "en": "Coursework for Geographic Information Systems and IT Project Management; features froze on 20 Nov 2026 with final handover on 27 Nov 2026."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
+    },
+    "role": {
+      "id": "Backend Developer",
+      "en": "Backend Developer"
+    },
+    "tags": [
+      "Laravel",
+      "PostgreSQL + PostGIS",
+      "Inertia.js",
+      "React",
+      "MapLibre",
+      "Leaflet"
+    ],
+    "cover": "/media/projects/nalarruang/cover.jpg",
+    "gallery": [
+      "/media/projects/nalarruang/screen-1.jpg",
+      "/media/projects/nalarruang/screen-2.jpg",
+      "/media/projects/nalarruang/screen-3.jpg"
+    ],
+    "video": "/media/projects/nalarruang/demo.mp4",
+    "poster": "/media/projects/nalarruang/poster.jpg",
+    "coverAlt": {
+      "id": "Peta NalarRuang dengan panel Detail Lokasi dan penilaian persona",
+      "en": "NalarRuang map with the Location Detail panel and persona ratings"
+    },
+    "illustration": false,
+    "accent": "#1E3A5F",
+    "demoUrl": "",
+    "repoUrl": "https://github.com/farrelzaki/NalarRuang",
+    "published": true
+  },
+  {
+    "id": "aksaralens",
+    "name": "AksaraLens",
+    "year": "2026",
+    "category": {
+      "id": "Edukasi · AI di browser",
+      "en": "Education · In-browser AI"
+    },
+    "description": {
+      "id": "Web app mobile-first untuk belajar aksara Jawa bertahap: jalur 3 bab, latihan menulis yang diperiksa CNN, dan scanner foto aksara cetak yang mentransliterasikan ke Latin. Semua inferensi berjalan di browser dengan ONNX Runtime Web, jadi foto tidak pernah keluar dari perangkat.",
+      "en": "A mobile-first web app for learning Javanese script step by step: a three-chapter path, handwriting practice checked by a CNN, and a scanner that transliterates printed script into Latin. All inference runs in the browser with ONNX Runtime Web, so photos never leave the device."
+    },
+    "story": {
+      "problem": {
+        "id": "Aksara Jawa diajarkan di sekolah, tetapi latihan menulis jarang mendapat umpan balik langsung, dan tulisan aksara di papan nama atau buku sulit dibaca bagi yang belum lancar.",
+        "en": "Javanese script is taught in schools, but handwriting practice rarely gets immediate feedback, and script on signboards or in books is hard to read for people who are not fluent."
+      },
+      "contribution": {
+        "id": "Di tim tiga orang saya memegang bagian ML dan scanner: model pemeriksa tulisan tangan, pipeline scanner (pelurusan, deteksi baris, pembacaan CRNN), pengurai suku kata, profil huruf yang sering salah, dan berkas model di aplikasi.",
+        "en": "In a team of three I owned the ML and scanner side: the handwriting checker model, the scanner pipeline (deskew, line detection, CRNN reading), the syllable parser, the most-missed letters profile, and the model files in the app."
+      },
+      "process": [
+        {
+          "id": "Menjalankan model ONNX langsung di browser (WebGPU dengan cadangan WASM) supaya foto dan hasil scan tidak dikirim atau disimpan di mana pun.",
+          "en": "Ran the ONNX models directly in the browser (WebGPU with a WASM fallback) so photos and scan results are never sent or stored anywhere."
+        },
+        {
+          "id": "Menyamakan pra-proses di browser dengan notebook pelatihan: skeleton identik pada 200/200 coretan uji dan tebakan Model 1 sama 100% pada 196 tulisan tangan.",
+          "en": "Matched in-browser preprocessing to the training notebook: identical skeletons on 200/200 test strokes and 100% identical Model 1 predictions on 196 handwriting samples."
+        },
+        {
+          "id": "Menguji scanner pada foto nyata dengan set pengembangan dan set uji yang dipisah per sumber, lalu mencatat setiap perubahan pipeline dan hasilnya di dokumen evaluasi.",
+          "en": "Tested the scanner on real photos with development and test sets split by source, logging every pipeline change and its result in the evaluation document."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "Ambang keyakinan pemeriksa tulisan ditetapkan 0,6: tulisan benar tetap lolos sementara coretan acak dan sandhangan tertolak.",
+          "en": "Set the handwriting checker's confidence threshold at 0.6: correct writing still passes while random scribbles and diacritics are rejected."
+        },
+        {
+          "id": "Bila keyakinan rendah, aplikasi menampilkan \"Terbaca sebagai …\" alih-alih menyatakan benar, jadi pengguna tidak disesatkan.",
+          "en": "When confidence is low the app says \"Read as …\" instead of marking it correct, so learners are not misled."
+        }
+      ],
+      "results": [
+        {
+          "id": "Pemeriksa tulisan tangan: 98,5% tulisan benar diterima dan 99,1% coretan acak serta sandhangan ditolak pada ambang 0,6 (uji di aplikasi, 19 Okt 2026).",
+          "en": "Handwriting checker: 98.5% of correct writing accepted and 99.1% of random scribbles and diacritics rejected at the 0.6 threshold (in-app test, 19 Oct 2026)."
+        },
+        {
+          "id": "Aplikasi live di aksara-lens.vercel.app; scanner foto nyata masih dalam tahap peningkatan.",
+          "en": "Live at aksara-lens.vercel.app; the real-photo scanner is still being improved."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
+    },
+    "role": {
+      "id": "ML & scanner",
+      "en": "ML & scanner"
+    },
+    "tags": [
+      "ONNX Runtime Web",
+      "CNN",
+      "CRNN",
+      "React",
+      "TypeScript",
+      "Supabase"
+    ],
+    "cover": "/media/projects/aksaralens/cover.jpg",
+    "gallery": [
+      "/media/projects/aksaralens/screen-1.jpg",
+      "/media/projects/aksaralens/screen-2.jpg",
+      "/media/projects/aksaralens/screen-3.jpg"
+    ],
+    "video": "/media/projects/aksaralens/demo.mp4",
+    "poster": "/media/projects/aksaralens/poster.jpg",
+    "coverAlt": {
+      "id": "Tiga layar AksaraLens: beranda belajar, hasil scanner aksara, dan profil",
+      "en": "Three AksaraLens screens: learning home, script scanner result and profile"
+    },
+    "illustration": false,
+    "accent": "#4F6B2A",
+    "demoUrl": "https://aksara-lens.vercel.app",
+    "repoUrl": "https://github.com/farrelzaki/AksaraLens",
+    "published": true
+  },
+  {
+    "id": "cocokin",
+    "name": "Cocokin!",
+    "year": "2026",
+    "category": {
+      "id": "Web · Pendidikan",
+      "en": "Web · Education"
+    },
+    "description": {
+      "id": "Platform pemilihan jurusan dan estimasi peluang masuk PTN untuk siswa kelas 12, berbasis data resmi seleksi nasional, dibuat untuk Hackathon JOINTS UGM 2026. Saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
+      "en": "A major-selection and state-university admission-chance platform for final-year students, built on official national selection data for the JOINTS UGM 2026 Hackathon. I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, Gemini integration and QA."
+    },
+    "story": {
+      "problem": {
+        "id": "Riset ICCN (2023) mencatat 87% mahasiswa merasa salah jurusan. Mulai SNPMB 2026, siswa yang lolos SNBP terkunci dan tidak boleh ikut UTBK-SNBT maupun jalur mandiri PTN, sementara nilai TKA ikut menentukan eligibilitas. Siswa kelas 12 harus memilih dari 5.150 prodi di 146 PTN tanpa alat yang objektif, dan chatbot AI biasa sering mengarang angka peluang.",
+        "en": "ICCN research (2023) found 87% of Indonesian students feel they chose the wrong major. From SNPMB 2026, students admitted through SNBP are locked out of UTBK-SNBT and independent tracks, and academic test (TKA) scores now count toward eligibility. Final-year students pick from 5,150 programmes at 146 state universities without an objective tool, and generic AI chatbots often make up admission odds."
+      },
+      "contribution": {
+        "id": "Di tim FajarWasHere saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
+        "en": "In team FajarWasHere I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, the Gemini integration and QA."
+      },
+      "process": [
+        {
+          "id": "Asesmen minat 30 butir O*NET Holland RIASEC, dicocokkan ke profil karier dengan korelasi Pearson.",
+          "en": "A 30-item O*NET Holland RIASEC interest assessment, matched to career profiles with Pearson correlation."
+        },
+        {
+          "id": "Input akademik per jalur: NPSN sekolah (kuota eligibilitas), rapor, dan 2 mapel pilihan TKA untuk SNBP, atau target 7 subtes UTBK untuk SNBT.",
+          "en": "Academic input per track: school NPSN (eligibility quota), report grades and 2 elective TKA subjects for SNBP, or 7 UTBK subtest targets for SNBT."
+        },
+        {
+          "id": "Simulasi jurusan berisi 3 studi kasus tingkat awal kuliah, lalu 3 kartu rekomendasi: impian, pengaman, dan alternatif.",
+          "en": "A major simulation with 3 first-year case studies, then 3 recommendation cards: dream, safety net and alternative."
+        },
+        {
+          "id": "Dibangun dengan Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth), dan Gemini 2.5 Flash selama periode hackathon 12–16 September 2026.",
+          "en": "Built with Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth) and Gemini 2.5 Flash during the 12–16 September 2026 hackathon window."
+        }
+      ],
+      "decisions": [
+        {
+          "id": "Angka peluang 100% dihitung mesin skoring deterministik (pure function TypeScript), bukan oleh LLM, karena LLM rawan halusinasi angka.",
+          "en": "Admission odds come 100% from a deterministic scoring engine (pure TypeScript functions), never from the LLM, because LLMs hallucinate numbers."
+        },
+        {
+          "id": "Gemini hanya jadi narator: ia mengambil angka lewat function calling ke API internal dan tidak punya wewenang mengubahnya.",
+          "en": "Gemini is only the narrator: it fetches numbers via function calling to the internal API and cannot change them."
+        },
+        {
+          "id": "Memakai Gemini 2.5 Flash karena Gemini 1.5 Flash sudah dihentikan, dan 2.5 Flash cepat serta mendukung output JSON terstruktur.",
+          "en": "Used Gemini 2.5 Flash because 1.5 Flash was discontinued, and 2.5 Flash is fast and supports structured JSON output."
+        }
+      ],
+      "results": [
+        {
+          "id": "MVP fungsional untuk Hackathon JOINTS UGM 2026, lengkap dengan demo interaktif untuk juri.",
+          "en": "A working MVP for the JOINTS UGM 2026 Hackathon, with an interactive demo for the judges."
+        }
+      ],
+      "reflection": {
+        "id": "",
+        "en": ""
+      }
+    },
+    "role": {
+      "id": "Backend, Data & AI",
+      "en": "Backend, Data & AI"
+    },
+    "tags": [
+      "Next.js 15",
+      "TypeScript",
+      "Supabase",
+      "Gemini",
+      "Tailwind 4"
+    ],
+    "cover": "/media/projects/cocokin/cover.jpg",
+    "gallery": [
+      "/media/projects/cocokin/screen-1.jpg",
+      "/media/projects/cocokin/screen-2.jpg"
+    ],
+    "coverAlt": {
+      "id": "Beranda Cocokin! dengan ilustrasi kampus bergaya piksel",
+      "en": "Cocokin! home page with a pixel-art campus illustration"
+    },
+    "illustration": false,
+    "accent": "#EA4335",
+    "demoUrl": "https://cocokin-joints.vercel.app",
+    "repoUrl": "https://github.com/Daliondroid/FajarWasHere-Joints",
+    "published": true,
+    "video": "/media/projects/cocokin/demo.mp4",
+    "poster": "/media/projects/cocokin/poster.jpg"
+  },
+  {
     "id": "lensajentik",
     "name": "LensaJentik",
     "year": "2026",
@@ -166,19 +434,22 @@
       "Capacitor",
       "Offline-first"
     ],
-    "cover": "/media/projects/sudepi.jpg",
+    "cover": "/media/projects/sudepi/cover.jpg",
     "gallery": [
-      "/media/projects/sudepi-2.jpg"
+      "/media/projects/sudepi/screen-1.jpg",
+      "/media/projects/sudepi/screen-2.jpg"
     ],
     "coverAlt": {
-      "id": "Layar aplikasi SUDEPI: scan uang, dialog transaksi, pembayaran terverifikasi",
-      "en": "SUDEPI app screens: cash scan, transaction dialog, verified payment"
+      "id": "Tiga layar SUDEPI: masukkan uang, layar untuk pedagang dengan kembalian, dan total belanja",
+      "en": "Three SUDEPI screens: cash entered, the merchant screen with change, and the purchase total"
     },
     "illustration": false,
     "accent": "#2563EB",
     "demoUrl": "",
     "repoUrl": "https://github.com/farrelzaki/SUDEPI",
-    "published": true
+    "published": true,
+    "video": "/media/projects/sudepi/demo.mp4",
+    "poster": "/media/projects/sudepi/poster.jpg"
   },
   {
     "id": "reservaseat",
@@ -272,95 +543,6 @@
     "accent": "#5B6B2E",
     "demoUrl": "",
     "repoUrl": "https://github.com/Mattazz44/frontendreservaseat",
-    "published": true
-  },
-  {
-    "id": "cocokin",
-    "name": "Cocokin!",
-    "year": "2026",
-    "category": {
-      "id": "Web · Pendidikan",
-      "en": "Web · Education"
-    },
-    "description": {
-      "id": "Platform pemilihan jurusan dan estimasi peluang masuk PTN untuk siswa kelas 12, berbasis data resmi seleksi nasional, dibuat untuk Hackathon JOINTS UGM 2026. Saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
-      "en": "A major-selection and state-university admission-chance platform for final-year students, built on official national selection data for the JOINTS UGM 2026 Hackathon. I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, Gemini integration and QA."
-    },
-    "story": {
-      "problem": {
-        "id": "Riset ICCN (2023) mencatat 87% mahasiswa merasa salah jurusan. Mulai SNPMB 2026, siswa yang lolos SNBP terkunci dan tidak boleh ikut UTBK-SNBT maupun jalur mandiri PTN, sementara nilai TKA ikut menentukan eligibilitas. Siswa kelas 12 harus memilih dari 5.150 prodi di 146 PTN tanpa alat yang objektif, dan chatbot AI biasa sering mengarang angka peluang.",
-        "en": "ICCN research (2023) found 87% of Indonesian students feel they chose the wrong major. From SNPMB 2026, students admitted through SNBP are locked out of UTBK-SNBT and independent tracks, and academic test (TKA) scores now count toward eligibility. Final-year students pick from 5,150 programmes at 146 state universities without an objective tool, and generic AI chatbots often make up admission odds."
-      },
-      "contribution": {
-        "id": "Di tim FajarWasHere saya memegang backend, data, dan AI: basis data Supabase, impor data, mesin skoring (korelasi Pearson, sigmoid passing score, aturan SNBP/SNBT 2026), API, autentikasi, integrasi Gemini, dan QA.",
-        "en": "In team FajarWasHere I owned backend, data and AI: the Supabase database, data imports, the scoring engine (Pearson correlation, sigmoid passing score, SNBP/SNBT 2026 rules), API, auth, the Gemini integration and QA."
-      },
-      "process": [
-        {
-          "id": "Asesmen minat 30 butir O*NET Holland RIASEC, dicocokkan ke profil karier dengan korelasi Pearson.",
-          "en": "A 30-item O*NET Holland RIASEC interest assessment, matched to career profiles with Pearson correlation."
-        },
-        {
-          "id": "Input akademik per jalur: NPSN sekolah (kuota eligibilitas), rapor, dan 2 mapel pilihan TKA untuk SNBP, atau target 7 subtes UTBK untuk SNBT.",
-          "en": "Academic input per track: school NPSN (eligibility quota), report grades and 2 elective TKA subjects for SNBP, or 7 UTBK subtest targets for SNBT."
-        },
-        {
-          "id": "Simulasi jurusan berisi 3 studi kasus tingkat awal kuliah, lalu 3 kartu rekomendasi: impian, pengaman, dan alternatif.",
-          "en": "A major simulation with 3 first-year case studies, then 3 recommendation cards: dream, safety net and alternative."
-        },
-        {
-          "id": "Dibangun dengan Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth), dan Gemini 2.5 Flash selama periode hackathon 12–16 September 2026.",
-          "en": "Built with Next.js 15, Supabase PostgreSQL, NextAuth (Google OAuth) and Gemini 2.5 Flash during the 12–16 September 2026 hackathon window."
-        }
-      ],
-      "decisions": [
-        {
-          "id": "Angka peluang 100% dihitung mesin skoring deterministik (pure function TypeScript), bukan oleh LLM, karena LLM rawan halusinasi angka.",
-          "en": "Admission odds come 100% from a deterministic scoring engine (pure TypeScript functions), never from the LLM, because LLMs hallucinate numbers."
-        },
-        {
-          "id": "Gemini hanya jadi narator: ia mengambil angka lewat function calling ke API internal dan tidak punya wewenang mengubahnya.",
-          "en": "Gemini is only the narrator: it fetches numbers via function calling to the internal API and cannot change them."
-        },
-        {
-          "id": "Memakai Gemini 2.5 Flash karena Gemini 1.5 Flash sudah dihentikan, dan 2.5 Flash cepat serta mendukung output JSON terstruktur.",
-          "en": "Used Gemini 2.5 Flash because 1.5 Flash was discontinued, and 2.5 Flash is fast and supports structured JSON output."
-        }
-      ],
-      "results": [
-        {
-          "id": "MVP fungsional untuk Hackathon JOINTS UGM 2026, lengkap dengan demo interaktif untuk juri.",
-          "en": "A working MVP for the JOINTS UGM 2026 Hackathon, with an interactive demo for the judges."
-        }
-      ],
-      "reflection": {
-        "id": "",
-        "en": ""
-      }
-    },
-    "role": {
-      "id": "Backend, Data & AI",
-      "en": "Backend, Data & AI"
-    },
-    "tags": [
-      "Next.js 15",
-      "TypeScript",
-      "Supabase",
-      "Gemini",
-      "Tailwind 4"
-    ],
-    "cover": "/media/projects/cocokin.jpg",
-    "gallery": [
-      "/media/projects/cocokin-2.jpg"
-    ],
-    "coverAlt": {
-      "id": "Layar aplikasi Cocokin!: beranda, preferensi, rekomendasi jurusan",
-      "en": "Cocokin! app screens: home, preferences, major recommendations"
-    },
-    "illustration": false,
-    "accent": "#EA4335",
-    "demoUrl": "",
-    "repoUrl": "https://github.com/Daliondroid/FajarWasHere-Joints",
     "published": true
   },
   {

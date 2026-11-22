@@ -53,8 +53,8 @@
         "en": "work"
       },
       "intro": {
-        "id": "Proyek dari kompetisi, perkuliahan, dan klien, di bidang kesehatan, aksesibilitas, reservasi, pendidikan, dan bisnis.",
-        "en": "Projects from competitions, coursework and clients, across health, accessibility, reservations, education and business."
+        "id": "Proyek dari kompetisi, perkuliahan, dan klien, di bidang properti, pendidikan, kesehatan, aksesibilitas, dan bisnis.",
+        "en": "Projects from competitions, coursework and clients, across real estate, education, health, accessibility and business."
       }
     },
     "ring": {
@@ -136,28 +136,24 @@
   },
   "showreel": [
     {
+      "image": "/media/projects/nalarruang/poster.jpg",
+      "project": "nalarruang"
+    },
+    {
+      "image": "/media/projects/aksaralens/poster.jpg",
+      "project": "aksaralens"
+    },
+    {
+      "image": "/media/projects/cocokin/poster.jpg",
+      "project": "cocokin"
+    },
+    {
+      "image": "/media/projects/sudepi/poster.jpg",
+      "project": "sudepi"
+    },
+    {
       "image": "/media/projects/lensajentik.jpg",
       "project": "lensajentik"
-    },
-    {
-      "image": "/media/projects/sudepi.jpg",
-      "project": "sudepi"
-    },
-    {
-      "image": "/media/projects/cocokin.jpg",
-      "project": "cocokin"
-    },
-    {
-      "image": "/media/projects/reservaseat.jpg",
-      "project": "reservaseat"
-    },
-    {
-      "image": "/media/projects/sudepi-2.jpg",
-      "project": "sudepi"
-    },
-    {
-      "image": "/media/projects/cocokin-2.jpg",
-      "project": "cocokin"
     }
   ],
   "heroIcons": [

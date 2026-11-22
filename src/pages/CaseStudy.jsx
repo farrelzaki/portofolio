@@ -3,6 +3,7 @@ import { content, formatPeriod, t } from '../content/index.js'
 import { gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
 import Icon from '../components/Icon.jsx'
+import DemoVideo from '../components/DemoVideo.jsx'
 
 const { projects, achievements, experiences } = content
 const ORDER = ['problem', 'contribution', 'process', 'decisions', 'results', 'reflection']
@@ -24,7 +25,7 @@ function useReveal(root, key) {
         // bingkai penuh, lalu gambar diam (tidak terus mengecil setelah bingkai terbuka).
         gsap.timeline({ scrollTrigger: { trigger: cover, start: 'top 95%', end: 'top 25%', scrub: 0.6 } })
           .fromTo(cover, { clipPath: 'inset(18% 6% 0% 6% round 18px)' }, { clipPath: 'inset(0% 0% 0% 0% round 18px)', ease: 'none' }, 0)
-          .fromTo(cover.querySelector('img'), { scale: 1.18 }, { scale: 1, ease: 'none' }, 0)
+          .fromTo(cover.querySelector('.cs-media'), { scale: 1.18 }, { scale: 1, ease: 'none' }, 0)
       }
       gsap.utils.toArray('.cs-sec').forEach((sec) => {
         gsap.from(sec.querySelectorAll('.cs-sec-label, .cs-sec-body > *'), {
@@ -97,7 +98,9 @@ export function ProjectPage({ id, lang, ui }) {
       </header>
 
       <figure className="cs-cover">
-        <img src={p.cover} alt={t(lang, p.coverAlt)} />
+        {p.video
+          ? <><DemoVideo className="cs-media" src={p.video} poster={p.poster || p.cover} /><span className="sr-only">{t(lang, p.coverAlt)}</span></>
+          : <img className="cs-media" src={p.cover} alt={t(lang, p.coverAlt)} />}
         {p.illustration && <figcaption className="cs-note">{ui.illustration}</figcaption>}
       </figure>
 
@@ -160,7 +163,7 @@ export function AwardPage({ id, lang, ui }) {
       </header>
 
       <figure className="cs-cover cs-cert">
-        <img src={a.image} alt={`${ui.certificate}: ${t(lang, a.title)}`} />
+        <img className="cs-media" src={a.image} alt={`${ui.certificate}: ${t(lang, a.title)}`} />
       </figure>
 
       {(hasStory || !p) && (

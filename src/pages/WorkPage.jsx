@@ -3,6 +3,7 @@ import { content, t } from '../content/index.js'
 import { finePointer, gsap, prefersReduced, ScrollTrigger, useMedia } from '../lib/motion.js'
 import { Link, navigate } from '../lib/router.jsx'
 import Icon from '../components/Icon.jsx'
+import DemoVideo from '../components/DemoVideo.jsx'
 import './pages.css'
 
 // Slide show memuat 5 proyek teratas (urutan di projects.json); indeks di bawahnya memuat semua.
@@ -118,6 +119,7 @@ export default function WorkPage({ lang, ui }) {
             {projects.map((x, i) => (
               <span key={x.id} className="wk-cover" style={{ clipPath: i === 0 ? 'inset(0% 0% 0% 0%)' : 'inset(100% 0% 0% 0%)', background: x.accent }}>
                 <img src={x.cover} alt="" />
+                {x.video && <DemoVideo className="wk-video" src={x.video} poster={x.poster} mode="manual" active={i === active} />}
               </span>
             ))}
           </button>
