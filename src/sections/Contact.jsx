@@ -68,9 +68,10 @@ export function FootBar({ ui }) {
   )
 }
 
-/** Footer ringkas untuk halaman selain beranda: navigasi antarhalaman, tautan kontak, hak cipta. */
-export function FooterLite({ ui, page }) {
-  const links = [
+/** Kolom footer: navigasi, proyek, kontak, lokasi + jam + bahasa. Dipakai di kedua footer. */
+function FootCols({ lang, ui, setLang, page }) {
+  const time = useClock(settings.timezone)
+  const socials = [
     ['Email', `mailto:${settings.email}`],
     ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
     settings.links.github && ['GitHub', settings.links.github],
@@ -78,31 +79,44 @@ export function FooterLite({ ui, page }) {
     settings.links.instagram && ['Instagram', settings.links.instagram],
   ].filter(Boolean)
   return (
-    <footer className="fl" id="contact" data-theme="dark">
-      <div className="fl-main">
-        <nav className="fl-nav" aria-label={ui.navigation}>
-          <h2 className="fl-h">{ui.navigation}</h2>
-          <ul>
-            {PAGES.map(({ id, path }) => (
-              <li key={id}>
-                <Link to={path} className={page === id ? 'on' : ''} aria-current={page === id ? 'page' : undefined}>
-                  {ui.nav[id]}
-                  <Icon name="right" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="fl-contact">
-          <h2 className="fl-h">{ui.contact}</h2>
-          <ul className="fl-links">
-            {links.map(([label, href]) => (
-              <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>
-            ))}
-          </ul>
+    <nav className="ft-cols" aria-label={ui.navigation}>
+      <div>
+        <h3>{ui.navigation}</h3>
+        <ul>{PAGES.map(({ id, path }) => (
+          <li key={id}><Link to={path} className={page === id ? 'on' : ''} aria-current={page === id ? 'page' : undefined}>{ui.nav[id]}<Icon name="right" /></Link></li>
+        ))}</ul>
+      </div>
+      <div>
+        <h3>{ui.projects}</h3>
+        <ul>{projects.map((p) => <li key={p.id}><Link to={`/proyek/${p.id}`}>{p.name}<Icon name="right" /></Link></li>)}</ul>
+      </div>
+      <div>
+        <h3>{ui.contact}</h3>
+        <ul>{socials.map(([label, href]) => (
+          <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}<Icon name="right" /></a></li>
+        ))}</ul>
+      </div>
+      <div>
+        <h3>{ui.location}</h3>
+        <p>{settings.location}</p>
+        <p className="ft-time"><span>{time}</span> WIB</p>
+        <div className="lang lang-foot" role="group" aria-label={ui.language}>
+          {['id', 'en'].map((l) => (
+            <button key={l} type="button" className={lang === l ? 'on' : ''} aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
+          ))}
         </div>
       </div>
+    </nav>
+  )
+}
+
+/** Footer ringkas untuk halaman selain beranda: kolom, baris hak cipta, dan nama besar. */
+export function FooterLite({ lang, ui, setLang, page }) {
+  return (
+    <footer className="ft ft-lite" id="contact" data-theme="dark">
+      <FootCols lang={lang} ui={ui} setLang={setLang} page={page} />
       <FootBar ui={ui} />
+      <Wordmark />
     </footer>
   )
 }
@@ -110,7 +124,6 @@ export function FooterLite({ ui, page }) {
 /** Footer lengkap di beranda. */
 export default function Contact({ lang, ui, setLang }) {
   const root = useRef(null)
-  const time = useClock(settings.timezone)
   const [copied, setCopied] = useState(false)
   const sec = settings.sections.contact
 
@@ -125,14 +138,6 @@ export default function Contact({ lang, ui, setLang }) {
   const copy = async () => {
     try { await navigator.clipboard.writeText(settings.email); setCopied(true); setTimeout(() => setCopied(false), 1800) } catch { /* clipboard diblokir */ }
   }
-
-  const socials = [
-    ['Email', `mailto:${settings.email}`],
-    ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
-    settings.links.github && ['GitHub', settings.links.github],
-    settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
-    settings.links.instagram && ['Instagram', settings.links.instagram],
-  ].filter(Boolean)
 
   return (
     <footer ref={root} className="ft" id="contact" data-theme="dark">
@@ -165,30 +170,7 @@ export default function Contact({ lang, ui, setLang }) {
         </button>
       </div>
 
-      <nav className="ft-cols" aria-label={ui.navigation}>
-        <div>
-          <h3>{ui.navigation}</h3>
-          <ul>{PAGES.map(({ id, path }) => <li key={id}><Link to={path}>{ui.nav[id]}</Link></li>)}</ul>
-        </div>
-        <div>
-          <h3>{ui.projects}</h3>
-          <ul>{projects.map((p) => <li key={p.id}><Link to={`/proyek/${p.id}`}>{p.name}</Link></li>)}</ul>
-        </div>
-        <div>
-          <h3>{ui.contact}</h3>
-          <ul>{socials.map(([label, href]) => <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>)}</ul>
-        </div>
-        <div>
-          <h3>{ui.location}</h3>
-          <p>{settings.location}</p>
-          <p className="ft-time"><span>{time}</span> WIB</p>
-          <div className="lang lang-foot" role="group" aria-label={ui.language}>
-            {['id', 'en'].map((l) => (
-              <button key={l} type="button" className={lang === l ? 'on' : ''} aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>
-            ))}
-          </div>
-        </div>
-      </nav>
+      <FootCols lang={lang} ui={ui} setLang={setLang} page="home" />
 
       <FootBar ui={ui} />
       <Wordmark />

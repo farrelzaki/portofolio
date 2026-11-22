@@ -131,7 +131,7 @@ export default function App() {
       <main id="main" key={shown}>
         <View {...props} />
       </main>
-      {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite ui={ui} page={page} />}
+      {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite lang={lang} ui={ui} setLang={setLang} page={page} />}
       <Intro words={ui.loaderWords} />
       <div ref={curtain} className="curtain" aria-hidden="true">
         <span className="curtain-label"><span ref={label} /></span>

@@ -220,7 +220,7 @@ a.jo-card:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px rgba(
 .jo-kind { padding: 4px 9px; border-radius: 999px; background: var(--ink); color: var(--bg); }
 .jo-kind.k-award { background: var(--blue-b); }
 .jo-kind.k-education { background: var(--sky); color: var(--ink); }
-.jo-kind.k-project { background: var(--accent, var(--sky)); color: #fff; }
+.jo-kind.k-project { background: rgba(37, 99, 235, 0.12); color: var(--blue-b); }
 .jo-card strong { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(24px, 2.4vw, 38px); letter-spacing: -0.045em; line-height: 1; }
 .jo-sub { font-weight: 600; color: var(--slate); }
 .jo-text { max-width: 60ch; line-height: 1.5; color: var(--slate); }

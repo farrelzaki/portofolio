@@ -149,7 +149,9 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
   const setPeek = (k) => { setPeekState(k); if (k) setPeekKind(k) }
   const scrollingDown = useScrollingDown()
   const ctaVisible = s.pastHero && !s.nearEnd && !s.overReel && !menuOpen && !scrollingDown
-  const hideTop = scrollingDown && s.pastHero && !menuOpen
+  // Semua tombol kerangka (nama, Hubungi saya, Menu, jam) hanya disembunyikan di bagian showreel
+  // beranda; di tempat lain selalu tampil.
+  const hideChrome = s.overReel && !menuOpen
   const time = useClock(settings.timezone)
   const flyout = useRef(null)
   const toggle = useRef(null)
@@ -176,11 +178,11 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
     <>
       <a className="skip" href="#main">{ui.skip}</a>
 
-      <Link to="/" className={`brand chrome-${s.top} ${hideTop ? 'hide' : ''} ${peek ? 'on-peek' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
+      <Link to="/" className={`brand chrome-${s.top} ${hideChrome ? 'hide' : ''} ${peek ? 'on-peek' : ''}`} aria-label={`${settings.name}, ${ui.nav.home}`} onClick={closeAll}>
         <span>Farrel</span><span>Zaki</span>
       </Link>
 
-      <Link to="/kontak" className={`top-cta chrome-${s.top} ${hideTop || page === 'contact' ? 'hide' : ''}`} onClick={closeAll}>
+      <Link to="/kontak" className={`top-cta chrome-${s.top} ${hideChrome || page === 'contact' ? 'hide' : ''}`} onClick={closeAll}>
         <span>{ui.contactCta}</span>
       </Link>
 
@@ -211,7 +213,7 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
       <button
         ref={toggle}
         type="button"
-        className={`menu-toggle chrome-${menuOpen ? 'dark' : s.bottom} ${peek ? 'on-peek' : ''}`}
+        className={`menu-toggle chrome-${menuOpen ? 'dark' : s.bottom} ${peek ? 'on-peek' : ''} ${hideChrome ? 'hide' : ''}`}
         aria-expanded={menuOpen}
         aria-controls="flyout"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -220,7 +222,7 @@ export default function Chrome({ lang, setLang, ui, menuOpen, setMenuOpen, page 
         <span className="dots" aria-hidden="true"><i /><i /><i /></span>
       </button>
 
-      <p className={`clock chrome-${s.bottom}`}>
+      <p className={`clock chrome-${s.bottom} ${hideChrome ? 'hide' : ''}`}>
         {settings.location} <strong>{time}</strong>
       </p>
 

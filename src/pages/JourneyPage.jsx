@@ -16,7 +16,7 @@ function buildTimeline() {
   const items = [
     ...experiences.map((e) => ({ kind: e.kind === 'education' ? 'education' : 'experience', date: e.start, id: e.id, title: e.title, sub: e.organization, text: e.description, period: [e.start, e.end], to: `/pengalaman/${e.id}` })),
     ...achievements.filter((a) => !expIds.has(a.id)).map((a) => ({ kind: 'award', date: a.date, id: a.id, title: a.title, sub: a.issuer, text: a.description, to: `/prestasi/${a.id}` })),
-    ...projects.filter((p) => p.year).map((p) => ({ kind: 'project', date: p.year, id: p.id, title: { id: p.name, en: p.name }, sub: p.category, text: p.description, to: `/proyek/${p.id}`, accent: p.accent })),
+    ...projects.filter((p) => p.year).map((p) => ({ kind: 'project', date: p.year, id: p.id, title: { id: p.name, en: p.name }, sub: p.category, text: p.description, to: `/proyek/${p.id}` })),
   ]
   // Urut menurut tanggal; entri yang hanya punya tahun ditaruh di akhir tahunnya.
   const key = (d) => (d.length === 4 ? `${d}-13` : d)
@@ -105,7 +105,7 @@ export default function JourneyPage({ lang, ui }) {
                     </>
                   )
                   return (
-                    <li key={`${it.kind}-${it.id}`} className="jo-item" style={{ '--accent': it.accent }}>
+                    <li key={`${it.kind}-${it.id}`} className="jo-item">
                       {it.to ? <Link to={it.to} className="jo-card">{inner}</Link> : <div className="jo-card">{inner}</div>}
                     </li>
                   )

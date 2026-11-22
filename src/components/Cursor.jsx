@@ -18,11 +18,16 @@ export default function Cursor() {
     let raf = 0
     let current = ''
 
-    const onMove = (e) => {
-      pos.x = e.clientX
-      pos.y = e.clientY
-      const target = e.target.closest?.('[data-cursor]')
-      const text = target?.getAttribute('data-cursor') || ''
+    // Elemen yang memudar (opacity ~0) atau tersembunyi tidak lagi dianggap sumber hover.
+    const visible = (el) => {
+      for (let n = el, k = 0; n && k < 6; n = n.parentElement, k++) {
+        if (parseFloat(getComputedStyle(n).opacity) < 0.15) return false
+      }
+      return true
+    }
+    const apply = (el) => {
+      const target = el?.closest?.('[data-cursor]')
+      const text = target && visible(target) ? target.getAttribute('data-cursor') || '' : ''
       if (text !== current) {
         current = text
         if (label.current) {
@@ -32,7 +37,22 @@ export default function Cursor() {
         dot.current?.classList.toggle('hide', !!text)
       }
     }
-    const onLeave = () => { pos.x = -100; pos.y = -100 }
+    const onMove = (e) => {
+      pos.x = e.clientX
+      pos.y = e.clientY
+      apply(e.target)
+    }
+    // Saat menggulir (atau animasi menyembunyikan elemen) kursor tidak bergerak, jadi tidak ada
+    // pointermove: elemen di bawah kursor dicek ulang supaya label tidak "nyangkut".
+    let pending = 0
+    const recheck = () => {
+      pending = 0
+      if (pos.x < 0) return
+      apply(document.elementFromPoint(pos.x, pos.y))
+    }
+    const onScroll = () => { if (!pending) pending = requestAnimationFrame(recheck) }
+    const poll = setInterval(() => { if (current) recheck() }, 250)
+    const onLeave = () => { pos.x = -100; pos.y = -100; apply(null) }
 
     const tick = () => {
       const k = reduce ? 1 : 0.35
@@ -44,10 +64,14 @@ export default function Cursor() {
       raf = requestAnimationFrame(tick)
     }
     window.addEventListener('pointermove', onMove, { passive: true })
+    window.addEventListener('scroll', onScroll, { passive: true })
     document.addEventListener('pointerleave', onLeave)
     raf = requestAnimationFrame(tick)
     return () => {
       cancelAnimationFrame(raf)
+      cancelAnimationFrame(pending)
+      clearInterval(poll)
+      window.removeEventListener('scroll', onScroll)
       window.removeEventListener('pointermove', onMove)
       document.removeEventListener('pointerleave', onLeave)
     }

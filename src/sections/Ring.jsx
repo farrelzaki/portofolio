@@ -28,7 +28,7 @@ export default function Ring({ lang, ui }) {
       gsap.set('.ring-dark', { clipPath: 'circle(0% at 50% 50%)' })
       gsap.set(items, { '--k': 0 })
       gsap.set(imgs, { opacity: 0, scale: 0.3 })
-      gsap.set('.ring-link', { opacity: 0, y: 40 })
+      gsap.set('.ring-link', { autoAlpha: 0, y: 40 })
       gsap.set('.ring-next', { autoAlpha: 0 })
       // Di-pin: (1) lingkaran gelap melebar dari tengah layar, (2) kartu proyek berputar keluar dari
       // tengah ke orbitnya, (3) judul muncul, (4) cincin berputar pelan, (5) keluar: kartu berputar
@@ -52,10 +52,10 @@ export default function Ring({ lang, ui }) {
         .fromTo(ring.current, { rotate: -200 }, { rotate: 0, ease: 'power3.out', duration: 1.3 }, 0.85)
         .to(items, { '--k': 1, ease: 'power3.out', duration: 1, stagger: 0.025 }, 0.85)
         .to(imgs, { opacity: 1, scale: 1, ease: 'power3.out', duration: 0.8, stagger: 0.025 }, 0.85)
-        .to('.ring-link', { opacity: 1, y: 0, ease: 'power2.out', duration: 0.45 }, 1.9)
+        .to('.ring-link', { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.45 }, 1.9)
         .to(ring.current, { rotate: 60, ease: 'none', duration: 1.2 }, 2.15)
         // Keluar.
-        .to('.ring-link', { opacity: 0, y: -40, scale: 0.94, ease: 'power2.in', duration: 0.45 }, 3.35)
+        .to('.ring-link', { autoAlpha: 0, y: -40, scale: 0.94, ease: 'power2.in', duration: 0.45 }, 3.35)
         .to(ring.current, { rotate: 200, ease: 'power2.in', duration: 1 }, 3.35)
         .to(items, { '--k': 0, ease: 'power3.in', duration: 0.9, stagger: { each: 0.02, from: 'end' } }, 3.35)
         .to(imgs, { opacity: 0, scale: 0.3, ease: 'power3.in', duration: 0.8, stagger: { each: 0.02, from: 'end' } }, 3.45)

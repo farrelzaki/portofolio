@@ -1,15 +1,15 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { content } from '../content/index.js'
 import { gsap } from '../lib/motion.js'
 import { finishIntro, PLAY_INTRO } from '../lib/intro.js'
 
-const NAME = content.settings.name.split(' ')
+// Kalimat pembuka; kata terakhir berwarna biru muda.
+const TITLE = 'Welcome to my portfolio'.split(' ')
 
 /**
  * Pembuka situs, diputar setiap kali situs dimuat:
- * 1. Nama lengkap naik huruf demi huruf di layar gelap, peran-peran berganti cepat di bawahnya
+ * 1. Sapaan "Welcome to my portfolio" naik huruf demi huruf di layar gelap, peran-peran berganti cepat di bawahnya
  *    dan garis progres terisi.
- * 2. Nama naik keluar, lalu tiga lapis tirai (gelap, biru, biru muda) terangkat bergantian
+ * 2. Sapaan naik keluar, lalu tiga lapis tirai (gelap, biru, biru muda) terangkat bergantian
  *    sehingga beranda tersingkap dengan kesan berlapis.
  * Beranda mulai beranimasi (finishIntro) saat lapisan terakhir sedang terangkat.
  */
@@ -51,7 +51,7 @@ export default function Intro({ words }) {
       <span className="intro-layer l-blue" />
       <div className="intro-layer l-ink">
         <p className="intro-name">
-          {NAME.map((part, k) => (
+          {TITLE.map((part, k) => (
             <span key={k} className="intro-word">
               {part.split('').map((c, i) => <span key={i} className="intro-ch">{c}</span>)}
             </span>
