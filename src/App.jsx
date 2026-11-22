@@ -3,9 +3,9 @@ import { content, t } from './content/index.js'
 import { ui as UI } from './i18n.js'
 import { gsap, LenisContext, prefersReduced, ScrollTrigger, useLenisSetup } from './lib/motion.js'
 import { matchRoute, navigate, usePath } from './lib/router.jsx'
-import { finishIntro, PLAY_INTRO } from './lib/intro.js'
 import Chrome from './components/Chrome.jsx'
 import Cursor from './components/Cursor.jsx'
+import Intro from './components/Intro.jsx'
 import Contact, { FooterLite } from './sections/Contact.jsx'
 import { HomePage, NotFoundPage } from './pages/Pages.jsx'
 import WorkPage from './pages/WorkPage.jsx'
@@ -66,29 +66,6 @@ export default function App() {
     label.current.textContent = text
     label.current.classList.toggle('final', final)
   }
-
-  // Pembuka situs (sekali per sesi): kata-kata peran bergulir, garis progres terisi,
-  // nama muncul, lalu tirai terangkat dan beranda mulai beranimasi.
-  useEffect(() => {
-    if (!PLAY_INTRO) return
-    const words = ui.loaderWords
-    const tl = gsap.timeline({ delay: 0.2, onComplete: finishIntro })
-    tl.set(curtain.current, { yPercent: 0, autoAlpha: 1 })
-      .fromTo(bar.current, { scaleX: 0 }, { scaleX: 1, duration: 0.24 * words.length + 0.5, ease: 'power2.inOut' }, 0)
-    words.forEach((w, i) => {
-      tl.call(() => say(w), null, i * 0.24)
-        .fromTo(label.current, { yPercent: 70, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.2, ease: 'power3.out' }, i * 0.24)
-    })
-    tl.call(() => say(content.settings.shortName, true), null, words.length * 0.24 + 0.1)
-      .fromTo(label.current, { yPercent: 110 }, { yPercent: 0, duration: 0.7, ease: 'expo.out' }, '<')
-      .to(label.current, { yPercent: -110, duration: 0.45, ease: 'power3.in' }, '+=0.35')
-      .to(bar.current, { scaleX: 0, transformOrigin: '100% 50%', duration: 0.45, ease: 'power3.in' }, '<')
-      .to(curtain.current, { yPercent: -100, duration: 0.9, ease: 'expo.inOut' }, '-=0.15')
-      .call(finishIntro, null, '-=0.45')
-      .set(curtain.current, { autoAlpha: 0 })
-    return () => { tl.kill(); finishIntro() }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   // Pindah halaman: tirai gelap naik menutup layar, halaman diganti, lalu tirai lanjut naik keluar.
   // Timeline tidak di-kill saat efek berganti (setShown memicu efek ini lagi); navigasi baru
@@ -155,7 +132,8 @@ export default function App() {
         <View {...props} />
       </main>
       {page === 'home' ? <Contact lang={lang} ui={ui} setLang={setLang} /> : <FooterLite ui={ui} page={page} />}
-      <div ref={curtain} className={`curtain ${PLAY_INTRO ? 'is-intro' : ''}`} aria-hidden="true">
+      <Intro words={ui.loaderWords} />
+      <div ref={curtain} className="curtain" aria-hidden="true">
         <span className="curtain-label"><span ref={label} /></span>
         <span className="curtain-bar"><i ref={bar} /></span>
       </div>

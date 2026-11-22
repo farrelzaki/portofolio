@@ -82,6 +82,8 @@ export const experienceSchema = z.object({
   description: textRequired,
   start: month,
   end: z.union([z.literal(''), month]),
+  // 'education' untuk pendidikan formal, 'work' untuk organisasi/pekerjaan (default).
+  kind: z.enum(['education', 'work']).optional(),
   // Opsional: id proyek dan prestasi yang ditampilkan di halaman detail /pengalaman/:id.
   projects: z.array(slug).optional(),
   achievements: z.array(slug).optional(),

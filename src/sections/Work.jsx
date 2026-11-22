@@ -1,8 +1,9 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
-import { finePointer } from '../lib/motion.js'
+import { finePointer, prefersReduced, ScrollTrigger } from '../lib/motion.js'
 import { useCardReveal } from '../lib/cards.js'
 import TwoTone from '../components/TwoTone.jsx'
+import ScrollCue from '../components/ScrollCue.jsx'
 import MoreLink from '../components/MoreLink.jsx'
 import Icon from '../components/Icon.jsx'
 
@@ -64,6 +65,18 @@ export default function Work({ lang, ui, onOpen }) {
 
   useCardReveal(root, lang)
 
+  const cue = useRef(null)
+  useEffect(() => {
+    if (prefersReduced()) return
+    const more = root.current.querySelector('.more')
+    const st = ScrollTrigger.create({
+      trigger: more, start: 'bottom 80%',
+      endTrigger: '.ring', end: 'top+=140 top',
+      toggleClass: { targets: cue.current, className: 'show' },
+    })
+    return () => st.kill()
+  }, [])
+
   const [first, ...rest] = projects
 
   return (
@@ -93,6 +106,9 @@ export default function Work({ lang, ui, onOpen }) {
         {rest.slice(2).map((p) => <Card key={p.id} p={p} lang={lang} ui={ui} onOpen={onOpen} />)}
       </div>
       <MoreLink to="/proyek" label={ui.seeAll.work} />
+      {/* Setelah tombol ini ada ruang putih transisi sebelum bagian GitHub. Ajakan gulir menempel
+          di bawah layar selama ruang itu terlihat, supaya tidak dikira ujung halaman. */}
+      <ScrollCue ref={cue} className="gap-cue" label={ui.scrollCue} />
     </section>
   )
 }

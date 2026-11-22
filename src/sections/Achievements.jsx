@@ -39,52 +39,67 @@ export default function Achievements({ lang, ui }) {
     return () => ctx.revert()
   }, [wide, n, lang])
 
-  // Hover: kartu ditarik keluar dari tumpukan (naik), lalu diletakkan di depan semua kartu.
-  // Kartu itu tetap di depan sampai kartu lain di-hover; barulah ia dimasukkan kembali ke
-  // tempatnya sementara kartu baru ditarik keluar.
+  // Hover = mengambil kartu dari kipas: kartu naik keluar dari tumpukan, pindah ke lapisan
+  // paling depan, lalu turun sedikit ke posisi "dipegang" (tegak, sedikit lebih besar). Kartu
+  // itu tetap di depan sampai kartu lain diambil; saat itu ia naik lagi, kembali ke lapisannya,
+  // dan turun ke tempatnya. Ada jeda niat (hover intent) agar menyapu kursor melintasi kipas
+  // tidak memicu rentetan kartu naik-turun.
   useEffect(() => {
-    if (!wide || prefersReduced() || !finePointer()) return
+    if (!wide || !finePointer()) return
+    const reduce = prefersReduced()
     const slots = [...root.current.querySelectorAll('.acard-slot')]
+    const cards = slots.map((s) => s.firstElementChild)
+    const baseZ = (i) => i + 1
     let active = -1
-    const base = (i) => i + 1
-    const pullOut = (i) => {
+    let intent = null
+
+    const take = (i) => {
       const slot = slots[i]
-      const card = slot.firstElementChild
-      gsap.killTweensOf(card)
-      gsap.timeline()
-        .to(card, { yPercent: -62, rotate: (i - (n - 1) / 2) * -3, duration: 0.38, ease: 'power3.out' })
-        .call(() => { slot.style.zIndex = 50 })
-        .to(card, { yPercent: -6, y: 0, rotate: 0, scale: 1.12, duration: 0.6, ease: 'expo.out' })
+      const card = cards[i]
       card.classList.add('is-out')
-    }
-    const putBack = (i) => {
-      const slot = slots[i]
-      const card = slot.firstElementChild
+      if (reduce) { slot.style.zIndex = 50; return }
+      // Luruskan kartu terhadap kemiringan kipas pada slot.
+      const tilt = -(gsap.getProperty(slot, 'rotate') || 0)
       gsap.killTweensOf(card)
-      card.classList.remove('is-out')
       gsap.timeline()
-        .to(card, { yPercent: -62, scale: 1, rotate: (i - (n - 1) / 2) * 3, duration: 0.36, ease: 'power3.in' })
-        .call(() => { slot.style.zIndex = 40 })
-        .to(card, { yPercent: 0, rotate: 0, duration: 0.55, ease: 'expo.out' })
-        .call(() => { slot.style.zIndex = base(i) })
+        .to(card, { yPercent: -24, rotate: tilt * 0.5, duration: 0.22, ease: 'power2.out' })
+        .call(() => { slot.style.zIndex = 50 })
+        .to(card, { yPercent: -7, rotate: tilt, scale: 1.06, duration: 0.34, ease: 'power3.inOut' })
     }
-    const handlers = slots.map((slot, i) => {
-      const on = () => {
-        if (active === i) return
-        if (active >= 0) putBack(active)
-        active = i
-        pullOut(i)
-      }
-      slot.addEventListener('pointerenter', on)
-      return on
+    const release = (i) => {
+      const slot = slots[i]
+      const card = cards[i]
+      card.classList.remove('is-out')
+      if (reduce) { slot.style.zIndex = baseZ(i); return }
+      slot.style.zIndex = 45
+      gsap.killTweensOf(card)
+      gsap.timeline()
+        .to(card, { yPercent: -24, scale: 1, duration: 0.2, ease: 'power2.out' })
+        .call(() => { slot.style.zIndex = baseZ(i) })
+        .to(card, { yPercent: 0, rotate: 0, duration: 0.34, ease: 'expo.out' })
+    }
+    const select = (i) => {
+      if (active === i) return
+      if (active >= 0) release(active)
+      active = i
+      take(i)
+    }
+
+    const offs = slots.map((slot, i) => {
+      const enter = () => { clearTimeout(intent); intent = setTimeout(() => select(i), 90) }
+      const leave = () => clearTimeout(intent)
+      slot.addEventListener('pointerenter', enter)
+      slot.addEventListener('pointerleave', leave)
+      return () => { slot.removeEventListener('pointerenter', enter); slot.removeEventListener('pointerleave', leave) }
     })
     return () => {
-      slots.forEach((slot, i) => {
-        slot.removeEventListener('pointerenter', handlers[i])
-        gsap.killTweensOf(slot.firstElementChild)
-        gsap.set(slot.firstElementChild, { clearProps: 'transform' })
-        slot.firstElementChild.classList.remove('is-out')
-        slot.style.zIndex = base(i)
+      clearTimeout(intent)
+      offs.forEach((off) => off())
+      cards.forEach((card, i) => {
+        gsap.killTweensOf(card)
+        gsap.set(card, { clearProps: 'transform' })
+        card.classList.remove('is-out')
+        slots[i].style.zIndex = baseZ(i)
       })
     }
   }, [wide, n])

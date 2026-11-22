@@ -186,7 +186,7 @@ export function ExperiencePage({ id, lang, ui }) {
     <article ref={root} className="cs cs-exp" data-theme="light" style={{ '--accent': '#1D4ED8' }}>
       <header className="cs-hero">
         <Link to="/pengalaman" className="cs-back cs-fade"><Icon name="left" /> {ui.nav.journey}</Link>
-        <span className="cs-meta cs-fade">{period}</span>
+        <span className="cs-meta cs-fade">{e.kind === 'education' ? ui.education : ui.workExp} · {period}</span>
         <h1 className="cs-title cs-title-sm">{t(lang, e.title)}</h1>
         <p className="lede cs-fade">{t(lang, e.description)}</p>
         <dl className="cs-facts cs-fade">

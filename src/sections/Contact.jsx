@@ -68,22 +68,40 @@ export function FootBar({ ui }) {
   )
 }
 
-/** Footer ringkas untuk halaman selain beranda: navigasi antarhalaman dan baris hak cipta. */
+/** Footer ringkas untuk halaman selain beranda: navigasi antarhalaman, tautan kontak, hak cipta. */
 export function FooterLite({ ui, page }) {
+  const links = [
+    ['Email', `mailto:${settings.email}`],
+    ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
+    settings.links.github && ['GitHub', settings.links.github],
+    settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
+    settings.links.instagram && ['Instagram', settings.links.instagram],
+  ].filter(Boolean)
   return (
     <footer className="fl" id="contact" data-theme="dark">
-      <nav className="fl-nav" aria-label={ui.navigation}>
-        <ul>
-          {PAGES.map(({ id, path }) => (
-            <li key={id}>
-              <Link to={path} className={page === id ? 'on' : ''} aria-current={page === id ? 'page' : undefined}>
-                <span>{ui.nav[id]}</span>
-                <Icon name="right" />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className="fl-main">
+        <nav className="fl-nav" aria-label={ui.navigation}>
+          <h2 className="fl-h">{ui.navigation}</h2>
+          <ul>
+            {PAGES.map(({ id, path }) => (
+              <li key={id}>
+                <Link to={path} className={page === id ? 'on' : ''} aria-current={page === id ? 'page' : undefined}>
+                  {ui.nav[id]}
+                  <Icon name="right" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="fl-contact">
+          <h2 className="fl-h">{ui.contact}</h2>
+          <ul className="fl-links">
+            {links.map(([label, href]) => (
+              <li key={label}><a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">{label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
       <FootBar ui={ui} />
     </footer>
   )

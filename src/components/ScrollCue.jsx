@@ -6,7 +6,7 @@ import { useLenis } from '../lib/motion.js'
  * sempat terlihat kosong (saat animasi pin berjalan) supaya tidak dikira sudah sampai ujung.
  * Klik menggulir satu layar ke bawah.
  */
-const ScrollCue = forwardRef(function ScrollCue({ label, className = '' }, ref) {
+const ScrollCue = forwardRef(function ScrollCue({ label, className = '', tabIndex }, ref) {
   const lenis = useLenis()
   const go = () => {
     const to = window.scrollY + window.innerHeight * 0.85
@@ -14,7 +14,7 @@ const ScrollCue = forwardRef(function ScrollCue({ label, className = '' }, ref) 
     else window.scrollTo({ top: to, behavior: 'smooth' })
   }
   return (
-    <button ref={ref} type="button" className={`cue ${className}`} onClick={go}>
+    <button ref={ref} type="button" className={`cue ${className}`} onClick={go} tabIndex={tabIndex}>
       <span>{label}</span>
       <i aria-hidden="true" />
     </button>

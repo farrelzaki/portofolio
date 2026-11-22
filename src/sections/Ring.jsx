@@ -29,7 +29,6 @@ export default function Ring({ lang, ui }) {
       gsap.set(items, { '--k': 0 })
       gsap.set(imgs, { opacity: 0, scale: 0.3 })
       gsap.set('.ring-link', { opacity: 0, y: 40 })
-      gsap.set('.ring-cue', { opacity: 0 })
       gsap.set('.ring-next', { autoAlpha: 0 })
       // Di-pin: (1) lingkaran gelap melebar dari tengah layar, (2) kartu proyek berputar keluar dari
       // tengah ke orbitnya, (3) judul muncul, (4) cincin berputar pelan, (5) keluar: kartu berputar
@@ -49,15 +48,13 @@ export default function Ring({ lang, ui }) {
           onEnterBack: () => gsap.set(root.current, { autoAlpha: 1 }),
         },
       })
-      tl.to('.ring-dark', { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.in', duration: 1 })
+      tl.to('.ring-dark', { clipPath: 'circle(75% at 50% 50%)', ease: 'power2.in', duration: 1 }, 0)
         .fromTo(ring.current, { rotate: -200 }, { rotate: 0, ease: 'power3.out', duration: 1.3 }, 0.85)
         .to(items, { '--k': 1, ease: 'power3.out', duration: 1, stagger: 0.025 }, 0.85)
         .to(imgs, { opacity: 1, scale: 1, ease: 'power3.out', duration: 0.8, stagger: 0.025 }, 0.85)
         .to('.ring-link', { opacity: 1, y: 0, ease: 'power2.out', duration: 0.45 }, 1.9)
-        .to('.ring-cue', { opacity: 1, ease: 'power2.out', duration: 0.3 }, 2.1)
         .to(ring.current, { rotate: 60, ease: 'none', duration: 1.2 }, 2.15)
         // Keluar.
-        .to('.ring-cue', { opacity: 0, duration: 0.2 }, 3.35)
         .to('.ring-link', { opacity: 0, y: -40, scale: 0.94, ease: 'power2.in', duration: 0.45 }, 3.35)
         .to(ring.current, { rotate: 200, ease: 'power2.in', duration: 1 }, 3.35)
         .to(items, { '--k': 0, ease: 'power3.in', duration: 0.9, stagger: { each: 0.02, from: 'end' } }, 3.35)
@@ -89,9 +86,9 @@ export default function Ring({ lang, ui }) {
         <TwoTone as="span" className="ring-title" lead={t(lang, sec.lead)} tail={t(lang, sec.tail)} />
         <span className="ring-hint">{ui.ringHint} <Icon name="external" /></span>
       </a>
-      <ScrollCue className="ring-cue" label={ui.scrollCue} />
       <div className="ring-next" aria-hidden="true">
         <TwoTone as="span" className="small svc-heading" lead={t(lang, next.lead)} tail={t(lang, next.tail)} />
+        <ScrollCue className="svc-cue" label={ui.scrollCue} tabIndex={-1} />
       </div>
     </section>
   )

@@ -6,4 +6,16 @@ import 'lenis/dist/lenis.css'
 import './styles.css'
 import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(<App />)
+// Tunggu font utama siap (maks. 1,5 detik) sebelum render, supaya judul tidak sempat tampil
+// dengan font cadangan lalu berganti (kedipan "Software Engineer" di awal).
+const fonts = document.fonts
+  ? Promise.all([
+    document.fonts.load('800 100px "Archivo Variable"'),
+    document.fonts.load('400 16px "Manrope Variable"'),
+  ]).catch(() => {})
+  : Promise.resolve()
+const timeout = new Promise((r) => setTimeout(r, 1500))
+
+Promise.race([fonts, timeout]).then(() => {
+  createRoot(document.getElementById('root')).render(<App />)
+})

@@ -119,7 +119,9 @@
 .sk-proj-text { display: grid; gap: 4px; min-width: 0; }
 .sk-proj-text strong { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 20px; letter-spacing: -0.035em; line-height: 1; }
 .sk-proj-text span { font-size: 13px; font-weight: 600; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sk-proj .icon { width: 18px; height: 18px; color: var(--accent, var(--blue-b)); transition: transform 0.5s var(--ease-out); }
+.sk-proj .icon { width: 18px; height: 18px; color: var(--blue-b); transition: transform 0.5s var(--ease-out), color 0.35s var(--ease); }
+.sk-row .sk-proj .icon, .sk-proj-list.dark .sk-proj .icon { color: var(--sky); }
+@media (hover: hover) and (pointer: fine) { .sk-row .sk-proj:hover .icon, .sk-proj-list.dark .sk-proj:hover .icon { color: var(--blue-b); } }
 .sk-proj:active { transform: scale(0.985); }
 @media (hover: hover) and (pointer: fine) {
   .sk-proj:hover { box-shadow: inset 0 0 0 1.5px var(--accent, var(--ink)), 0 18px 40px rgba(11, 18, 32, 0.1); }
@@ -217,6 +219,7 @@ a.jo-card:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 1px rgba(
 .jo-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
 .jo-kind { padding: 4px 9px; border-radius: 999px; background: var(--ink); color: var(--bg); }
 .jo-kind.k-award { background: var(--blue-b); }
+.jo-kind.k-education { background: var(--sky); color: var(--ink); }
 .jo-kind.k-project { background: var(--accent, var(--sky)); color: #fff; }
 .jo-card strong { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(24px, 2.4vw, 38px); letter-spacing: -0.045em; line-height: 1; }
 .jo-sub { font-weight: 600; color: var(--slate); }

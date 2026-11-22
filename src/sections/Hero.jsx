@@ -1,7 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced } from '../lib/motion.js'
-import { useHeroField } from './heroField.js'
 import { introDone } from '../lib/intro.js'
 import ScrollCue from '../components/ScrollCue.jsx'
 
@@ -56,19 +55,22 @@ function useRoleRotator(line) {
 }
 
 export default function Hero({ lang, ui }) {
+  // Lapisan logo melayang (heroField.js) sedang dinonaktifkan; aktifkan lagi dengan
+  // useHeroField(trail, title, foot).
   const trail = useRef(null)
   const title = useRef(null)
   const foot = useRef(null)
   const line = useRef(null)
-  useHeroField(trail, title, foot)
   useRoleRotator(line)
 
-  useEffect(() => {
+  // useLayoutEffect: keadaan tersembunyi dipasang sebelum layar pertama digambar, jadi teks
+  // tidak sempat tampil sekejap lalu hilang.
+  useLayoutEffect(() => {
     if (prefersReduced()) return
     // Tunggu animasi pembuka (bila ada) selesai; sampai saat itu teks disembunyikan.
     const tl = gsap.timeline({ paused: true, delay: 0.05 })
     tl.from('.hero-hi > span', { yPercent: 110, duration: 0.8, ease: 'expo.out' })
-      .from('.role-slot > span', { yPercent: 110, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, '-=0.65')
+      .from('.role-slot > span', { yPercent: 135, duration: 0.9, ease: 'expo.out', stagger: 0.06 }, '-=0.65')
       .from('.hero-foot > *', { y: 24, opacity: 0, duration: 0.65, ease: 'expo.out', stagger: 0.08 }, '-=0.55')
     tl.progress(0.001).pause()
     let alive = true

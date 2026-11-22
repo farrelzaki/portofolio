@@ -14,7 +14,7 @@ const { experiences, achievements, projects, settings } = content
 function buildTimeline() {
   const expIds = new Set(experiences.map((e) => e.id))
   const items = [
-    ...experiences.map((e) => ({ kind: 'experience', date: e.start, id: e.id, title: e.title, sub: e.organization, text: e.description, period: [e.start, e.end], to: `/pengalaman/${e.id}` })),
+    ...experiences.map((e) => ({ kind: e.kind === 'education' ? 'education' : 'experience', date: e.start, id: e.id, title: e.title, sub: e.organization, text: e.description, period: [e.start, e.end], to: `/pengalaman/${e.id}` })),
     ...achievements.filter((a) => !expIds.has(a.id)).map((a) => ({ kind: 'award', date: a.date, id: a.id, title: a.title, sub: a.issuer, text: a.description, to: `/prestasi/${a.id}` })),
     ...projects.filter((p) => p.year).map((p) => ({ kind: 'project', date: p.year, id: p.id, title: { id: p.name, en: p.name }, sub: p.category, text: p.description, to: `/proyek/${p.id}`, accent: p.accent })),
   ]
@@ -68,7 +68,7 @@ export default function JourneyPage({ lang, ui }) {
     return () => ctx.revert()
   }, [lang, wide])
 
-  const kindLabel = { experience: ui.nav.journey, award: ui.competition, project: ui.nav.work }
+  const kindLabel = { education: ui.education, experience: ui.workExp, award: ui.competition, project: ui.nav.work }
   const last = experiences.reduce((m, e) => (e.end > m ? e.end : m), '')
 
   return (
@@ -101,7 +101,7 @@ export default function JourneyPage({ lang, ui }) {
                       <strong>{t(lang, it.title)}</strong>
                       <span className="jo-sub">{typeof it.sub === 'string' ? it.sub : t(lang, it.sub)}</span>
                       {t(lang, it.text) && <span className="jo-text">{t(lang, it.text)}</span>}
-                      {it.to && <span className="jo-go">{it.kind === 'project' ? ui.caseStudy : it.kind === 'experience' ? ui.detail : ui.certificate} <Icon name="right" /></span>}
+                      {it.to && <span className="jo-go">{it.kind === 'project' ? ui.caseStudy : it.kind === 'experience' || it.kind === 'education' ? ui.detail : ui.certificate} <Icon name="right" /></span>}
                     </>
                   )
                   return (
