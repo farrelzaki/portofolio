@@ -67,6 +67,11 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .skip { position: fixed; left: 16px; top: -60px; z-index: 100; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 999px; }
 .skip:focus { top: 16px; }
 
+/* ---------- perataan baris ----------
+   Paragraf tidak menyisakan satu-dua kata di baris terakhir; judul pendek dibagi seimbang. */
+p, li, dd, figcaption { text-wrap: pretty; }
+h1, h2, h3, strong, .lede { text-wrap: balance; }
+
 /* ---------- display type ---------- */
 .twotone, .stack-big, .flyout-links a, .tile h3, .pcard-name, .jrow h3 {
   font-family: var(--display);
@@ -430,7 +435,7 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .acard figcaption, .acard-cap { display: grid; gap: 6px; }
 .acard-desc { font-size: 14px; line-height: 1.4; color: var(--slate); }
 .acard.alt .acard-desc { color: #AEB9CF; }
-.acard-link { display: grid; transition: box-shadow 0.4s var(--ease), transform 0.16s ease-out; }
+.acard-link { display: grid; transition: box-shadow 0.4s var(--ease), scale 0.16s ease-out; }
 .acard-link:active { transform: scale(0.98); }
 .acard strong { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 21px; line-height: 1; letter-spacing: -0.035em; }
 .acard .mono { color: var(--blue-b); }
@@ -736,18 +741,18 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .cs-results li { display: grid; grid-template-columns: 34px 1fr; gap: 14px; align-items: start; padding: 20px 22px; border-radius: 14px; background: var(--ink); color: var(--bg); }
 .cs-results i { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent, var(--blue-b)); color: #fff; font-style: normal; font-size: 14px; }
 .cs-k-reflection .cs-big { font-weight: 600; color: var(--slate); text-wrap: pretty; }
-.cs-award-card { display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: center; padding: 14px; border-radius: 14px; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.07); transition: box-shadow 0.4s var(--ease), transform 0.16s ease-out; }
+.cs-award-card { display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: center; padding: 14px; border-radius: 14px; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.07); transition: box-shadow 0.4s var(--ease), scale 0.16s ease-out; }
 .cs-award-card img { width: 100%; aspect-ratio: 1.41; object-fit: cover; border-radius: 8px; }
 .cs-award-card > span { display: grid; gap: 6px; }
 .cs-award-card strong { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(20px, 2vw, 28px); letter-spacing: -0.04em; line-height: 1; }
 .cs-award-issuer { font-size: 15px; font-weight: 600; color: var(--accent, var(--blue-b)); }
 .cs-note { position: absolute; left: 16px; bottom: 16px; padding: 7px 12px; border-radius: 999px; background: rgba(11, 18, 32, 0.72); color: #fff; font-size: 13px; font-weight: 600; }
 .cs-award-card:hover { box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.07), 0 24px 60px rgba(11, 18, 32, 0.16); }
-.cs-award-card:active { transform: scale(0.98); }
+.cs-award-card:active { scale: 0.98; }
 .cs-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
 .cs-gallery img { width: 100%; border-radius: 14px; background: var(--ink); }
 
-.cs-next { position: relative; display: grid; gap: 14px; overflow: hidden; isolation: isolate; padding: clamp(60px, 8vw, 120px) var(--gut) clamp(60px, 8vw, 120px) var(--cs-left); background: var(--ink); color: var(--bg); }
+.cs-next { position: relative; display: grid; gap: 14px; overflow: hidden; isolation: isolate; padding: clamp(60px, 8vw, 120px) var(--gut) clamp(110px, 13vw, 200px) var(--cs-left); background: var(--ink); color: var(--bg); }
 .cs-next-label { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: var(--sky); }
 .cs-next-label .icon { transition: transform 0.5s var(--ease-out); }
 .cs-next:hover .cs-next-label .icon { transform: translateX(5px); }

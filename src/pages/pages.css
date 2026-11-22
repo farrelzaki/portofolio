@@ -82,7 +82,7 @@
 .sk-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 40px; margin-bottom: clamp(36px, 4vw, 60px); }
 .sk-title { overflow: hidden; font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(60px, 10vw, 180px); letter-spacing: -0.055em; line-height: 0.88; padding-bottom: 0.04em; }
 .sk-title > span { display: inline-block; }
-.sk-head p { max-width: 30ch; padding-bottom: 0.6em; font-size: 16px; line-height: 1.5; color: var(--slate); }
+.sk-head p { max-width: 48ch; padding-bottom: 0.6em; font-size: 16px; line-height: 1.5; color: var(--slate); }
 .sk-caps > ol { display: grid; gap: 10px; }
 /* Baris keahlian: kartu terang yang menjadi gelap saat di-hover atau dibuka (selaras dengan baris Pengalaman). */
 .sk-row { border-radius: 16px; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.06); transition: background-color 0.45s var(--ease), color 0.45s var(--ease), box-shadow 0.45s var(--ease); }
@@ -113,7 +113,7 @@
 .sk-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
 .sk-chips li { padding: 7px 13px; border-radius: 999px; background: rgba(11, 18, 32, 0.06); font-size: 13px; font-weight: 600; }
 .sk-proj-list { display: grid; gap: 8px; align-content: start; padding-bottom: clamp(28px, 3vw, 44px); }
-.sk-proj { display: grid; grid-template-columns: 76px minmax(0, 1fr) 20px; align-items: center; gap: 16px; padding: 8px 14px 8px 8px; border-radius: 14px; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.07); transition: box-shadow 0.35s var(--ease), transform 0.16s ease-out; }
+.sk-proj { display: grid; grid-template-columns: 76px minmax(0, 1fr) 20px; align-items: center; gap: 16px; padding: 8px 14px 8px 8px; border-radius: 14px; background: var(--paper); box-shadow: inset 0 0 0 1px rgba(11, 18, 32, 0.07); transition: box-shadow 0.35s var(--ease), scale 0.16s ease-out; }
 .sk-proj-img { aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: var(--accent, var(--ink)); }
 .sk-proj-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
 .sk-proj-text { display: grid; gap: 4px; min-width: 0; }
@@ -122,7 +122,7 @@
 .sk-proj .icon { width: 18px; height: 18px; color: var(--blue-b); transition: transform 0.5s var(--ease-out), color 0.35s var(--ease); }
 .sk-row .sk-proj .icon, .sk-proj-list.dark .sk-proj .icon { color: var(--sky); }
 @media (hover: hover) and (pointer: fine) { .sk-row .sk-proj:hover .icon, .sk-proj-list.dark .sk-proj:hover .icon { color: var(--blue-b); } }
-.sk-proj:active { transform: scale(0.985); }
+.sk-proj:active { scale: 0.985; }
 @media (hover: hover) and (pointer: fine) {
   .sk-proj:hover { box-shadow: inset 0 0 0 1.5px var(--accent, var(--ink)), 0 18px 40px rgba(11, 18, 32, 0.1); }
   .sk-proj:hover img { transform: scale(1.08); }
@@ -131,7 +131,7 @@
 .sk-proj-list.dark .sk-proj { background: var(--ink-2); box-shadow: inset 0 0 0 1px var(--on-ink-08); color: var(--bg); }
 .sk-proj-list.dark .sk-proj-text span { color: #AEB9CF; }
 /* Di panel gelap, baris proyek berbalik menjadi putih saat di-hover. */
-.sk-row .sk-proj, .sk-proj-list.dark .sk-proj { transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), transform 0.16s ease-out; }
+.sk-row .sk-proj, .sk-proj-list.dark .sk-proj { transition: background-color 0.35s var(--ease), color 0.35s var(--ease), box-shadow 0.35s var(--ease), scale 0.16s ease-out; }
 @media (hover: hover) and (pointer: fine) {
   .sk-row .sk-proj:hover, .sk-proj-list.dark .sk-proj:hover { background: var(--paper); color: var(--ink); box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32); }
   .sk-row .sk-proj:hover .sk-proj-text span, .sk-proj-list.dark .sk-proj:hover .sk-proj-text span { color: var(--slate); }
@@ -174,7 +174,7 @@
 /* ---------- Prestasi ---------- */
 .aw-page { background: var(--ink); color: var(--bg); }
 .aw-hero { display: grid; gap: clamp(22px, 3vw, 40px); padding: clamp(130px, 13vw, 200px) var(--page-right) clamp(50px, 6vw, 90px) var(--page-left); }
-.aw-lede { max-width: 46ch; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: #C3CCDD; }
+.aw-lede { max-width: 72ch; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: #C3CCDD; }
 .aw-title { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(56px, 9vw, 168px); letter-spacing: -0.055em; line-height: 0.86; }
 .aw-title em { font-style: normal; color: var(--on-ink-50); }
 .aw-wall { position: relative; height: 100svh; overflow: hidden; }
