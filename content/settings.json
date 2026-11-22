@@ -13,7 +13,7 @@
   "links": {
     "github": "https://github.com/farrelzaki",
     "linkedin": "",
-    "instagram": "",
+    "instagram": "https://www.instagram.com/rel.mzaki/",
     "cv": ""
   },
   "meta": {
@@ -23,21 +23,23 @@
     }
   },
   "hero": {
-    "title": {
-      "id": "Selamat datang di portofolio saya",
-      "en": "Welcome to my portfolio"
+    "greeting": {
+      "id": "Hi, I'm Farrel",
+      "en": "Hi, I'm Farrel"
     },
-    "accent": {
-      "id": "portofolio saya",
-      "en": "portfolio"
-    },
+    "roles": [
+      "Software Engineer",
+      "Software Developer",
+      "Backend Developer",
+      "Frontend Developer",
+      "Full-stack Developer",
+      "Web Developer",
+      "Web Designer",
+      "Graphic Designer"
+    ],
     "intro": {
-      "id": "Saya Farrel, mahasiswa Software Engineering di IPB University. Saya membangun perangkat lunak web dan mobile, dari API dan basis data sampai antarmuka yang dipakai orang.",
-      "en": "I'm Farrel, a Software Engineering student at IPB University. I build web and mobile software, from APIs and databases to the interfaces people use."
-    },
-    "cta": {
-      "id": "Hubungi saya",
-      "en": "Get in touch"
+      "id": "Mahasiswa Software Engineering di IPB University yang membangun aplikasi web dan mobile, dari API sampai antarmuka.",
+      "en": "Software Engineering student at IPB University, building web and mobile apps from the API to the interface."
     }
   },
   "sections": {

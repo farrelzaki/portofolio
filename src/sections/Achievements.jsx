@@ -3,6 +3,7 @@ import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import TwoTone from '../components/TwoTone.jsx'
 import MoreLink from '../components/MoreLink.jsx'
+import { useTilt } from '../lib/tilt.js'
 
 const { settings, achievements } = content
 
@@ -12,12 +13,13 @@ export default function Achievements({ lang, ui }) {
   const wide = useMedia('(min-width: 900px)')
   const sec = settings.sections.achievements
   const n = achievements.length
+  useTilt(root, '.acard')
 
   useEffect(() => {
     if (!wide || prefersReduced()) return
     const ctx = gsap.context(() => {
       const fan = root.current.querySelector('.fan')
-      const cards = gsap.utils.toArray('.acard')
+      const cards = gsap.utils.toArray('.acard-slot')
       const mid = (n - 1) / 2
       // Jarak tiap kartu ke titik tengah kipas (px), dihitung ulang saat ukuran layar berubah.
       const toCenter = (el) => {
@@ -47,7 +49,8 @@ export default function Achievements({ lang, ui }) {
       <MoreLink to="/prestasi" label={ui.seeAll.achievements} align="left" />
       <div className="fan">
         {achievements.map((a, i) => (
-          <figure key={a.id} className={`acard ${i % 2 ? 'alt' : ''}`} style={{ zIndex: i + 1 }}>
+          <div key={a.id} className="acard-slot" style={{ zIndex: i + 1 }}>
+          <figure className={`acard tilt-card ${i % 2 ? 'alt' : ''}`}>
             <div className="acard-top mono">
               <span>{a.date.slice(0, 4)}</span>
               {a.highlight && <span className="badge">{ui.highlight}</span>}
@@ -59,6 +62,7 @@ export default function Achievements({ lang, ui }) {
               {t(lang, a.description) && <p>{t(lang, a.description)}</p>}
             </figcaption>
           </figure>
+          </div>
         ))}
       </div>
     </section>

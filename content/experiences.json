@@ -12,6 +12,13 @@
     },
     "start": "2024-08",
     "end": "2028-07",
+    "projects": [
+      "lensajentik",
+      "sudepi",
+      "reservaseat",
+      "cocokin",
+      "trisis"
+    ],
     "published": true
   },
   {
@@ -27,6 +34,9 @@
     },
     "start": "2024-10",
     "end": "2025-11",
+    "achievements": [
+      "himavo"
+    ],
     "published": true
   }
 ]

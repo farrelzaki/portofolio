@@ -68,7 +68,7 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .skip:focus { top: 16px; }
 
 /* ---------- display type ---------- */
-.hero-title, .twotone, .stack-big, .flyout-links a, .tile h3, .pcard-name, .jrow h3 {
+.twotone, .stack-big, .flyout-links a, .tile h3, .pcard-name, .jrow h3 {
   font-family: var(--display);
   font-weight: 800;
   font-stretch: 112%;
@@ -223,24 +223,32 @@ time, .tnum { font-variant-numeric: tabular-nums; }
   padding: 72px var(--gut) 0;
 }
 .hero-trail { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-.pop { position: absolute; left: 0; top: 0; width: clamp(84px, 7.6vw, 138px); aspect-ratio: 1; pointer-events: none; will-change: transform; }
-.pop svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.pop-main { filter: drop-shadow(0 14px 24px rgba(11, 18, 32, 0.16)); }
-.pop.light .pop-main { filter: drop-shadow(0 0 1px rgba(11, 18, 32, 0.35)) drop-shadow(0 14px 24px rgba(11, 18, 32, 0.18)); }
-.hero-title { position: relative; z-index: 2; grid-row: 2; max-width: 12ch; text-align: center; font-size: clamp(54px, 7.8vw, 128px); }
-@media (max-width: 1099px) { .hero-title { max-width: 100%; font-size: clamp(46px, 11.5vw, 104px); } }
-.hero-title .accent > span { color: var(--blue-b); }
-.hero-bottom { position: absolute; left: 0; right: 0; bottom: clamp(48px, 7vh, 72px); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: clamp(22px, 4vh, 40px); padding: 0 var(--gut); pointer-events: none; }
+.pop { position: absolute; left: 0; top: 0; width: clamp(40px, 3.4vw, 60px); aspect-ratio: 1; pointer-events: none; will-change: transform; }
+.pop svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 8px 16px rgba(11, 18, 32, 0.14)); }
+.pop.light svg { filter: drop-shadow(0 0 1px rgba(11, 18, 32, 0.35)) drop-shadow(0 8px 16px rgba(11, 18, 32, 0.16)); }
+.hero-head { position: relative; z-index: 2; grid-row: 2; display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 1.6vw, 22px); text-align: center; }
+.hero-hi { overflow: hidden; font-family: var(--display); font-weight: 700; font-stretch: 112%; font-size: clamp(20px, 2vw, 32px); letter-spacing: -0.03em; color: var(--slate); }
+.hero-hi > span { display: inline-block; }
+.hero-role { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: clamp(44px, 8.4vw, 150px); letter-spacing: -0.055em; line-height: 0.95; white-space: nowrap; }
+.role-line { display: inline-flex; justify-content: center; gap: 0.24em; }
+/* Slot memotong atas-bawah saja, supaya kata bisa bergulir tanpa terpotong ke samping saat lebar berubah. */
+.role-slot { position: relative; display: inline-block; padding: 0.04em 0 0.12em; margin: -0.04em 0 -0.12em; clip-path: inset(0 -50vw 0 -50vw); }
+.role-word { display: inline-block; }
+.role-slot:last-child .role-word { color: var(--blue-b); }
+.role-word.incoming { position: absolute; left: 0; top: 0.04em; white-space: nowrap; }
+.hero-bottom { position: absolute; left: 0; right: 0; bottom: clamp(32px, 5vh, 56px); z-index: 2; display: flex; flex-direction: column; align-items: center; padding: 0 var(--gut); pointer-events: none; }
 .hero-bottom > * { pointer-events: auto; }
-.hero-marquee { position: relative; width: min(560px, 80vw); overflow: hidden; mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); }
-.marquee-track { display: flex; gap: 40px; width: max-content; animation: marquee 40s linear infinite; }
-.hero-marquee span { font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 15px; letter-spacing: -0.03em; color: #9AA6BD; white-space: nowrap; }
-@keyframes marquee { to { transform: translateX(-50%); } }
-.hero-foot { position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
-.hero-intro { max-width: 34ch; font-size: clamp(18px, 1.55vw, 23px); line-height: 1.3; letter-spacing: -0.01em; }
-.hero-cta { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-stretch: 112%; font-size: 12px; text-transform: uppercase; }
-.hero-cta span { background-image: linear-gradient(currentColor, currentColor); background-size: 0 1.5px; background-repeat: no-repeat; background-position: 0 100%; transition: background-size 0.5s var(--ease); }
-.hero-cta:hover span { background-size: 100% 1.5px; }
+.hero-foot { position: relative; display: flex; flex-direction: column; align-items: center; gap: clamp(22px, 3.4vh, 36px); text-align: center; }
+.hero-intro { max-width: 40ch; font-size: clamp(16px, 1.2vw, 19px); line-height: 1.45; color: var(--slate); }
+
+/* Ajakan gulir */
+.cue { display: inline-flex; flex-direction: column; align-items: center; gap: 10px; color: inherit; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; }
+.cue > * { opacity: 0.72; transition: opacity 0.3s var(--ease); }
+.cue i { position: relative; width: 1.5px; height: 40px; overflow: hidden; background: color-mix(in srgb, currentColor 22%, transparent); }
+.cue i::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 45%; background: currentColor; animation: cue 1.8s var(--ease) infinite; }
+@keyframes cue { from { transform: translateY(-100%); } to { transform: translateY(230%); } }
+@media (hover: hover) and (pointer: fine) { .cue:hover > * { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .cue i::after { animation: none; transform: translateY(60%); } }
 
 /* =========================================================
    Showreel
@@ -325,7 +333,7 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 /* =========================================================
    Cincin (gelap)
    ========================================================= */
-.ring { position: relative; height: 100svh; min-height: 620px; display: grid; place-items: center; overflow: hidden; background: var(--bg); color: var(--bg); --card: clamp(88px, min(9vw, 15svh), 150px); --radius: min(40vw, 41svh); }
+.ring { position: relative; z-index: 2; height: 100svh; min-height: 620px; display: grid; place-items: center; overflow: hidden; background: var(--bg); color: var(--bg); --card: clamp(88px, min(9vw, 15svh), 150px); --radius: min(40vw, 41svh); }
 .ring-dark { position: absolute; inset: 0; background: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .ring { background: var(--ink); } }
 .ring-track { position: absolute; left: 50%; top: 50%; width: 0; height: 0; will-change: transform; }
@@ -335,13 +343,31 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 .ring-title { display: block; font-size: clamp(38px, min(4.2vw, 8svh), 80px); text-shadow: 0 6px 40px rgba(11, 18, 32, 0.9); }
 .ring-link:hover .ring-title .tail { color: var(--bg); }
 .ring-title .tail { transition: color 0.5s var(--ease); }
+.ring-hint { display: inline-flex; align-items: center; gap: 6px; margin-top: clamp(14px, 1.6vw, 22px); font-size: 13px; font-weight: 600; color: rgba(246, 248, 252, 0.62); transition: color 0.3s var(--ease); }
+.ring-hint .icon { width: 13px; height: 13px; transition: transform 0.4s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .ring-link:hover .ring-hint { color: var(--bg); } .ring-link:hover .ring-hint .icon { transform: translate(2px, -2px); } }
+.ring-next { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; text-align: center; color: var(--ink); }
+.ring-dark { z-index: 1; }
+.ring-track { z-index: 1; }
+@media (max-width: 899px) { .ring-next { display: none; } }
+.ring-cue { position: absolute; left: 50%; bottom: clamp(100px, 13vh, 130px); z-index: 2; translate: -50% 0; color: var(--bg); }
+@media (prefers-reduced-motion: reduce) { .ring-cue { display: none; } }
 
 /* =========================================================
    Keahlian: tumpukan kartu
    ========================================================= */
 .services { padding: clamp(110px, 14vw, 200px) 0 clamp(60px, 8vw, 120px); }
+.services.animated { position: relative; z-index: 1; margin-top: -100svh; padding: 0 0 clamp(60px, 8vw, 120px); }
+.svc-intro { display: flex; flex-direction: column; align-items: center; gap: 28px; text-align: center; }
+.services.animated .svc-intro { position: absolute; inset: 0; z-index: 0; justify-content: center; }
+.twotone.svc-heading { display: block; font-size: clamp(48px, 7vw, 120px); transform-origin: 50% 50%; }
+.reel-cue { position: absolute; left: 50%; bottom: clamp(24px, 5vh, 52px); z-index: 3; translate: -50% 0; }
+.services.animated .svc-cue { position: absolute; left: 50%; top: calc(50% + clamp(90px, 9vw, 150px)); translate: -50% 0; }
+.services.animated .svc-more { position: absolute; left: 0; right: 0; bottom: clamp(84px, 10svh, 100px); z-index: 30; }
+.services:not(.animated) .svc-intro { margin-bottom: clamp(40px, 6vw, 80px); }
+.services:not(.animated) .svc-more { margin-top: 32px; }
 .tiles-stage { position: relative; height: 100svh; display: grid; place-items: center; padding: 0 var(--gut); overflow: clip; }
-.tiles { position: relative; width: min(960px, calc(100% - 2 * clamp(96px, 9vw, 140px))); height: min(560px, 68svh); margin-top: 4svh; }
+.tiles { position: relative; z-index: 1; width: min(960px, calc(100% - 2 * clamp(96px, 9vw, 140px))); height: min(520px, 62svh); margin-top: -6svh; }
 .tile-shade { position: absolute; inset: 0; z-index: 5; border-radius: inherit; background: var(--ink); opacity: 0; pointer-events: none; }
 .tile {
   position: absolute; inset: 0; overflow: hidden;
@@ -372,15 +398,31 @@ time, .tnum { font-variant-numeric: tabular-nums; }
    ========================================================= */
 .achievements { padding: clamp(110px, 14vw, 200px) 0; overflow: hidden; }
 .fan { display: flex; justify-content: center; padding: 20px var(--gut) 40px; }
+.acard-slot { position: relative; flex: none; width: clamp(240px, 21vw, 320px); margin: 0 -14px; will-change: transform; }
 .acard {
-  flex: none; width: clamp(240px, 21vw, 320px); margin: 0 -14px;
+  position: relative;
   display: flex; flex-direction: column; gap: 12px; padding: 14px;
   border-radius: 14px; background: var(--paper); box-shadow: 0 24px 60px rgba(11, 18, 32, 0.12);
-  transition: box-shadow 0.4s var(--ease);
-  will-change: transform;
 }
+/* Kartu nyata: maju ke depan dan miring mengikuti kursor saat di-hover, mundur lagi saat ditinggal. */
+.tilt-card {
+  transform: perspective(1000px) translate3d(0, var(--lift, 0px), var(--z, 0px)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.7s var(--ease-out), box-shadow 0.7s var(--ease-out);
+}
+.tilt-card::after {
+  content: ''; position: absolute; inset: 0; z-index: 3; border-radius: inherit; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, 0.42), transparent 55%);
+  mix-blend-mode: soft-light; transition: opacity 0.5s var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tilt-card:hover { --lift: -18px; --z: 80px; }
+  .tilt-card:hover::after { opacity: 1; }
+  .acard-slot { transition: z-index 0s linear 0.7s; }
+  .acard-slot:hover { z-index: 20 !important; transition-delay: 0s; }
+  .acard:hover { box-shadow: 0 50px 90px rgba(11, 18, 32, 0.28); }
+}
+@media (prefers-reduced-motion: reduce) { .tilt-card { transition: box-shadow 0.3s var(--ease); --lift: 0px !important; --z: 0px !important; } }
 .acard.alt { background: var(--ink-2); color: var(--bg); }
-.acard:hover { box-shadow: 0 30px 70px rgba(11, 18, 32, 0.22); z-index: 20 !important; }
 .acard-top { display: flex; justify-content: space-between; align-items: center; color: var(--muted); }
 .badge { padding: 4px 8px; border-radius: 999px; background: var(--blue-b); color: #fff; }
 .acard-img { aspect-ratio: 1.41; border-radius: 8px; overflow: hidden; background: var(--bg); }
@@ -767,7 +809,8 @@ time, .tnum { font-variant-numeric: tabular-nums; }
 
 @media (max-width: 520px) {
   body { font-size: 16px; }
-  .hero-title { font-size: clamp(46px, 13.5vw, 70px); }
+  .hero-role { font-size: clamp(40px, 14vw, 72px); }
+  .role-line { flex-direction: column; align-items: center; gap: 0; }
   .top-cta { padding: 9px 13px; }
 }
 

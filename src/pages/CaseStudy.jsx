@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
-import { content, t } from '../content/index.js'
+import { content, formatPeriod, t } from '../content/index.js'
 import { gsap, prefersReduced } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
 import Icon from '../components/Icon.jsx'
 
-const { projects, achievements } = content
+const { projects, achievements, experiences } = content
 const ORDER = ['problem', 'contribution', 'process', 'decisions', 'results', 'reflection']
 
 /** Bagian studi kasus yang terisi saja, dalam urutan tetap. */
@@ -20,14 +20,11 @@ function useReveal(root, key) {
       gsap.from('.cs-hero .cs-fade', { y: 30, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.07, delay: 0.2 })
       const cover = root.current.querySelector('.cs-cover')
       if (cover) {
-        gsap.fromTo(cover, { clipPath: 'inset(18% 6% 0% 6% round 18px)' }, {
-          clipPath: 'inset(0% 0% 0% 0% round 18px)', ease: 'none',
-          scrollTrigger: { trigger: cover, start: 'top 95%', end: 'top 25%', scrub: 0.6 },
-        })
-        gsap.fromTo(cover.querySelector('img'), { scale: 1.18 }, {
-          scale: 1, ease: 'none',
-          scrollTrigger: { trigger: cover, start: 'top bottom', end: 'bottom top', scrub: true },
-        })
+        // Bingkai melebar dan gambar zoom-out dalam satu timeline: keduanya selesai tepat saat
+        // bingkai penuh, lalu gambar diam (tidak terus mengecil setelah bingkai terbuka).
+        gsap.timeline({ scrollTrigger: { trigger: cover, start: 'top 95%', end: 'top 25%', scrub: 0.6 } })
+          .fromTo(cover, { clipPath: 'inset(18% 6% 0% 6% round 18px)' }, { clipPath: 'inset(0% 0% 0% 0% round 18px)', ease: 'none' }, 0)
+          .fromTo(cover.querySelector('img'), { scale: 1.18 }, { scale: 1, ease: 'none' }, 0)
       }
       gsap.utils.toArray('.cs-sec').forEach((sec) => {
         gsap.from(sec.querySelectorAll('.cs-sec-label, .cs-sec-body > *'), {
@@ -168,6 +165,80 @@ export function AwardPage({ id, lang, ui }) {
 
       {(hasStory || !p) && (
         <div className="cs-body"><Story story={a.story} lang={lang} ui={ui} /></div>
+      )}
+    </article>
+  )
+}
+
+/** Halaman satu pengalaman/pendidikan: /pengalaman/:id */
+export function ExperiencePage({ id, lang, ui }) {
+  const root = useRef(null)
+  const i = experiences.findIndex((x) => x.id === id)
+  const e = experiences[i]
+  useReveal(root, `${id}-${lang}`)
+  if (!e) return null
+  const work = (e.projects ?? []).map((pid) => projects.find((p) => p.id === pid)).filter(Boolean)
+  const awards = (e.achievements ?? []).map((aid) => achievements.find((a) => a.id === aid)).filter(Boolean)
+  const next = experiences[(i + 1) % experiences.length]
+  const period = formatPeriod(lang, e.start, e.end)
+
+  return (
+    <article ref={root} className="cs cs-exp" data-theme="light" style={{ '--accent': '#1D4ED8' }}>
+      <header className="cs-hero">
+        <Link to="/pengalaman" className="cs-back cs-fade"><Icon name="left" /> {ui.nav.journey}</Link>
+        <span className="cs-meta cs-fade">{period}</span>
+        <h1 className="cs-title cs-title-sm">{t(lang, e.title)}</h1>
+        <p className="lede cs-fade">{t(lang, e.description)}</p>
+        <dl className="cs-facts cs-fade">
+          <div><dt>{ui.organization}</dt><dd>{e.organization}</dd></div>
+          <div><dt>{ui.period}</dt><dd>{period}</dd></div>
+        </dl>
+      </header>
+
+      {(work.length > 0 || awards.length > 0) && (
+        <div className="cs-body">
+          {work.length > 0 && (
+            <section className="cs-sec">
+              <h2 className="cs-sec-label">{ui.relatedWork}</h2>
+              <div className="cs-sec-body sk-proj-list">
+                {work.map((p) => (
+                  <Link key={p.id} to={`/proyek/${p.id}`} className="sk-proj" style={{ '--accent': p.accent }}>
+                    <span className="sk-proj-img"><img src={p.cover} alt="" loading="lazy" /></span>
+                    <span className="sk-proj-text">
+                      <strong>{p.name}</strong>
+                      <span>{[t(lang, p.category), p.year].filter(Boolean).join(' · ')}</span>
+                    </span>
+                    <Icon name="right" />
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+          {awards.length > 0 && (
+            <section className="cs-sec cs-award">
+              <h2 className="cs-sec-label">{ui.relatedAwards}</h2>
+              <div className="cs-sec-body">
+                {awards.map((a) => (
+                  <Link key={a.id} to={`/prestasi/${a.id}`} className="cs-award-card">
+                    <img src={a.image} alt="" loading="lazy" />
+                    <span>
+                      <strong>{t(lang, a.title)}</strong>
+                      <span className="cs-award-issuer">{t(lang, a.issuer)}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      )}
+
+      {next && next.id !== e.id && (
+        <Link to={`/pengalaman/${next.id}`} className="cs-next cs-next-plain" data-theme="dark">
+          <span className="cs-next-label">{ui.otherJourney} <Icon name="right" /></span>
+          <span className="cs-next-title">{t(lang, next.title)}</span>
+          <span className="cs-next-cat">{next.organization}</span>
+        </Link>
       )}
     </article>
   )

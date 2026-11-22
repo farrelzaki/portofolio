@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, useMedia } from '../lib/motion.js'
 import { Link } from '../lib/router.jsx'
+import { useTilt } from '../lib/tilt.js'
 import './pages.css'
 
 const { achievements, settings } = content
@@ -18,6 +19,7 @@ export default function AwardsPage({ lang, ui }) {
   const wall = useRef(null)
   const wide = useMedia('(min-width: 900px)')
   const sec = settings.sections.achievements
+  useTilt(root, '.aw-mat')
 
   useEffect(() => {
     if (prefersReduced()) return
@@ -62,7 +64,7 @@ export default function AwardsPage({ lang, ui }) {
           {achievements.map((a, i) => (
             <Link key={a.id} to={`/prestasi/${a.id}`} className="aw-frame" data-cursor={ui.certificate} style={{ '--i': i }}>
               <span className="aw-light" aria-hidden="true" />
-              <span className="aw-mat">
+              <span className="aw-mat tilt-card">
                 <img src={a.image} alt={t(lang, a.title)} loading="lazy" />
                 <span className="aw-slices" aria-hidden="true">
                   {Array.from({ length: SLICES }, (_, k) => <i key={k} className="aw-slice" />)}

@@ -74,6 +74,8 @@ export function FooterLite({ ui }) {
     ['Email', `mailto:${settings.email}`],
     ['WhatsApp', `https://wa.me/${settings.whatsapp}`],
     settings.links.github && ['GitHub', settings.links.github],
+    settings.links.linkedin && ['LinkedIn', settings.links.linkedin],
+    settings.links.instagram && ['Instagram', settings.links.instagram],
   ].filter(Boolean)
   return (
     <footer className="fl" id="contact" data-theme="dark">

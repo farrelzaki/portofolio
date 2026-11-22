@@ -55,7 +55,7 @@ function ProjectRow({ p, lang, tabIndex }) {
 /** Keahlian sebagai dropdown; setiap keahlian membuka daftar proyek yang memakainya. */
 function Capabilities({ lang, ui }) {
   const root = useRef(null)
-  const [open, setOpen] = useState(0)
+  const [open, setOpen] = useState(-1)
   useEffect(() => {
     if (prefersReduced()) return
     const ctx = gsap.context(() => {

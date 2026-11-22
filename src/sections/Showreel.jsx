@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { content, t } from '../content/index.js'
 import { gsap, prefersReduced, ScrollTrigger } from '../lib/motion.js'
+import ScrollCue from '../components/ScrollCue.jsx'
 
 const byId = Object.fromEntries(content.projects.map((p) => [p.id, p]))
 const SLIDES = content.settings.showreel
@@ -48,6 +49,7 @@ export default function Showreel({ lang, ui }) {
       })
       // Saat ditahan, foto bergerak sangat pelan supaya layar tidak terasa membeku.
       tl.to(media.current, { scale: 1.08, ease: 'none', duration: 1.4 }, 1.25)
+        .to('.reel-cue', { opacity: 0, y: 20, ease: 'power2.in', duration: 0.25 }, 0)
     }, section)
     ScrollTrigger.refresh()
     return () => ctx.revert()
@@ -58,6 +60,7 @@ export default function Showreel({ lang, ui }) {
   return (
     <section ref={section} className="showreel" data-theme="light" aria-label={ui.showreel}>
       <div className="showreel-sticky">
+        {!prefersReduced() && <ScrollCue className="reel-cue" label={ui.scrollCue} />}
         <div ref={frame} className="showreel-frame" data-theme="dark">
           <div ref={media} className="showreel-media">
             {SLIDES.map((s, i) => (

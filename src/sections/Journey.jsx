@@ -1,6 +1,7 @@
 import { content, formatPeriod, t } from '../content/index.js'
 import TwoTone from '../components/TwoTone.jsx'
 import MoreLink from '../components/MoreLink.jsx'
+import { Link } from '../lib/router.jsx'
 
 const { settings, experiences } = content
 
@@ -15,11 +16,13 @@ export default function Journey({ lang, ui, bare = false }) {
       )}
       <ol className="jlist">
         {experiences.map((e) => (
-          <li key={e.id} className="jrow">
-            <span className="mono">{formatPeriod(lang, e.start, e.end)}</span>
-            <h3>{t(lang, e.title)}</h3>
-            <span className="jorg">{e.organization}</span>
-            <p>{t(lang, e.description)}</p>
+          <li key={e.id}>
+            <Link to={`/pengalaman/${e.id}`} className="jrow" data-cursor={ui.detail}>
+              <span className="mono">{formatPeriod(lang, e.start, e.end)}</span>
+              <h3>{t(lang, e.title)}</h3>
+              <span className="jorg">{e.organization}</span>
+              <p>{t(lang, e.description)}</p>
+            </Link>
           </li>
         ))}
       </ol>

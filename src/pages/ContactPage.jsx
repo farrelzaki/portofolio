@@ -116,7 +116,9 @@ export default function ContactPage({ lang, ui }) {
                     <Icon name={copied ? 'check' : 'copy'} /> {copied ? c.copied : c.copy}
                   </button>
                   <a className="ct-chip" href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">WhatsApp <Icon name="external" /></a>
-                  {settings.links.github && <a className="ct-chip" href={settings.links.github} target="_blank" rel="noreferrer">GitHub <Icon name="external" /></a>}
+                  {[['GitHub', settings.links.github], ['LinkedIn', settings.links.linkedin], ['Instagram', settings.links.instagram]].filter(([, href]) => href).map(([label, href]) => (
+                    <a key={label} className="ct-chip" href={href} target="_blank" rel="noreferrer">{label} <Icon name="external" /></a>
+                  ))}
                 </span>
               </dd>
             </div>

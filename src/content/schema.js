@@ -31,7 +31,8 @@ export const settingsSchema = z.object({
   photo: media,
   links: z.object({ github: url, linkedin: url, instagram: url, cv: z.union([url, media]) }),
   meta: z.object({ description: textRequired }),
-  hero: z.object({ title: textRequired, accent: text, intro: textRequired, cta: textRequired }),
+  // Setiap peran tepat dua kata; animasi hero hanya mengganti kata yang berbeda.
+  hero: z.object({ greeting: textRequired, roles: z.array(z.string().regex(/^\S+ \S+$/)).min(2), intro: textRequired }),
   sections: z.object({
     work: pair.extend({ intro: textRequired }),
     ring: pair,
@@ -81,6 +82,9 @@ export const experienceSchema = z.object({
   description: textRequired,
   start: month,
   end: z.union([z.literal(''), month]),
+  // Opsional: id proyek dan prestasi yang ditampilkan di halaman detail /pengalaman/:id.
+  projects: z.array(slug).optional(),
+  achievements: z.array(slug).optional(),
   published: z.boolean(),
 })
 
